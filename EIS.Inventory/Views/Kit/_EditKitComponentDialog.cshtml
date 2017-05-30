@@ -1,0 +1,47 @@
+﻿
+<div style="display:none;" class="modal fade" id="EditKitComponentDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: kitDetail">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Kit Component</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                <div class="form-horizontal">
+                    <input type="hidden" data-bind="value: ParentKitSKU" />
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Child Kit SKU</label>
+                        <div class="col-md-9">
+                            <p class="form-control no-border no-margin" data-bind="text: ChildKitSKU"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Product Name</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control no-border" readonly="readonly" data-bind="text: ProductName"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Quantity</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="number" data-bind="value: Quantity" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Is Main Product</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="checkbox" data-bind="iCheckBox: IsMain" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnEditKitComponent" type="button" class="btn btn-primary" data-bind="click: $parent.saveKitDetail">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#OrderDialog -->

@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Category Mappings";
+    ViewBag.ActiveMenu = "category_mappings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Category Mapping<small>List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">EIS Product Types</h3>
+                    </div>
+                    <div class="box-body">
+                        <p class="text-aqua">Please select any of the product types to view its current mappings.</p>
+                        <div class="well well-lg">
+                            <div id="productTypesTree">
+                                <ul data-bind="foreach: productTypes">
+                                    <li data-jstree='{"icon":"fa fa-cube"}' data-bind="text: TypeName, attr: { 'data-id' : Id }"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Current Category Mappings</h3>
+                    </div>
+                    <div class="box-body">
+                        <p class="text-aqua" data-bind="text: (selectedProductTypeName()) ? 'The mapped product categories for ' + selectedProductTypeName() : 'Please select product type.'"></p>
+                        <div class="well well-sm">
+                            <!-- ko if: productMappedCategories().length != 0 -->
+                            <ul class="list-group" data-bind="foreach: {data: productMappedCategories, as: 'item' }">
+                                <li class="list-group-item li-row clearfix">
+                                    <span data-bind="text: item.Category"></span>
+                                    <span class="pull-right hover-btns">
+                                        <button class="btn btn-xs btn-info" data-bind="popover: { template: 'ProductNamesPopover', options: { title: 'Sample Products', placement: 'top' } }">View products</button>
+                                        <button class="btn btn-xs btn-danger" data-bind="click: $parent.deleteMappedCategory">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </span>
+                                </li>
+                            </ul>
+                            <!-- /ko -->
+                            <div data-bind="visible: productMappedCategories().length == 0" style="display:none;">
+                                <h5 data-bind="text: isRetrieving() ? 'Retrieving cetegory codes...': 'No category codes available.'"></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#CategoryMappingDialog" data-bind="enable: selectedProductTypeName()">Add Product Categories</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div style="display:none;" class="modal fade" id="CategoryMappingDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: 'Select product categories for ' + selectedProductTypeName()"></h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="alert alert-success alert-dismissable" id="success-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Success!</b> Selected categories have been successfully added.
+                </div>
+                <div class="alert alert-danger alert-dismissable" id="error-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Error!</b> Error in saving selected product categories. Please contact web administrator!
+                </div>
+
+                <div id="loadingDiv" class="loading-gif"></div>
+
+                <select class="form-control" style="height:380px;" multiple="multiple" data-bind="options: productUnMappedCategories, selectedOptions: selectedCategories"></select>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-bind="click: addSelectedCategories, enable: selectedCategories()">Add Selected Categories</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- popover template -->
+<script type="text/html" id="ProductNamesPopover">
+    <div style="width:180px;">
+        <ul data-bind="foreach: $data.Products" class="list-unstyled">
+            <li class="text-muted" data-bind="text: $data"></li>
+        </ul>
+    </div>
+</script>
+<!-- /end of popover template -->
+
+@section Scripts {
+<link href="@Url.Content("~/content/css/jstree/default/style.min.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jstree.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/categorymapping.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_PRODUCT_TYPES_URL = "@Html.Raw(Url.Action("_GetProductTypes"))"
+    var GET_PRODUCT_MAPPED_CATEGORIES_URL = "@Html.Raw(Url.Action("_GetProductMappedCategories"))?id="
+    var GET_PRODUCT_UNMAPPED_CATEGORIES_URL = "@Html.Raw(Url.Action("_GetProductUnMappedCategories"))"
+    var SAVE_SELECTED_CATEGORIES = "@Html.Raw(Url.Action("_AddProductCategories"))"
+    var DELETE_MAPPED_CATEGORY_URL = "@Html.Raw(Url.Action("_DeleteMappedCategory"))"
+
+    $(document).ready(function () {
+        var viewModel = new ViewModel();
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData();
+
+        $("#productTypesTree").on("select_node.jstree", function (e, data) {
+            viewModel.selectedProductTypeName(data.node.text);
+            viewModel.selectedProductTypeId(data.node.data.id);
+
+            // retrive the mapped product category code for the selected product type
+            viewModel.loadProductMappedCategories()
+        });
+
+        // register some events when modal dialog is showing
+        $('#CategoryMappingDialog').on('shown.bs.modal', function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+
+            viewModel.loadUnMappedCategories();
+        })
+
+        $('#CategoryMappingDialog').on('hidden.bs.modal', function () {
+            // let's update the display attribute for laoder gif
+            showLoadingGif();
+
+            $("#error-status").hide();
+            $("#success-status").hide();
+        })
+    });
+</script>
+}

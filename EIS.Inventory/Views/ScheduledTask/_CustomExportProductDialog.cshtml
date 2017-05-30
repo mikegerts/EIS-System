@@ -1,0 +1,235 @@
+﻿
+
+<script type="text/html" id="CustomExportProduct">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Enabled">Enabled</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="Enabled" name="Enabled" type="checkbox" data-bind="iCheckBox: IsEnabled" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="TaskName">Task Name</label>
+                    <div class="col-md-8">
+                        <input id="TaskName" name="TaskName" class="form-control text-box single-line" data-bind="value: Name, event: { change: valueChanged }" placeholder="Enter task name" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="StartDate">Start Date Time</label>
+                    <div class="col-md-4" style="padding-right:0px">
+                        <div class="input-group bootstrap-timepicker">
+                            <input class="form-control text-box" id="StartDate" name="StartDate" data-bind="datepicker: StartDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                            <label class="input-group-addon" for="StartDate">
+                                <i class="fa fa-calendar"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            <input type="text" class="form-control timepicker" id="StartTimeDate" name="StartTimeDate" data-bind="timeValue: StartTimeDate" data-minute-step="1" />
+                            <label class="input-group-addon" for="StartTimeDate">
+                                <i class="fa fa-clock-o"></i>
+                            </label>
+                        </div><!-- /.input group -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="CompanyId">Comapnies</label>
+                    <div class="col-md-8">
+                        <select id="CompanyIds" class="form-control" multiple="multiple" data-bind="options: $parent.companies, selectedOptions: CompanyIds, optionsText: 'Name', optionsValue: 'Id', select2: $parent.spec, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileName">File Name</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FileName" name="FileName" data-bind="value: FileName, event: { change: valueChanged }" placeholder="{0:MM}-{0:dd}-{0:yyyy}-{0:HH}-{0:mm}" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileType">File Type</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="FileType" name="FileType" data-bind="options: $parent.fileTypes, optionsCaption: '-- choose --', value: FileType, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="HasHeader">Include Headers</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="HasHeader" name="HasHeader" data-bind="options: $parent.yesNos, optionsText: 'Name', optionsValue: 'Id', value: HasHeader"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="IsAddDropShipFee">Add Drop Ship Fee</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="IsAddDropShipFee" name="IsAddDropShipFee" type="checkbox" data-bind="iCheckBox: IsAddDropShipFee" />
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Add drop ship free to the supplier price."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="IsUseGuessedWeight">UseGuessedWeight</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="IsUseGuessedWeight" name="IsUseGuessedWeight" type="checkbox" data-bind="iCheckBox: IsUseGuessedWeight" />
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Use guessed weight if accurate weight is blank or has no value."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="IsUseGuessedShipping">UseGuessedShipping</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="IsUseGuessedShipping" name="IsUseGuessedShipping" type="checkbox" data-bind="iCheckBox: IsUseGuessedShipping" />
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Use guessed shipping if accurate shipping is blank or has no value."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="ExportTo">Export To</label>
+                    <div class="col-md-4" style="padding-right:0;">
+                        <select class="form-control" id="ExportTo" name="ExportTo" data-bind="options: $parent.exportToOptions, value: ExportTo" required="required"></select>
+                    </div>
+                    <div class="col-md-4" data-bind="visible: isFtpDetailsVisible()">
+                        <a class="btn btn-sm btn-success" data-bind="click:$parent.checkFtpConnection" href="#checkftpconnection"><i class="fa fa-sign-in"></i> Check FTP</a>
+                    </div>
+                </div>
+                
+                <div class="form-horizontal">
+
+                    <div style="display:none;" data-bind="visible: isFtpDetailsVisible()">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="FtpServer">FTP Server</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="FtpServer" name="FtpServer" data-bind="value: FtpServer, event: { change: valueChanged }" placeholder="Enter FTP server" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="FtpUser">User</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="FtpUser" name="FtpUser" data-bind="value: FtpUser, event: { change: valueChanged }" placeholder="Enter FTP user" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="FtpPassword">Password</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="FtpPassword" name="FtpPassword" data-bind="value: FtpPassword, event: { change: valueChanged }" placeholder="Enter FTP password" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="FtpPort">Port</label>
+                            <div class="col-md-8">
+                                <input type="number" class="form-control text-box" id="FtpPort" name="FtpPort" data-bind="value: FtpPort" placeholder="Enter FTP port" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="RemoteFolder">Folder</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="RemoteFolder" name="RemoteFolder" data-bind="value: RemoteFolder" placeholder="Enter remote folder path" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:none;" data-bind="visible: isEmailFieldsVisible()">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="EmailSubject">Subject</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="EmailSubject" name="EmailSubject" data-bind="value: EmailSubject" placeholder="Enter email's subject'" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="EmailTo">Email To</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="EmailTo" name="EmailTo" data-bind="value: EmailTo" placeholder="To recipient (comma seperated)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="EmailCc">Email CC</label>
+                            <div class="col-md-8">
+                                <input class="form-control text-box" id="EmailCc" name="EmailCc" data-bind="value: EmailCc" placeholder="CC recipient (comma seperated)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /. col-md-6 -->
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select recurrence</label>
+                <div data-bind="foreach: recurrences" class="checkbox">
+                    <label style="width:24%; z-index:1001" data-bind="click: $parent.toggleRecurrence">
+                        <input type="radio" name="RecurrenceRadio" data-bind="iRadio: IsChecked, value: Id, enableTrigger: true" />
+                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                    </label>
+                </div>
+                <div data-bind="template: recurrenceTemplate"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Add custom file headers and product fields</label>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <td class="col-md-5">Custom File Headers</td>
+                                    <td class="col-md-5">Product Fields</td>
+                                    <td class="col-md-1"></td>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: customFields">
+                                <tr>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input type="text" class="form-control input-sm" data-bind="value: FileHeader"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input type="text" class="form-control input-sm custom-arrow" data-bind="value: CustomField, attr: { id : ('customFieldInput_' + $index()), list : ('customFieldList' + $index()) }" />
+                                            <datalist data-bind="foreach: $root.customFieldOptions, attr: { id : ('customFieldList' + $index()) }" >
+                                                <option data-bind="value: $data"></option>
+                                            </datalist>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-danger" href="#deleteitem" title="Remove this item" data-bind="click: $parent.removeCustomFieldRow"><i class=" fa fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin:2px 8px"><a class="btn btn-xs btn-success" href="#additem" title="Add new item" data-bind="click: addCustomFieldRow"><i class=" fa fa-plus"></i> Add new item</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /. col-md-6 -->
+    </div>
+</script>

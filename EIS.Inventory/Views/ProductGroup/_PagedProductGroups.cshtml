@@ -1,0 +1,70 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.ProductGroupListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblProductGroups">
+    <thead>
+        <tr>
+            <th>Group ID</th>
+            <th>Group Name</th>
+            <th>Description</th>
+            <th>Number of Items</th>
+            <th class="col-md-2 col-sm-2 col-xs-2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="4">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.NumOfItems</td>
+                    <td class="col-md-2 col-sm-2 col-xs-2" style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ProductGroupDetailDialog" data-id="@item.Id" href="#editproductgroup"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product group" href="#delete" onclick="return deleteProductGroup(@string.Format("this, \'{0}\', \'{1}\'", item.Id, item.Name))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize,
+           searchString = ViewBag.SearchString,
+           vendorId = ViewBag.VendorId,
+           companyId = ViewBag.CompanyId,
+           withEisSKULink = ViewBag.WithEisSKULink,
+           inventoryQtyFrom = ViewBag.InventoryQtyFrom,
+           inventoryQtyTo = ViewBag.InventoryQtyTo
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

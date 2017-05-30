@@ -1,0 +1,306 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Inventory", "EIS.Inventory\EIS.Inventory.csproj", "{14668E57-8667-4AF1-BE72-AC4F62C95C06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Inventory.Core", "EIS.Inventory.Core\EIS.Inventory.Core.csproj", "{5ED5699D-E3CB-4949-B7A2-7BAF822C5EC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Inventory.DAL", "EIS.Inventory.DAL\EIS.Inventory.DAL.csproj", "{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySql.AspNet.Identity", "MySql.AspNet.Identity\MySql.AspNet.Identity.csproj", "{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EIS.Marketplaces", "EIS.Marketplaces", "{CD647139-7180-4446-8F76-B9E1EBABD92C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Marketplace.Amazon", "EIS.Marketplaces\EIS.Marketplace.Amazon\EIS.Marketplace.Amazon.csproj", "{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EIS.Consoles", "EIS.Consoles", "{194574B6-CC3C-466F-BD4A-AD598CE7DE16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AmazonClientLibraries", "AmazonClientLibraries", "{8E3AACFD-EEAB-4464-AAE4-52838AF44F79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebServiceOrders", "EIS.Marketplaces\AmazonClientLibraries\MarketplaceWebServiceOrders\MarketplaceWebServiceOrders.csproj", "{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWSClientCsRuntime", "EIS.Marketplaces\AmazonClientLibraries\MWSClientCsRuntime\MWSClientCsRuntime.csproj", "{288FDD49-7A24-4723-A12F-6907C6D9FFC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebService", "EIS.Marketplaces\AmazonClientLibraries\MarketplaceWebService\MarketplaceWebService.csproj", "{11906307-B617-43E4-BBE0-C9DEFA852B3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebService.Samples", "EIS.Marketplaces\AmazonClientLibraries\MarketplaceWebService.Samples\MarketplaceWebService.Samples.csproj", "{19E77D77-0200-4D20-996B-AED5E609FE2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.OrdersServiceApp", "EIS.Consoles\EIS.OrdersServiceApp\EIS.OrdersServiceApp.csproj", "{3F117A6C-073E-4299-99FB-464C70594231}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.SchedulerTaskApp", "EIS.Consoles\EIS.SchedulerTaskApp\EIS.SchedulerTaskApp.csproj", "{9427D33F-329E-4F3E-BE71-F925D4568C91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Eshopo", "EIS.Marketplaces\EIS.Eshopo\EIS.Eshopo.csproj", "{223CFB58-C75E-4E33-AA16-91BE5403919F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketplaceWebServiceProducts", "EIS.Marketplaces\AmazonClientLibraries\MarketplaceWebServiceProducts\MarketplaceWebServiceProducts.csproj", "{C3D0BE71-AF3B-4296-B912-6665BF03CE12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.SystemJobApp", "EIS.Consoles\EIS.SystemJobApp\EIS.SystemJobApp.csproj", "{16CA2914-BCBA-47C0-B8E1-1815F84402EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Inventory.Test", "EIS.Inventory.Test\EIS.Inventory.Test.csproj", "{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eBayClientLibraries", "eBayClientLibraries", "{CD211A83-EF7C-4431-9793-86818AB6FE2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBay.Service.SDK.Attribute", "EIS.Marketplaces\eBayClientLibraries\eBay.Service.SDK.Attribute\eBay.Service.SDK.Attribute.csproj", "{9C363F3A-C0FA-4064-AC88-AF4930FA0713}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBay.Service", "EIS.Marketplaces\eBayClientLibraries\eBay.Service\eBay.Service.csproj", "{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Marketplace.eBay", "EIS.Marketplaces\EIS.Marketplace.eBay\EIS.Marketplace.eBay.csproj", "{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonWebServiceModels", "EIS.Marketplaces\AmazonClientLibraries\AmazonWebServiceModels\AmazonWebServiceModels.csproj", "{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BigCommerceClientLibraries", "BigCommerceClientLibraries", "{5D3F02CC-5DD5-4FCB-B2FE-2FBEFF0936CD}"
+	ProjectSection(SolutionItems) = preProject
+		EIS.Marketplaces\BigCommerceClientLibraries\LICENSE.txt = EIS.Marketplaces\BigCommerceClientLibraries\LICENSE.txt
+		EIS.Marketplaces\BigCommerceClientLibraries\README.md = EIS.Marketplaces\BigCommerceClientLibraries\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigCommerce4Net.Api", "EIS.Marketplaces\BigCommerceClientLibraries\BigCommerce4Net.Api\BigCommerce4Net.Api.csproj", "{DAD102C5-A4DC-4C60-AF60-5777B051C386}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigCommerce4Net.Domain", "EIS.Marketplaces\BigCommerceClientLibraries\BigCommerce4Net.Domain\BigCommerce4Net.Domain.csproj", "{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EIS.Shippings", "EIS.Shippings", "{016C0E36-A246-4EC4-9EF3-9B9DE2FEFB3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Shipping.Endicia", "EIS.Shippings\EIS.Shipping.Endicia\EIS.Shipping.Endicia.csproj", "{CB89B7DA-A6A4-4918-A924-C81FC838794D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Shipping.FedEx", "EIS.Shippings\EIS.Shipping.FedEx\EIS.Shipping.FedEx.csproj", "{FED20851-041C-4C4B-B54B-18023758F688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Inventory.Shared", "EIS.Inventory.Shared\EIS.Inventory.Shared.csproj", "{220F7F6D-780C-407E-852E-DADDE688A243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EIS.Marketplace.BigCommerce", "EIS.Marketplaces\EIS.Marketplace.BigCommerce\EIS.Marketplace.BigCommerce.csproj", "{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14668E57-8667-4AF1-BE72-AC4F62C95C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14668E57-8667-4AF1-BE72-AC4F62C95C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14668E57-8667-4AF1-BE72-AC4F62C95C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14668E57-8667-4AF1-BE72-AC4F62C95C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ED5699D-E3CB-4949-B7A2-7BAF822C5EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ED5699D-E3CB-4949-B7A2-7BAF822C5EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ED5699D-E3CB-4949-B7A2-7BAF822C5EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ED5699D-E3CB-4949-B7A2-7BAF822C5EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{288FDD49-7A24-4723-A12F-6907C6D9FFC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288FDD49-7A24-4723-A12F-6907C6D9FFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288FDD49-7A24-4723-A12F-6907C6D9FFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288FDD49-7A24-4723-A12F-6907C6D9FFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11906307-B617-43E4-BBE0-C9DEFA852B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11906307-B617-43E4-BBE0-C9DEFA852B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11906307-B617-43E4-BBE0-C9DEFA852B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11906307-B617-43E4-BBE0-C9DEFA852B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19E77D77-0200-4D20-996B-AED5E609FE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19E77D77-0200-4D20-996B-AED5E609FE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19E77D77-0200-4D20-996B-AED5E609FE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19E77D77-0200-4D20-996B-AED5E609FE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F117A6C-073E-4299-99FB-464C70594231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F117A6C-073E-4299-99FB-464C70594231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F117A6C-073E-4299-99FB-464C70594231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F117A6C-073E-4299-99FB-464C70594231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9427D33F-329E-4F3E-BE71-F925D4568C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9427D33F-329E-4F3E-BE71-F925D4568C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9427D33F-329E-4F3E-BE71-F925D4568C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9427D33F-329E-4F3E-BE71-F925D4568C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{223CFB58-C75E-4E33-AA16-91BE5403919F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223CFB58-C75E-4E33-AA16-91BE5403919F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223CFB58-C75E-4E33-AA16-91BE5403919F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223CFB58-C75E-4E33-AA16-91BE5403919F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D0BE71-AF3B-4296-B912-6665BF03CE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D0BE71-AF3B-4296-B912-6665BF03CE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D0BE71-AF3B-4296-B912-6665BF03CE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D0BE71-AF3B-4296-B912-6665BF03CE12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16CA2914-BCBA-47C0-B8E1-1815F84402EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16CA2914-BCBA-47C0-B8E1-1815F84402EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16CA2914-BCBA-47C0-B8E1-1815F84402EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16CA2914-BCBA-47C0-B8E1-1815F84402EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C363F3A-C0FA-4064-AC88-AF4930FA0713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C363F3A-C0FA-4064-AC88-AF4930FA0713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C363F3A-C0FA-4064-AC88-AF4930FA0713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C363F3A-C0FA-4064-AC88-AF4930FA0713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD102C5-A4DC-4C60-AF60-5777B051C386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD102C5-A4DC-4C60-AF60-5777B051C386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD102C5-A4DC-4C60-AF60-5777B051C386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD102C5-A4DC-4C60-AF60-5777B051C386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB89B7DA-A6A4-4918-A924-C81FC838794D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB89B7DA-A6A4-4918-A924-C81FC838794D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB89B7DA-A6A4-4918-A924-C81FC838794D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB89B7DA-A6A4-4918-A924-C81FC838794D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED20851-041C-4C4B-B54B-18023758F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED20851-041C-4C4B-B54B-18023758F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED20851-041C-4C4B-B54B-18023758F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED20851-041C-4C4B-B54B-18023758F688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{220F7F6D-780C-407E-852E-DADDE688A243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{220F7F6D-780C-407E-852E-DADDE688A243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{220F7F6D-780C-407E-852E-DADDE688A243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{220F7F6D-780C-407E-852E-DADDE688A243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{8E3AACFD-EEAB-4464-AAE4-52838AF44F79} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{7AB9D8B6-0DF0-44AD-A518-6EC458EDFEDB} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{288FDD49-7A24-4723-A12F-6907C6D9FFC7} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{11906307-B617-43E4-BBE0-C9DEFA852B3F} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{19E77D77-0200-4D20-996B-AED5E609FE2E} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{3F117A6C-073E-4299-99FB-464C70594231} = {194574B6-CC3C-466F-BD4A-AD598CE7DE16}
+		{9427D33F-329E-4F3E-BE71-F925D4568C91} = {194574B6-CC3C-466F-BD4A-AD598CE7DE16}
+		{223CFB58-C75E-4E33-AA16-91BE5403919F} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{C3D0BE71-AF3B-4296-B912-6665BF03CE12} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{16CA2914-BCBA-47C0-B8E1-1815F84402EF} = {194574B6-CC3C-466F-BD4A-AD598CE7DE16}
+		{CD211A83-EF7C-4431-9793-86818AB6FE2F} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{9C363F3A-C0FA-4064-AC88-AF4930FA0713} = {CD211A83-EF7C-4431-9793-86818AB6FE2F}
+		{81157DDA-1FE8-4A88-9E78-5356C82D1AA8} = {CD211A83-EF7C-4431-9793-86818AB6FE2F}
+		{3E95D543-A09F-4444-9C5C-99CC61DC3ABA} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{C9BCB3DF-7E38-45AC-9B3E-A965381D78E5} = {8E3AACFD-EEAB-4464-AAE4-52838AF44F79}
+		{5D3F02CC-5DD5-4FCB-B2FE-2FBEFF0936CD} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+		{DAD102C5-A4DC-4C60-AF60-5777B051C386} = {5D3F02CC-5DD5-4FCB-B2FE-2FBEFF0936CD}
+		{0A8B96C4-4FBE-4772-84AA-0B3D023F2E21} = {5D3F02CC-5DD5-4FCB-B2FE-2FBEFF0936CD}
+		{CB89B7DA-A6A4-4918-A924-C81FC838794D} = {016C0E36-A246-4EC4-9EF3-9B9DE2FEFB3E}
+		{FED20851-041C-4C4B-B54B-18023758F688} = {016C0E36-A246-4EC4-9EF3-9B9DE2FEFB3E}
+		{3DF9BA9F-1B96-438C-88A4-0AED77A5C9C8} = {CD647139-7180-4446-8F76-B9E1EBABD92C}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 26
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://egenita.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = EIS.Inventory\\EIS.Inventory.csproj
+		SccProjectName1 = EIS.Inventory
+		SccLocalPath1 = EIS.Inventory
+		SccProjectUniqueName2 = EIS.Inventory.Core\\EIS.Inventory.Core.csproj
+		SccProjectName2 = EIS.Inventory.Core
+		SccLocalPath2 = EIS.Inventory.Core
+		SccProjectUniqueName3 = EIS.Inventory.DAL\\EIS.Inventory.DAL.csproj
+		SccProjectName3 = EIS.Inventory.DAL
+		SccLocalPath3 = EIS.Inventory.DAL
+		SccProjectUniqueName4 = MySql.AspNet.Identity\\MySql.AspNet.Identity.csproj
+		SccProjectName4 = MySql.AspNet.Identity
+		SccLocalPath4 = MySql.AspNet.Identity
+		SccProjectUniqueName5 = EIS.Marketplaces\\EIS.Marketplace.Amazon\\EIS.Marketplace.Amazon.csproj
+		SccProjectTopLevelParentUniqueName5 = EIS.Inventory.sln
+		SccProjectName5 = EIS.Marketplaces/EIS.Marketplace.Amazon
+		SccLocalPath5 = EIS.Marketplaces\\EIS.Marketplace.Amazon
+		SccProjectUniqueName6 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebServiceOrders\\MarketplaceWebServiceOrders.csproj
+		SccProjectTopLevelParentUniqueName6 = EIS.Inventory.sln
+		SccProjectName6 = EIS.Marketplaces/AmazonClientLibraries/MarketplaceWebServiceOrders
+		SccLocalPath6 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebServiceOrders
+		SccProjectUniqueName7 = EIS.Marketplaces\\AmazonClientLibraries\\MWSClientCsRuntime\\MWSClientCsRuntime.csproj
+		SccProjectTopLevelParentUniqueName7 = EIS.Inventory.sln
+		SccProjectName7 = EIS.Marketplaces/AmazonClientLibraries/MWSClientCsRuntime
+		SccLocalPath7 = EIS.Marketplaces\\AmazonClientLibraries\\MWSClientCsRuntime
+		SccProjectUniqueName8 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebService\\MarketplaceWebService.csproj
+		SccProjectTopLevelParentUniqueName8 = EIS.Inventory.sln
+		SccProjectName8 = EIS.Marketplaces/AmazonClientLibraries/MarketplaceWebService
+		SccLocalPath8 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebService
+		SccProjectUniqueName9 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebService.Samples\\MarketplaceWebService.Samples.csproj
+		SccProjectTopLevelParentUniqueName9 = EIS.Inventory.sln
+		SccProjectName9 = EIS.Marketplaces/AmazonClientLibraries/MarketplaceWebService.Samples
+		SccLocalPath9 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebService.Samples
+		SccProjectUniqueName10 = EIS.Consoles\\EIS.OrdersServiceApp\\EIS.OrdersServiceApp.csproj
+		SccProjectTopLevelParentUniqueName10 = EIS.Inventory.sln
+		SccProjectName10 = EIS.Consoles/EIS.OrdersServiceApp
+		SccLocalPath10 = EIS.Consoles\\EIS.OrdersServiceApp
+		SccProjectUniqueName11 = EIS.Consoles\\EIS.SchedulerTaskApp\\EIS.SchedulerTaskApp.csproj
+		SccProjectTopLevelParentUniqueName11 = EIS.Inventory.sln
+		SccProjectName11 = EIS.Consoles/EIS.SchedulerTaskApp
+		SccLocalPath11 = EIS.Consoles\\EIS.SchedulerTaskApp
+		SccProjectUniqueName12 = EIS.Marketplaces\\EIS.Eshopo\\EIS.Eshopo.csproj
+		SccProjectTopLevelParentUniqueName12 = EIS.Inventory.sln
+		SccProjectName12 = EIS.Marketplaces/EIS.Eshopo
+		SccLocalPath12 = EIS.Marketplaces\\EIS.Eshopo
+		SccProjectUniqueName13 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebServiceProducts\\MarketplaceWebServiceProducts.csproj
+		SccProjectTopLevelParentUniqueName13 = EIS.Inventory.sln
+		SccProjectName13 = EIS.Marketplaces/AmazonClientLibraries/MarketplaceWebServiceProducts
+		SccLocalPath13 = EIS.Marketplaces\\AmazonClientLibraries\\MarketplaceWebServiceProducts
+		SccProjectUniqueName14 = EIS.Consoles\\EIS.SystemJobApp\\EIS.SystemJobApp.csproj
+		SccProjectTopLevelParentUniqueName14 = EIS.Inventory.sln
+		SccProjectName14 = EIS.Consoles/EIS.SystemJobApp
+		SccLocalPath14 = EIS.Consoles\\EIS.SystemJobApp
+		SccProjectUniqueName15 = EIS.Inventory.Test\\EIS.Inventory.Test.csproj
+		SccProjectName15 = EIS.Inventory.Test
+		SccLocalPath15 = EIS.Inventory.Test
+		SccProjectUniqueName16 = EIS.Marketplaces\\eBayClientLibraries\\eBay.Service.SDK.Attribute\\eBay.Service.SDK.Attribute.csproj
+		SccProjectTopLevelParentUniqueName16 = EIS.Inventory.sln
+		SccProjectName16 = EIS.Marketplaces/eBayClientLibraries/eBay.Service.SDK.Attribute
+		SccLocalPath16 = EIS.Marketplaces\\eBayClientLibraries\\eBay.Service.SDK.Attribute
+		SccProjectUniqueName17 = EIS.Marketplaces\\eBayClientLibraries\\eBay.Service\\eBay.Service.csproj
+		SccProjectTopLevelParentUniqueName17 = EIS.Inventory.sln
+		SccProjectName17 = EIS.Marketplaces/eBayClientLibraries/eBay.Service
+		SccLocalPath17 = EIS.Marketplaces\\eBayClientLibraries\\eBay.Service
+		SccProjectUniqueName18 = EIS.Marketplaces\\EIS.Marketplace.eBay\\EIS.Marketplace.eBay.csproj
+		SccProjectTopLevelParentUniqueName18 = EIS.Inventory.sln
+		SccProjectName18 = EIS.Marketplaces/EIS.Marketplace.eBay
+		SccLocalPath18 = EIS.Marketplaces\\EIS.Marketplace.eBay
+		SccProjectUniqueName19 = EIS.Marketplaces\\AmazonClientLibraries\\AmazonWebServiceModels\\AmazonWebServiceModels.csproj
+		SccProjectTopLevelParentUniqueName19 = EIS.Inventory.sln
+		SccProjectName19 = EIS.Marketplaces/AmazonClientLibraries/AmazonWebServiceModels
+		SccLocalPath19 = EIS.Marketplaces\\AmazonClientLibraries\\AmazonWebServiceModels
+		SccProjectUniqueName20 = EIS.Marketplaces\\BigCommerceClientLibraries\\BigCommerce4Net.Api\\BigCommerce4Net.Api.csproj
+		SccProjectTopLevelParentUniqueName20 = EIS.Inventory.sln
+		SccProjectName20 = EIS.Marketplaces/BigCommerceClientLibraries/BigCommerce4Net.Api
+		SccLocalPath20 = EIS.Marketplaces\\BigCommerceClientLibraries\\BigCommerce4Net.Api
+		SccProjectUniqueName21 = EIS.Marketplaces\\BigCommerceClientLibraries\\BigCommerce4Net.Domain\\BigCommerce4Net.Domain.csproj
+		SccProjectTopLevelParentUniqueName21 = EIS.Inventory.sln
+		SccProjectName21 = EIS.Marketplaces/BigCommerceClientLibraries/BigCommerce4Net.Domain
+		SccLocalPath21 = EIS.Marketplaces\\BigCommerceClientLibraries\\BigCommerce4Net.Domain
+		SccProjectUniqueName22 = EIS.Shippings\\EIS.Shipping.Endicia\\EIS.Shipping.Endicia.csproj
+		SccProjectTopLevelParentUniqueName22 = EIS.Inventory.sln
+		SccProjectName22 = EIS.Shippings/EIS.Shipping.Endicia
+		SccLocalPath22 = EIS.Shippings\\EIS.Shipping.Endicia
+		SccProjectUniqueName23 = EIS.Shippings\\EIS.Shipping.FedEx\\EIS.Shipping.FedEx.csproj
+		SccProjectTopLevelParentUniqueName23 = EIS.Inventory.sln
+		SccProjectName23 = EIS.Shippings/EIS.Shipping.FedEx
+		SccLocalPath23 = EIS.Shippings\\EIS.Shipping.FedEx
+		SccProjectUniqueName24 = EIS.Inventory.Shared\\EIS.Inventory.Shared.csproj
+		SccProjectName24 = EIS.Inventory.Shared
+		SccLocalPath24 = EIS.Inventory.Shared
+		SccProjectUniqueName25 = EIS.Marketplaces\\EIS.Marketplace.BigCommerce\\EIS.Marketplace.BigCommerce.csproj
+		SccProjectTopLevelParentUniqueName25 = EIS.Inventory.sln
+		SccProjectName25 = EIS.Marketplaces/EIS.Marketplace.BigCommerce
+		SccLocalPath25 = EIS.Marketplaces\\EIS.Marketplace.BigCommerce
+	EndGlobalSection
+EndGlobal

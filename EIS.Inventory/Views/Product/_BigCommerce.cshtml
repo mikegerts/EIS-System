@@ -1,0 +1,235 @@
+﻿@model EIS.Inventory.Shared.ViewModels.ProductBigCommerceDto
+
+<div class="row">
+    <div id="" class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">Big Commerce Product Details</h3>
+
+                <span id="spnViewOnBigCommerce" class="pull-right">
+                    @if (!string.IsNullOrEmpty(ViewBag.BigCommerceSEOURL))
+                    {
+                        <a href="@ViewBag.BigCommerceSEOURL" class="btn btn-sm btn-info btn-flat" target="_blank">View on BigCommerce</a>
+                    }
+                </span>
+
+
+            </div>
+
+            @using (Html.BeginForm("updateproductbigcommerce", "product", new { id = ViewBag.EisSKU }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="hidden" id="EisSKU" name="EisSKU" value="@ViewBag.EisSKU" />
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="IsEnabled">Is Enabled</label>
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.IsEnabled)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="IsEnabled">Product Id</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ProductId, new { htmlAttributes = new { @class = "form-control", @required = "required", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Brand">Brand</label>
+                            <div class="col-md-9">
+                                @*@Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter product brand" } })*@
+                                @Html.DropDownList("Brand", (IEnumerable<SelectListItem>)ViewBag.BigCommerceBrandList, "-- Select brand --", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Condition">Condition</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="Condition" name="Condition">
+                                    <option value="">-- select --</option>
+                                    <option value="0" @(Model.Condition == "0" ? "selected" : "")>New </option>
+                                    <option value="1" @(Model.Condition == "1" ? "selected" : "")>Used </option>
+                                    <option value="2" @(Model.Condition == "2" ? "selected" : "")>Refurbished</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="CategoryId">Category</label>
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.Categories, new { htmlAttributes = new { @class = "form-control", @style = "display: none;" } })
+                                <textarea id="CategoryName" class="form-control" rows="3" readonly="readonly" >@ViewBag.BigCommerceCategoryMultipleList</textarea>
+                                @*@Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>)ViewBag.BigCommerceCategoryList, "-- Select category --", new { @class = "form-control" })*@
+                            </div>
+                            <div class="col-md-2" style="padding:0px;">
+                                <a href="#suggestbigcommercecategories" data-toggle="modal" data-target="#BigCommerceCategoryDialog" class="btn btn-sm btn-info">Select Suggested...</a>
+                                <button class="btn btn-sm btn-danger" onclick="ClearBigCommerceCategories();" type="button">Clear categories</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Price">Description</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter description" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Price">Title</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter title" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Price">Sell Price</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = ".01", @placeholder = "Enter price", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="RetailPrice">Retail Price</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.RetailPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = ".01", @placeholder = "Enter retail price", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="FixedCostShippingPrice">Fixed Cost Shipping Price</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.FixedCostShippingPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = ".01", @placeholder = "Enter fixed cost shipping price", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ProductsType">Product Type</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="ProductsType" name="ProductsType">
+                                    <option value="">-- select --</option>
+                                    <option value="0" @(Model.ProductsType == 0 ? "selected" : "")>Physical </option>
+                                    <option value="1" @(Model.ProductsType == 1 ? "selected" : "")>Digital </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3" for="InventoryLevel">Inventory Level</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.InventoryLevel, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter inventory level", onfocus = "rateFieldOnFocus(this)" } })
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="InventoryWarningLevel">Inventory Warning Level</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.InventoryWarningLevel, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter inventory warning level", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="InventoryTracking">Inventory Tracking</label>
+                            <div class="col-md-9">
+                                <select class="form-control" id="InventoryTracking" name="InventoryTracking">
+                                    <option value="">-- select --</option>
+                                    <option value="0" @(Model.InventoryTracking == 0 ? "selected" : "")>None </option>
+                                    <option value="1" @(Model.InventoryTracking == 1 ? "selected" : "")>Simple </option>
+                                    <option value="2" @(Model.InventoryTracking == 2 ? "selected" : "")>SKU </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="OrderQuantityMinimum">Order Quanity Minimum</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.OrderQuantityMinimum, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter order quantity minimum", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="OrderQuantityMaximum">Order Quanity Maximum</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.OrderQuantityMaximum, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter order quantity maximum", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ProductURL">Product URL</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ProductURL, new { htmlAttributes = new { @class = "form-control", @placeholder = "By default this will be autofilled after product posting", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group left">
+                            <div class="col-md-12">
+                                <label class="control-label col-md-3" for="CustomFields">Custom Fields</label>
+                                <button id="bgCustomFieldAddField" type="button" onclick="AddBGCustomField()" class="btn btn-warning btn-xs col-md-1" style="margin-top: 5px;">Add Field</button>
+                            </div>
+
+                            <!--hidden-->
+                            <div class="customfieldtemplate hidden">
+                                <div class="col-md-12 customfields">
+                                    <div class="col-md-4 col-md-offset-3">
+                                        <label class="control-label col-md-3">Key</label>
+                                        <input type="text" class="col-md-7 customfieldname" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label col-md-3">Value</label>
+                                        <input type="text" class="col-md-8 customfieldtext" />
+                                    </div>
+                                    <span class="glyphicon glyphicon-minus-sign col-md-1 deleteCustomField" title="Delete Field" onclick="RemoveBGCustomField(this)"></span>
+                                </div>
+                            </div>
+
+
+                            <div id="customFieldContainer" class="col-md-12 customFieldContainer" data-bind="foreach: bigcommerceproductcustomfields">
+                                <div class="col-md-12 customfields">
+                                    <div class="col-md-4 col-md-offset-3">
+                                        <label class="control-label col-md-3">Key</label>
+                                        <input type="text" class="col-md-7 customfieldname" data-bind="value: Name, attr: { 'data-id': Id }" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label col-md-3">Value</label>
+                                        <input type="text" class="col-md-8 customfieldtext" data-bind="value: Text, attr: { 'data-id': Id }" />
+                                    </div>
+                                    <span class="glyphicon glyphicon-minus-sign col-md-1 deleteCustomField" title="Delete Field" onclick="RemoveBGCustomField(this)"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9 no-padding">
+                            <button id="btn-Save" class="btn btn-primary btn-sm" type="button" onclick="SubmitUpdateBigCommerceProduct('@Model.ProductId', '@ViewBag.EisSKU')" data-toggle="tooltip" data-original-title="Save changes">Save Changes</button>&nbsp;
+                            @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to products list" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ko.applyBindings(viewModel, document.getElementById("customFieldContainer"));
+        viewModel.loadbigcommercecustomfields('@Model.EisSKU');
+    });
+</script>
+
+<style>
+    .deleteCustomField {
+        color: red;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+</style>

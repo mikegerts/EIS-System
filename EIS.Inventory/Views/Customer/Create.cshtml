@@ -1,0 +1,182 @@
+﻿@model EIS.Inventory.Core.ViewModels.CustomerDto
+
+@{
+    ViewBag.Title = "Create Customer";
+    ViewBag.ActiveMenu = "customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Customer Information <small>Create new customer</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                <a href="@Html.Raw(Url.Action("index"))" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+            </div>
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                @if (ViewBag.Message != null)
+                {
+                    <div id="msgStatus" class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
+                @Html.ValidationMessage("Error", new { @class = "bg-red" })
+                <div class="alert" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Create Customer</h3>
+                    </div>
+                    @Html.ValidationMessage("Error", new { @class = "bg-red" })
+                    @using (Html.BeginForm("save", "customer", new { id = Model.CustomerId }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+                    {
+                        <div class="box-body">
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.CustomerId)
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.strCustomerNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.strCustomerNumber, new { htmlAttributes = new { @class = "form-control",@maxlength = "11" } })
+                                        @Html.ValidationMessageFor(model => model.strCustomerNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                        @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CompanyList, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.SelectedCompanyId, Model.CompanyList, "-- Select company --", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SelectedCompanyId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.OfficeNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.OfficeNumber, new { htmlAttributes = new { @class = "form-control", @maxlength = "15" } })
+                                        @Html.ValidationMessageFor(model => model.OfficeNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AccountTypeList, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.SelectedAccountType, Model.AccountTypeList, "-- Select account type --", new { @class = "form-control",@onchange="ShowHidePriceAttr(this.value);" })
+                                        @Html.ValidationMessageFor(model => model.SelectedAccountType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div style="display:none" id="divWholesalePriceAttr">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CostPlusBasedWholeSalePriceTypeList, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.SelectedCostPlusBasedWholeSalePriceType, Model.CostPlusBasedWholeSalePriceTypeList, "-- Select cost plus based wholesale price type --",  new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CostPlusBasedWholeSalePrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <div class="row">
+                                                <div class="col-md-3 no-margin">
+                                                    @Html.EditorFor(model => model.CostPlusBasedWholeSalePrice, new { htmlAttributes = new { @class = "form-control", @maxlength = "6" } })
+                                                    @Html.ValidationMessageFor(model => model.CostPlusBasedWholeSalePrice, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-md-3 no-margin">
+                                                    @Html.DropDownListFor(model => model.SelectedAmountType, Model.AmountTypeList, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.SelectedAmountType, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreditLimit, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreditLimit, new { htmlAttributes = new { @class = "form-control", @maxlength = "6" } })
+                                        @Html.ValidationMessageFor(model => model.CreditLimit, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreditTerms, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.CreditTerms, new { htmlAttributes = new { @class = "form-control", @maxlength = "5" } })
+                                        @Html.ValidationMessageFor(model => model.CreditTerms, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10 no-padding">
+                                    <button id="btn-Save" class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save system email">Save Customer</button>&nbsp;
+                                    @Html.ActionLink("Cancel", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to customer list" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div><!-- /.box -->
+            </div>
+    </div>
+    </section>
+    </div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script>
+    var accountTypeId = '@Model.SelectedAccountType';
+    $(document).ready(function () {
+        ShowHidePriceAttr(accountTypeId);
+    });
+
+    function ShowHidePriceAttr(_accountTypeId)
+    {
+        if (_accountTypeId == 1) {
+            $("#divWholesalePriceAttr").show();
+        }
+        else {
+            $("#divWholesalePriceAttr").hide();
+        }
+        $("#SelectedCostPlusBasedWholeSalePriceType").val("");
+        $("#CostPlusBasedWholeSalePrice").val("");
+    }
+    </script>
+}

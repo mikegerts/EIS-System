@@ -1,0 +1,196 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="RateCalculatorDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: rateCalculator">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Shipment Rate Calculator</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                @*<div id="loadingModal" class="loading-gif"></div>*@
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="ShipFrom">Ship From</label> 
+                            <small class="pull-right" data-bind="text: shipFromName"></small>
+                            <input class="form-control input-sm" id="ShipFrom" placeholder="Enter From postal code" type="text" data-bind="value: fromAddress.PostalCode" readonly="readonly">
+                        </div>
+                        <div class="form-group">
+                            <label for="AddressType">Address Type</label>
+                            <select class="form-control input-sm" id="AddressType" data-bind="options: $parent.addressTypes, optionsText: 'Name', optionsValue: 'Id', value: selectedAddressType"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 no-padding">
+                        <div class="form-group">
+                            <label for="ShipTo">Ship To</label>
+                            <small class="pull-right" data-bind="text: ('(' + ShippingCity() + ')')"></small>
+                            <input class="form-control input-sm" id="ShipTo" placeholder="Enter To postal code" type="text" data-bind="value: ShippingPostalCode">
+                        </div>
+                        <div class="form-group">
+                            <label for="RateConfirmationTye">Confirmation</label>
+                            <select class="form-control input-sm" id="RateConfirmationTye" data-bind="options: $parent.confirmationTypes, optionsText: 'Name', optionsValue: 'Id', value: selectedConfirmationType"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="RateConfirmationTye">Service Class</label>
+                            <select class="form-control input-sm">
+                                <option>Please choose</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="RatePackageType">Package Type</label>
+                            <select class="form-control input-sm" id="RatePackageType" data-bind="options: $parent.packageTypes, optionsText: 'Name', optionsValue: 'Id', value: selectedPackageType"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3" style="padding-left: 0 !important;">
+                        <div class="form-group">
+                            <label for="RatePackageSize">Package Weight</label>
+                            <div class="input-group">
+                                <div class="col-sm-5 no-padding" style="padding-left:0;">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-sm input-sm-padding" title="Weight in pounds" placeholder="(lb)" min="0" data-bind="value:weightInPounds" />
+                                        <div class="input-group-addon no-padding no-border input-addon-helper">(lb)</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 no-padding" style="padding-left:0;">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-sm input-sm-padding" title="Weight in ounces" placeholder="(oz)" min="0" data-bind="value: weightInOunces"/>
+                                        <div class="input-group-addon no-padding no-border input-addon-helper">(oz)</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2 no-padding">
+                                    <div class="input-group">
+                                        <button class="btn btn-default btn-sm" title="USB Scale">
+                                            <i class="fa fa-balance-scale"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="RatePackageSize">Package Size</label> <small>(inches)</small>
+                            <div class="input-group">
+                                <div class="col-sm-4 no-padding">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-sm input-sm-padding" placeholder="L" title="Length (in inches)"  min="0" data-bind="value: length"/>
+                                        <div class="input-group-addon no-padding no-border input-addon-helper">x</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 no-padding" style="padding-left:0;">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-sm input-sm-padding" placeholder="W" title="Width (in inches)" min="0" data-bind="value: width" />
+                                        <div class="input-group-addon no-padding no-border input-addon-helper">x</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 no-padding">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-sm input-sm-padding" placeholder="H" title="Height (in inches)" min="0" data-bind="value: height" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-9 col-md-23 col-sm-3">
+                        <span class="pull-right">
+                            <button type="button" class="btn btn-warning btn-sm" data-bind="click: reset, enable: !isRetrieving()">Reset</button>
+                            <button type="button" class="btn btn-success btn-sm" data-bind="click: getShippingRates, enable: !isRetrieving()">Get Rates</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 10px;">
+                        <!-- tabs left -->
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs col-sm-2">
+                                <li class="rates-panel" data-bind="css: { 'active': !isRetrieving() }"><a href="#endicia_shipping" data-toggle="tab">Endicia</a></li>
+                                <li class="rates-panel"><a href="#fedex_shipping" data-toggle="tab">FedEx</a></li>
+                            </ul>
+                            <div class="tab-content col-sm-10">
+                                <div class="tab-pane" style="min-height: 100px;" data-bind="css: {'active': isRetrieving }">
+                                    <span class="loading-gif"></span>
+                                </div>
+                                <div class="tab-pane rates-panel" id="endicia_shipping" data-bind="css: {'active': !isRetrieving() }">
+                                    <!-- ko if: endiciaShippingRates().length > 0 -->
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Mail Class</th>
+                                                <th>Package Type</th>
+                                                <th>Mail Service</th>
+                                                @*<th>Zone</th>
+                                                <th>Pricing</th>*@
+                                                <th>Total Amount</th>
+                                                <th>Delivery Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: endiciaShippingRates">
+                                            <tr data-bind="click: $parent.shippingRateSelected">
+                                                <td data-bind="text: MailClass"></td>
+                                                <td data-bind="text: PackageType"></td>
+                                                <td data-bind="text: MailService"></td>
+                                                @*<td data-bind="text: Zone"></td>
+                                                <td data-bind="text: Pricing"></td>*@
+                                                <td data-bind="text: TotalAmount"></td>
+                                                <td data-bind="text: DeliveryDate"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- /ko -->
+                                    <!-- ko if: endiciaShippingRates().length == 0 -->
+                                    <p>No data to display.</p>
+                                    <!-- /ko -->
+                                </div>
+
+                                <div class="tab-pane rates-panel no-padding" id="fedex_shipping">
+                                    <!-- ko if: fedExShippingRates().length > 0 -->
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Mail Class</th>
+                                                <th>Package Type</th>
+                                                <th>Mail Service</th>
+                                                <th>Total Amount</th>
+                                                <th>Delivery Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: fedExShippingRates">
+                                            <tr data-bind="click: $parent.shippingRateSelected">
+                                                <td data-bind="text: MailClass"></td>
+                                                <td data-bind="text: PackageType"></td>
+                                                <td data-bind="text: MailService"></td>
+                                                <td data-bind="text: TotalAmount"></td>
+                                                <td data-bind="text: DeliveryDate"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- /ko -->
+                                    <!-- ko if: fedExShippingRates().length == 0 -->
+                                    <p>No data to display.</p>
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /tabs -->
+                    </div>
+                </div>
+
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: chooseSelectedShippingRate, enable: selectedShippingRate() != null">Choose Selected Rate</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

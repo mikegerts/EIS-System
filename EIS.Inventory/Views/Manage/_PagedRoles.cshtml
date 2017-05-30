@@ -1,0 +1,56 @@
+﻿@model X.PagedList.PagedList<EIS.Inventory.Models.RoleViewModel>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblRoles">
+    <tr>
+        <th class="col-md-3">Role Name</th>
+        <th class="col-md-6">Description</th>
+        <th class="col-md-1">Order</th>
+        <th class="col-md-2">Actions</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order)
+        </td>
+        <td>
+            <a class="btn btn-sm btn-warning" href="@Html.Raw(Url.Action("editrole", new { id = item.Id }))" title="Edit this role"><i class="fa fa-edit"></i> Edit</a>
+            <a class="btn btn-sm btn-danger" href="#delete" title="Delete this role" onclick="return deleteModel(this, '@item.Id', '@item.RoleName')"><span class="fa fa-trash-o"></span> Delete</a>
+       </td>
+    </tr>
+}
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize,
+           searchString = ViewBag.SearchString
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<EIS.Inventory.Core.ViewModels.VendorDto>
+
+@{
+    ViewBag.Title = "Download Products";
+    ViewBag.ActiveMenu = "download_products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Download Product<small> Download report for products</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a class="active">Download Products</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class=" col-md-7">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+
+                    @*<div class="box-body" data-bind="with: downloadProducts">
+                            <div class="form-group">
+                                <label class="" for="VendorIds">Select Vendors</label>
+                                <select class="form-control" id="VendorIds" name="VendorIds" data-bind="options: $parent.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- choose --', value: VendorIds, event: { change: $parent.vendorChanged }" required="required"></select>
+                            </div>
+                        </div>*@
+                    <form method="post" action="@Url.Action("_DownloadProducts")">
+                        <div class="box-body">
+                            <input type="hidden" id="requestDate" name="requestDate" value="@DateTime.Now" />
+                            <div class="form-group">
+                                <label class="" for="VendorIds">Select Vendors</label>
+                                <select class="form-control" id="VendorIds" name="VendorIds" multiple="multiple" required="required"></select>
+                            </div>
+                            <div class="form-group">
+
+                                <input type="checkbox" id="selectAll" /> Select All
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer">
+                            <button class="btn btn-success" type="submit">Download</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+@{Html.RegisterMvcPagerScriptResource();}
+<link href="@Url.Content("~/content/css/select2-4.0.2-rc.1/select2.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/scripts/select2-4.0.2-rc.1/select2.full.min.js")"></script>s
+
+<script type="text/javascript">
+    var vendorsData = @Html.Raw(Json.Encode(Model.Select(m => new { id = m.Id, text = m.Name })));
+
+    $(document).ready(function () {
+
+        $('select#VendorIds').select2({
+            data: vendorsData
+        });
+
+        $("#selectAll").on("click", function(){
+            if($(this).is(':checked') ){
+                $("select#VendorIds > option").prop("selected","selected");
+                $("select#VendorIds").trigger("change");
+            }else{
+                $("select#VendorIds > option").removeAttr("selected");
+                $("select#VendorIds").trigger("change");
+            }
+        });
+
+    });
+</script>
+}

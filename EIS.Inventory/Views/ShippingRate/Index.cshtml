@@ -1,0 +1,350 @@
+﻿@model IEnumerable<EIS.Inventory.Core.ViewModels.ShippingRateDto>
+
+@{
+    ViewBag.Title = "Shipping Rates";
+    ViewBag.ActiveMenu = "shippingrates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Shipping Rates <small>List</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a class="active">Shipping Rates</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-5" style="margin: 0 0 10px">
+
+                <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#ShippingRateDialog" data-title="Add New Shipping Rate" data-id="-1" href="#create">Create New Shipping Rate</a>
+
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle" type="button" aria-expanded="true">Actions <i class="fa fa-caret-down"></i></button>
+                    <ul class="dropdown-menu">
+
+                        <li><a  href="#" onclick="ExportShippingRates()" title="Custom export for selected shipping rates">Export Shipping Rates</a></li>
+                        <li><a href="#uploadshippingrates" data-toggle="modal" data-file-type="shippingrate" data-target="#FileUploadDialog" data-backdrop="static" title="Upload file for product update or inventory">Upload Shipping Rates</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert-warning" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-responsive table-hover table-striped table-altrow"  id="tblProducts">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectCurrentPageBox" class="customExportBox" /></th>
+                                    <th class="text-center">Weight From</th>
+                                    <th class="text-center">Weight To</th>
+                                    <th>Unit</th>
+                                    <th>Rate</th>
+                                    <th class="col-md-2 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: shippingrates().length != 0 -->
+                            <tbody data-bind="foreach: shippingrates">
+                                <tr>
+                                    <td><input type="checkbox" class="customExportBox productEisSkuBox" data-bind="attr: { 'data-id' : Id }" /></td>
+                                    <td class="text-center" data-bind="text: WeightFrom"></td>
+                                    <td class="text-center" data-bind="text: WeightTo"></td>
+                                    <td data-bind="text: Unit"></td>
+                                    <td data-bind="text: Rate"></td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ShippingRateDialog" data-title="Edit Shipping Rate Details" href="#edit" data-bind="attr: { 'data-id' : Id }"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#ShippingRateDialog" data-title="View Shipping Rate Details" href="#view" data-bind="attr: { 'data-id' : Id, 'data-view-only' : true }"><i class="fa fa-external-link"></i></a>
+                                        <a class="btn btn-sm btn-danger" data-title="Delete Shipping Rate" href="#delete" data-bind="click: $parent.deleteShippingRate"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: shippingrates().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<iframe id="download_frame" style="display:none"></iframe>
+@{ Html.RenderPartial("_ShippingRateDialog");}
+@{Html.RenderPartial("_FileUploadDialog");}
+
+@section Scripts {
+    @{Html.RegisterMvcPagerScriptResource();}
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/shippingrate.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var GET_SHIPPINGRATE_URL = "@Html.Raw(Url.Action("_getshippingrate"))"
+        var GET_ALLSHIPPINGRATES_URL = "@Html.Raw(Url.Action("_getallshippingrates"))"
+        var SAVE_SHIPPINGRATE_URL = "@Html.Raw(Url.Action("_saveshippingrate"))"
+        var DELETE_SHIPPINGRATE_URL = "@Html.Raw(Url.Action("_deleteshippingrate"))"
+        var EXPORT_SHIPPING_RATES = "@Html.Raw(Url.Action("ExportShippingRates"))"
+        var GET_FILE_TEMPLATE_URL = "@Html.Raw(Url.Action("GetFileTemplate", "home"))"
+        var viewModel = new ViewModel();
+
+        var isCreateShippingRateChecked = false;
+        var isDoneBinding = false;
+        var jqXHRData = null;
+        var selectedProductEisSKUs = [];
+        var unselectedProductEisSKUs = [];
+        var recordsSelected = 0;
+        var isSelectAllPages = false;
+
+
+
+
+        $(document).ready(function () {
+
+            ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+            viewModel.loadData();
+
+            // register some events when modal dialog is showing
+            $(".modal").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var shippingrateId = element.data("id");
+                viewModel.modalTitle(element.data("title"));
+                viewModel.isViewOnly(element.data("view-only"));
+                viewModel.loadModel(shippingrateId);
+            })
+
+            $('.modal').on('hidden.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.shippingrate(null);
+
+                // reload the list of shippingrates
+                viewModel.loadData();
+            })
+
+            $("input#is_create_shippingrate").on("ifToggled", function (event) {
+                
+                isCreateShippingRateChecked = !isCreateShippingRateChecked;
+            });
+
+            $("input[type='checkbox'].file-upload-checkbox").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+            $("input[type='checkbox'].file-upload-checkbox").iCheck("uncheck");
+
+            // uncheck all product checkbox during the first load; a reset
+            $("input.customExportBox").iCheck("uncheck");
+            $("input[type='radio']").iCheck({ radioClass: 'iradio_minimal-blue' });
+
+        });
+
+        function ExportShippingRates() {
+            if (selectedProductEisSKUs.length == 0) {
+                displayMessage("No row selected for export", "error");
+                return;
+            }
+            var selectedIds = selectedProductEisSKUs.join(',');
+            window.location.href = EXPORT_SHIPPING_RATES + "?selectedIds=" + selectedIds;
+        }
+
+
+        function bindProductiCheckBox() {
+            $("input.customExportBox").iCheck({
+                checkboxClass: 'icheckbox_minimal-blue'
+            });
+        }
+
+        function bindiCheckBoxClicked() {
+            $("input.productEisSkuBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                var eisSKU = $(event.target).data("id");
+                if (isFromChecked) {
+                    removeSelectedSkuFromArr(eisSKU);
+                    $(event.target).parent().parent().parent().removeClass("selected");
+
+                    if (isSelectAllPages)
+                        unselectedProductEisSKUs.push(eisSKU);
+
+                } else {
+                    selectedProductEisSKUs.push(eisSKU);
+                    $(event.target).parent().parent().parent().addClass("selected");
+
+                    if (isSelectAllPages)
+                        removeUnselectedSkuFromArr(eisSKU);
+                }
+
+                updateSelectedSkuMessage();
+            });
+        }
+
+        function bindCurrentPageClicked() {
+            // bind the click event for the Current Page checkbox
+            $("input#selectCurrentPageBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                selectedProductEisSKUs = [];
+                unselectedProductEisSKUs = [];
+                isSelectAllPages = false;
+
+                if (isFromChecked) { // uncheck of products' checkbox
+                    $("input.productEisSkuBox").iCheck("uncheck");
+                    $("#tblProducts tbody tr").removeClass("selected");
+                } else { // otherwise; check it all
+                    var $inputEisSkuBoxes = $(":input.productEisSkuBox");
+                    $inputEisSkuBoxes.each(function () {
+                        selectedProductEisSKUs.push($(this).data("id"));
+                    })
+
+                    $("input.productEisSkuBox").iCheck("check");
+                    $("#tblProducts tbody tr").addClass("selected");
+                }
+
+                $("input#selectAllPagesBox").iCheck("uncheck");
+
+                // update the message status
+                updateSelectedSkuMessage();
+            });
+        }
+
+        function bindSelectAllPagesCheckBoxClicked() {
+            // bind the click event for the Select All Pages checkbox
+            $("input#selectAllPagesBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                selectedProductEisSKUs = [];
+
+                if (isFromChecked) { // uncheck of products' checkbox
+                    unselectedProductEisSKUs = [];
+                    $("input.productEisSkuBox").iCheck("uncheck");
+                    $("#tblProducts tbody tr").removeClass("selected");
+                    isSelectAllPages = false;
+                } else {
+                    $("input.productEisSkuBox").iCheck("check");
+                    $("#tblProducts tbody tr").addClass("selected");
+                    isSelectAllPages = true;
+                }
+
+                $("input#selectCurrentPageBox").iCheck("uncheck");
+
+                // update the message status
+                updateSelectedSkuMessage();
+            });
+        }
+
+        function removeSelectedSkuFromArr(sku) {
+            selectedProductEisSKUs = $.grep(selectedProductEisSKUs, function (value) {
+                return value != sku;
+            })
+        }
+
+        function removeUnselectedSkuFromArr(sku) {
+            unselectedProductEisSKUs = $.grep(unselectedProductEisSKUs, function (value) {
+                return value != sku;
+            })
+        }
+
+        function updateSelectedSkuMessage() {
+            var totalProducts = $("#TotalItemCount").val();
+            recordsSelected = isSelectAllPages ? (totalProducts - unselectedProductEisSKUs.length)
+                : selectedProductEisSKUs.length;
+            displayMessage("Total rows selected: " + recordsSelected, "info");
+
+            // hide the message box if there's no selected EIS SKUs
+            if (recordsSelected == 0)
+                fadeOutMessage();
+        }
+
+        function ExportShippingRates() {
+            if (selectedProductEisSKUs.length == 0) {
+                displayMessage("No row selected for export", "error");
+                return;
+            }
+            var selectedIds = selectedProductEisSKUs.join(',');
+            window.location.href = EXPORT_SHIPPING_RATES + "?selectedIds=" + selectedIds;
+        }
+
+        $("#FileUploadDialog").on('show.bs.modal', function (event) {
+            var fileType = $(event.relatedTarget).data("file-type");
+            setFileUploadDialogTexts(fileType);
+        });
+        // do some clean-ups when modal is closing
+        $('#FileUploadDialog').on('hidden.bs.modal', function () {
+            $("div.progress .progress-bar").removeClass("progress-bar-danger");
+            $('div.progress .progress-bar').css('width', '0%');
+            $("#tblFiles > tbody").html("");
+            $("#uploadStatus").html("")
+            jqXHRData = null;
+        })
+
+        $('#fileupload').fileupload({
+            url: "@Url.Action("UploadFileAsync", "home")",
+            dataType: 'json',
+            dropZone: $(".dropzone"),
+            maxNumberOfFiles: 1,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('div.progress .progress-bar').css('width', progress + '%');
+            },
+            add: function (e, data) {
+                var acceptFileTypes = ["csv"];
+                var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                if (isValidFile) {
+                    jqXHRData = data;
+                    $.each(data.files, function (index, file) {
+                        var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                        $("#tblFiles tbody").html(rowHtml);
+                    });
+                }
+            },
+            start: function (e, data) {
+                $("#uploadStatus").html("Processing file...")
+            },
+            submit: function (e, data) {
+                var jobType = $("#jobTypeUpload").val();
+                data.formData = { jobType: jobType, isCreate: isCreateShippingRateChecked, hasHeaderFile: true };
+            },
+            done: function (e, data) {
+                if (data.result.isUploaded) {
+                    $("#uploadStatus").html(data.result.message)
+                    setTimeout("$('#FileUploadDialog').modal('hide');", 1200);
+                    //location.reload();
+                } else {
+                    $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                    $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                }
+            },
+            fail: function (event, data) {
+                $("#uploadStatus").html("");
+                $.each(data.messages, function (index, error) {
+                    $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                        .appendTo('#uploadStatus');
+                });
+            }
+        });
+        $("#btnStartUpload").on("click", function () {
+            jqXHRData.submit();
+        });
+
+        function loadPagedDataComplete() {
+        }
+
+    </script>
+}

@@ -1,0 +1,129 @@
+﻿
+<div style="display:none;" class="modal fade" id="CustomExportOrderDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: customExport">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Custom Export Orders</h4>
+            </div>
+            @using (Html.BeginForm("CustomExportOrders", "order", FormMethod.Post, new { @role = "form", @id = "customExportForm" }))
+            {
+            <div class="modal-body">
+                <input type="hidden" id="RequestedDate" name="RequestedDate" value="@DateTime.Now" />
+                <div class="form-horizontal" id="custom-export-form">
+                    <div class="alertMsgStatus" data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                    <input type="hidden" id="SelectedEisOrderId" name="SelectedEisOrderId" data-bind="value: SelectedEisOrderId" />
+                    <input type="hidden" id="ExcludedEisOrderId" name="ExcludedEisOrderId" data-bind="value: ExcludedEisOrderId" />
+                    <input type="hidden" name="IsAllOderItems" data-bind="value: IsAllOderItems" />
+                    <input type="hidden" id="RequestedDate" name="RequestedDate" data-bind="value: RequestedDate" />
+                    <div class="row margin">
+                        <div class="col-sm-5">
+                            <div class="form-group ">
+                                <label>Available Order Fields</label>
+                                <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="options: availableOrderFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToAdd"></select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <label></label>
+                            <div class="row margin">
+                                <button class="btn btn-default center-block" data-bind="click: addSelectedFields, enable: selectedFieldsToAdd().length > 0"><span class="fa fa-chevron-right"></span></button>
+                            </div>
+                            <div class="row margin">
+                                <button class="btn btn-default center-block" data-bind="click: removeSelectedFields, enable: selectedFieldsToRemove().length > 0"><span class="fa fa-chevron-left"></span></button>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group ">
+                                <label>Selected Order Fields</label>
+                                <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="attr: {'data-value': OrderFields }, options: selectedOrderFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToRemove, event: { change: valueChanged }" required="required"></select>
+                                <input type="hidden" name="OrderFields" data-bind="value: OrderFields" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Template name</label>
+                        <div class="col-md-10">
+                            <input name="TemplateName" class="form-control" data-bind="value: TemplateName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="FileFormat">File Format</label>
+                        <div class="col-md-10">
+                            <select name="Delimiter" class="form-control" data-bind="options: fileFormats, optionsText: 'Name', optionsValue: 'Id', value: Delimiter"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="SortBy">Sort By</label>
+                        <div class="col-md-10">
+                            <select name="SortBy" class="form-control" data-bind="options: selectedOrderFields, optionsText: 'Name', optionsValue: 'Id', optionsCaption: '-- none --', value: SortBy"></select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="successAlert" style="display:none;" class="alert alert-success">
+                <strong>Success!</strong> Template added you can also use other templates by clicking <strong>Load Templates</strong>
+            </div>
+
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary pull-left" data-bind="click: saveTemplate">Save Template</button>
+                <button type="button" class="btn btn-primary pull-left" data-toggle="modal" data-target="#loadTemplateOrderModal">Load Template</button>
+                <button type="button" id="btnCustomExport" class="btn btn-primary" data-bind="click: downloadCustomExport ,enable: (recordsSelected != 0)">Start Export</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<!-- LoadTemplatesModal -->
+<div id="loadTemplateOrderModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Custom Templates</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive table-hover table-striped table-altrow" id="tblTemplates">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>File Format</th>
+                            <th>Sort Field</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: templates">
+                        <tr>
+                            <td></td>
+                            <td data-bind="text: Name"></td>
+                            <!-- ko if: FileFormat === ',' -->
+                            <td>Comma Delimited</td>
+                            <!-- /ko -->
+                            <!-- ko if: FileFormat === '|' -->
+                            <td>Bar Delimited</td>
+                            <!-- /ko -->
+                            <!-- ko if: FileFormat != ',' && FileFormat != '|' -->
+                            <td>Tab Delimited</td>
+                            <!-- /ko -->
+                            <td data-bind="text:  SortField"></td>
+                            <td><button type="button" class="btn btn-success " data-bind="click: $parent.loadSelectedTemplate">Load Template</button></td>
+                            <td><button type="button" class="btn btn-danger " data-bind=" click: $parent.deleteSelectedTemplate">Delete</button></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

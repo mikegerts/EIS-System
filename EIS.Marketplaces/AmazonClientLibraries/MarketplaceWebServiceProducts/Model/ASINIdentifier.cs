@@ -1,0 +1,115 @@
+/*******************************************************************************
+ * Copyright 2009-2015 Amazon Services. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ *
+ * You may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at: http://aws.amazon.com/apache2.0
+ * This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+ * CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+ * specific language governing permissions and limitations under the License.
+ *******************************************************************************
+ * ASIN Identifier
+ * API Version: 2011-10-01
+ * Library Version: 2015-09-01
+ * Generated: Thu Sep 10 06:52:19 PDT 2015
+ */
+
+
+using System;
+using System.Xml;
+using System.Xml.Serialization;
+using MWSClientCsRuntime;
+
+namespace MarketplaceWebServiceProducts.Model
+{
+    [XmlTypeAttribute(Namespace = "http://mws.amazonservices.com/schema/Products/2011-10-01")]
+    [XmlRootAttribute(Namespace = "http://mws.amazonservices.com/schema/Products/2011-10-01", IsNullable = false)]
+    public class ASINIdentifier : AbstractMwsObject
+    {
+
+        private string _marketplaceId;
+        private string _asin;
+
+        /// <summary>
+        /// Gets and sets the MarketplaceId property.
+        /// </summary>
+        [XmlElementAttribute(ElementName = "MarketplaceId")]
+        public string MarketplaceId
+        {
+            get { return this._marketplaceId; }
+            set { this._marketplaceId = value; }
+        }
+
+        /// <summary>
+        /// Sets the MarketplaceId property.
+        /// </summary>
+        /// <param name="marketplaceId">MarketplaceId property.</param>
+        /// <returns>this instance.</returns>
+        public ASINIdentifier WithMarketplaceId(string marketplaceId)
+        {
+            this._marketplaceId = marketplaceId;
+            return this;
+        }
+
+        /// <summary>
+        /// Checks if MarketplaceId property is set.
+        /// </summary>
+        /// <returns>true if MarketplaceId property is set.</returns>
+        public bool IsSetMarketplaceId()
+        {
+            return this._marketplaceId != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the ASIN property.
+        /// </summary>
+        [XmlElementAttribute(ElementName = "ASIN")]
+        public string ASIN
+        {
+            get { return this._asin; }
+            set { this._asin = value; }
+        }
+
+        /// <summary>
+        /// Sets the ASIN property.
+        /// </summary>
+        /// <param name="asin">ASIN property.</param>
+        /// <returns>this instance.</returns>
+        public ASINIdentifier WithASIN(string asin)
+        {
+            this._asin = asin;
+            return this;
+        }
+
+        /// <summary>
+        /// Checks if ASIN property is set.
+        /// </summary>
+        /// <returns>true if ASIN property is set.</returns>
+        public bool IsSetASIN()
+        {
+            return this._asin != null;
+        }
+
+
+        public override void ReadFragmentFrom(IMwsReader reader)
+        {
+            _marketplaceId = reader.Read<string>("MarketplaceId");
+            _asin = reader.Read<string>("ASIN");
+        }
+
+        public override void WriteFragmentTo(IMwsWriter writer)
+        {
+            writer.Write("MarketplaceId", _marketplaceId);
+            writer.Write("ASIN", _asin);
+        }
+
+        public override void WriteTo(IMwsWriter writer)
+        {
+            writer.Write("http://mws.amazonservices.com/schema/Products/2011-10-01", "ASINIdentifier", this);
+        }
+
+        public ASINIdentifier() : base()
+        {
+        }
+    }
+}

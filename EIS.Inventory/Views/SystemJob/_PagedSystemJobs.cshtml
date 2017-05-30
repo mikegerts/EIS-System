@@ -1,0 +1,63 @@
+﻿@model StaticPagedList<EIS.Inventory.Shared.ViewModels.SystemJobListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblSystemJobs">
+    <thead>
+        <tr>
+            <th>Job Type</th>
+            <th>Items Processed</th>
+            <th>Initiated By</th>
+            <th>Initiated On</th>
+            <th>Result File</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.JobType.GetDescription()</td>
+                <td align="center">@string.Format("{0} out of {1}", item.CurrentNumOfItems ?? 0, item.TotalNumOfItems ?? 0)</td>
+                <td>@item.SubmittedBy</td>
+                <td>@item.Created</td>
+                <td>
+                    @if (item.HasResultFile)
+                    {
+                     <a class="btn btn-xs bg-navy" href="@Url.Action("DownloadSystemJobFileResult", "Home", new { jobId = item.Id })"><i class="fa fa-download"></i> Download Result File</a>
+                    }
+                </td>
+                <td>
+                    <span class="@string.Format("label bg-{0}", item.Status)">@item.Status</span>
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

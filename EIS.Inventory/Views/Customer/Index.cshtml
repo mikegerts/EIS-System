@@ -1,0 +1,283 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.CustomerListDto>
+
+@{
+    ViewBag.Title = "Customer List";
+    ViewBag.ActiveMenu = "customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Customer <small>List</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#vendor_products">Vendor Products</a></li>
+            <li><a class="active">List</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-5">
+                <div style="margin: 0 0 10px">
+                    @Html.ActionLink("Create New Customer", "create", null, new { @class = "btn btn-info btn-sm", @data_toggle = "tooltip", @data_original_title = "Create new customer" })
+                    
+                    <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#FilterDialog" title="Filter for product results" href="#filter"><i class="fa fa-filter"></i> Show Filter</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert-warning" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "customer", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize }, { "id", "showEntryForm" } }))
+                                        {
+                                            <input type="hidden" id="CustomerNumber" name="CustomerNumber" value="@ViewBag.CustomerNumber" />
+                                            <input type="hidden" id="CompanyName" name="CompanyName" value="@ViewBag.CompanyName" />
+                                            <input type="hidden" id="CustomerName" name="CustomerName" value="@ViewBag.CustomerName" />
+                                            <input type="hidden" id="SearchString" name="SearchString" value="@ViewBag.SearchString" />
+                                            <input type="hidden" id="EmailAddress" name="EmailAddress" value="@ViewBag.EmailAddress" />
+                                            <input type="hidden" id="CompanyId" name="CompanyId" value="@ViewBag.CompanyId" />
+                                            <input type="hidden" id="AccountTypeId" name="AccountTypeId" value="@ViewBag.AccountTypeId" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_filter pull-right">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "customer", FormMethod.Get, new RouteValueDictionary { { "id", "searchForm" } }))
+                                        {
+                                            <label for="searchString" onclick="focusOnSearchFile()">Search:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="searchString" name="searchString" value="@ViewBag.SearchString" title="Type here to search." placeholder="Search..." class="form-control input-sm searchField" />
+                                                @Html.HiddenFor(m => m.PageSize)
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-info btn-sm">Go!</button>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div id="model_list_container">
+                            @{ Html.RenderPartial("_PagedCustomers", Model); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><!-- /.content-wrapper -->
+
+@{Html.RenderPartial("_FilterDialog");}
+@section Scripts {
+   
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/customer.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var GET_COMPANIES_URL = "@Html.Raw(Url.Action("_GetAllCompanies", "company"))"
+        var GET_ACCOUNTTYPES_URL = "@Html.Raw(Url.Action("_GetAllAccountTypes","customer"))"
+        var DELETE_CUSTOMER_URL = "@Html.Raw(Url.Action("_DeleteCustomer"))"
+        var MANAGE_SEARCHFILTER = "@Html.Raw(Url.Action("_ManageSearchFilter"))"
+        var DELETE_SEARCHFILTER = "@Html.Raw(Url.Action("_DeleteSearchFilter"))"
+        var LOAD_SEARCHFILTER = "@Html.Raw(Url.Action("_LoadSearchFilter"))"
+        var GET_SEARCHFILTER = "@Html.Raw(Url.Action("_GetSearchFilterValues"))"
+        var viewModel = new ViewModel();
+
+        $(document).ready(function () {
+
+            ko.options.deferUpdates = true;
+            ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+            viewModel.loadData();
+
+            $("#FilterDialog").on('show.bs.modal', function (event) {
+                viewModel.selectedAccountType(@ViewBag.AccountTypeId);
+                viewModel.selectedCompany(@ViewBag.CompanyId);
+            });
+        });
+
+        function deleteCustomer(source, id, name) {
+            $.confirm({
+                title: "Delete Customer",
+                text: "Are you sure you want to delete Customer: <strong> " + name + "</strong>",
+                cancel: function () {
+                    return false;
+                },
+                confirm: function () {
+                    $.post(DELETE_CUSTOMER_URL, { id: id }, function (result) {
+                        if (result.Success) {
+                            $(source).parent().parent().fadeOut();
+
+                            // reload the page if there's no table records in the paged
+                            if (($("#tblCustomers > tbody > tr:visible").length - 1) == 0)
+                                location.reload();
+
+                        }
+                    });
+                },
+                confirmButton: "Yes, I am",
+                confirmButtonClass: "btn-warning"
+            });
+
+            return false;
+        }
+
+        $("#btnSaveFilter").click(function (event) {
+
+            showSpinner();
+            var filterName = $("#filterName").val();
+            if (filterName == "") {
+                alert("Enter filter name");
+                hideSpinner();
+                return false;
+            }
+            var filterString = "SearchString=" + $("#filterForm #SearchString").val() +
+            "&CustomerNumber=" + $("#filterForm #CustomerNumber").val() +
+            "&CompanyName=" + $("#filterForm #CompanyName").val() +
+            "&CustomerName=" + $("#filterForm #CustomerName").val() +
+            "&EmailAddress=" + $("#filterForm #EmailAddress").val() +
+            "&AccountTypeId=" + $("#filterForm #AccountTypeId").val() +
+            "&companyId=" + $("#filterForm #CompanyId").val();
+
+            var selectedFilter = "0";
+            if ($("#SearchFilterId").val() != "") {
+                selectedFilter = $("#SearchFilterId").val();
+            }
+
+            $.ajax({
+                url: MANAGE_SEARCHFILTER,
+                data: { "selectedSearchFilter": selectedFilter, "filterName": filterName, "searchString": filterString },
+                success: function (result) {
+
+                    if (result.status == "error") {
+                        alert(result.message);
+                        hideSpinner();
+                        return false;
+                    }
+                    LoadSearchFilterDropdown();
+                    viewModel.resetFilters();
+                    alert(result.message);
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+
+            hideSpinner();
+        });
+        function LoadSearchFilterDropdown() {
+            $.ajax({
+                url: LOAD_SEARCHFILTER,
+                data: {},
+                success: function (result) {
+
+                    var markup = "<option value=''>-- Select Saved Filter --</option>";
+                    for (var x = 0; x < result.listItem.length; x++) {
+                        markup += "<option value=" + result.listItem[x].Value + ">" + result.listItem[x].Text + "</option>";
+                    }
+                    $("#SearchFilterId").html(markup).show();
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+        function GetFilter(_filterId) {
+            if (_filterId == "") {
+                $("#deletefilter").hide();
+                viewModel.resetFilters();
+
+                return false;
+            }
+
+            $.ajax({
+                url: GET_SEARCHFILTER,
+                data: { "Id": _filterId },
+                success: function (result) {
+                    $("#filterName").val(result.item.SavedSearchFilterName);
+                    var parentSplit = result.item.SearchString.split('&');
+
+                    $.each(parentSplit, function (i, v) {
+                        var pair = v.split('=');
+                        if (pair[0] == "withEisSKULink") {
+                            $('#filterForm #withEisSKULink').val(pair[1]);
+                        }
+                        else if (pair[0] == "inventoryQtyFrom") {
+                            $('#filterForm #inventoryQtyFrom').val(pair[1]);
+                        }
+                        else if (pair[0] == "inventoryQtyTo") {
+                            $('#filterForm #inventoryQtyTo').val(pair[1]);
+                        }
+                        else if (pair[0] == "SearchString") {
+                            $('#filterForm #SearchString').val(pair[1]);
+                        }
+                        else {
+                            $('#filterForm #' + pair[0] + '').val(pair[1]);
+                        }
+                    });
+
+                    $("#deletefilter").show();
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+        function DeleteSavedFilter() {
+
+            if ($("#SearchFilterId").val() == "") {
+                alert("Select saved search to delete");
+                return false;
+            }
+
+            var selectedFilter = $("#SearchFilterId").val();
+
+
+            $.ajax({
+                url: DELETE_SEARCHFILTER,
+                data: { "Id": selectedFilter },
+                success: function (result) {
+
+                    if (result.status == "error") {
+                        alert(result.message);
+                        return false;
+                    }
+
+                    LoadSearchFilterDropdown();
+                    viewModel.resetFilters();
+                    alert(result.message);
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,83 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.ProductListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblProducts">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="selectCurrentPageBox" class="customExportBox" /></th>
+            <th>EIS SKU</th>
+            <th class="hidden-sm hidden-xs">EIS SupplierSKU</th>
+            <th class="hidden-sm hidden-xs">Vendor</th>
+            <th class="hidden-xs">Product Name</th>
+            <th>Qty</th>
+            <th>Supplier Price</th>
+            <th>Selling Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="10">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="customExportBox productEisSkuBox" data-id="@item.EisSKU" /></td>
+                    <td>@Html.DisplayFor(modelItem => item.EisSKU)</td>
+                    <td class="hidden-sm hidden-xs">@Html.DisplayFor(modelItem => item.EisSupplierSKU)</td>
+                    <td class="hidden-sm hidden-xs">@Html.DisplayFor(modelItem => item.VendorName)</td>
+                    <td class="hidden-xs" title="@item.Name">@item.Name.Truncate(45)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SellerPrice)</td>
+                    <td style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this product" href="@Html.Raw(Url.Action("edit", "product", new { id = item.EisSKU }))"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product" href="#delete" onclick="return deleteProduct(@string.Format("this, \'{0}\'", item.EisSKU))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+               { 
+                        page, 
+                        pageSize = Model.PageSize,
+                        searchString = ViewBag.SearchString,
+                        vendorId = ViewBag.VendorId,
+                        companyId = ViewBag.CompanyId,
+                        inventoryQtyFrom = ViewBag.InventoryQtyFrom,
+                        inventoryQtyTo = ViewBag.InventoryQtyTo,
+                        productGroupId = ViewBag.ProductGroupId,
+                        withImages = ViewBag.WithImages,
+                        isKit = ViewBag.IsKit,
+                        skuType = ViewBag.SkuType,
+                        isSKULinked = ViewBag.IsSKULinked,
+                        isAmazonEnabled = ViewBag.IsAmazonEnabled,
+                        hasASIN = ViewBag.HasASIN
+               }),
+            new PagedListRenderOptions {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

@@ -1,0 +1,336 @@
+﻿
+@{
+    ViewBag.Title = "UPC Search";
+    ViewBag.ActiveMenu = "UPC_Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .search-table-outter {
+        border: 1px solid lavender;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+
+    #example {
+        /*table-layout: fixed;*/
+        margin: 0px auto 0px auto;
+        padding-left: 1%;
+        padding-right: 1%;
+    }
+
+    th {
+        font-size: 15px;
+        color: #fff;
+        background: #3c8dbc;
+    }
+
+    td {
+        padding: 5px 10px;
+        height: 35px;
+    }
+
+    .search-table-outter {
+        overflow-x: scroll;
+    }
+
+    th, td {
+        width: 107px;
+    }
+</style>
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>UPC Search<small>Check detail for products </small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a class="active">UPC Search</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class=" col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body">
+                        <input type="hidden" id="requestDate" name="requestDate" value="@DateTime.Now" />
+                        <div class="form-group">
+                            <label class="" for="VendorIds">UPC Code</label>
+
+                            <input type="text" class="form-control" id="UPCCode" required="required" />
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <button class="btn btn-success" type="submit" id="Submit" onclick="">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body">
+                        <input type="hidden" id="requestDate" name="requestDate" value="@DateTime.Now" />
+                        <div class="form-group">
+                            <div class="container" style="padding-right: 385px;padding-left:0px">
+                                <div class="row">
+                                    <label class="col-md-3 text-right" style="line-height: 2.5em;">Uplaod UPC Code File(<small>.csv</small>) </label>
+                                    <div class="col-xs-12 col-md-4 ">
+                                        <!-- image-preview-filename input [CUT FROM HERE]-->
+                                        <form action="/Report/UploadExternalAPI" method="post" enctype="multipart/form-data">
+
+                                            <label class="btn btn-default btn-file">
+                                                Browse <input type="file" name="file" id="file" style="display: none;" required="required" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                            </label>
+
+                                            <label> <input type="submit" class="btn btn-success" value="Upload" id="btnUpload" /> </label>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+
+                        <a href="~/SampleUploadUPCFile/demoDownloadList.csv">
+                            <button class="btn btn-success" type="submit" id="downloadSampleFile" style="float:left">Downlaod UPC File Sample</button>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="search-table-outter">
+                <table id="example" class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th> upc_code </th>
+                            <th> brand </th>
+                            <th> image </th>
+                            <th> uom </th>
+                            <th> description </th>
+                            <th> product_web_page </th>
+                            <th> usage </th>
+                            <th> return_code </th>
+                            <th> nutrition </th>
+                            <th> gcp </th>
+                            <th> return_message </th>
+                            <th> website_Link </th>
+                            <th> Language </th>
+                            <th> formatted_Nutrition </th>
+                            <th> gcp_gcp </th>
+                            <th> ingredients </th>
+                            <th> company </th>
+                            <th> city </th>
+                            <th> address </th>
+                            <th> address2 </th>
+                            <th> state </th>
+                            <th> country </th>
+                            <th> postal_code </th>
+                            <th> contact </th>
+                            <th> city </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Alert</h4>
+            </div>
+            <div class="modal-body">
+                <p id="modalPopupvalue" style="color:red">Load on request</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    @{
+        var messagesErrMsg =string.Empty;
+        if (TempData["sErrMsg"]==null)
+        {
+
+        }
+        else
+	    {
+            messagesErrMsg = TempData["sErrMsg"].ToString() ?? string.Empty;
+
+	    }
+
+    }
+    @if(ViewBag.ProductDetailList == null )
+    {
+
+    }
+    else
+    {
+        var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+        var userInfoJson = jss.Serialize(ViewBag.ProductDetailList);
+       @*@Html.TextArea("ProductDetail", (string)userInfoJson);*@
+    }
+    var ErrMsg = '@messagesErrMsg';
+
+    if (ErrMsg) {
+        $('#myModal').modal('show');
+        $("#modalPopupvalue").text(ErrMsg);
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Submit").click(function () {
+            var _upccode = $("#UPCCode").val();
+            if (_upccode == "") {
+                var errormsg = 'Please enter the upc code !';
+                $('#myModal').modal('show');
+                $("#modalPopupvalue").text(errormsg);
+            }
+            else {
+                $.ajax({
+                    url: "/Report/ConsumeExternalAPI",
+                    type: "POST",
+                    dataType: "json",
+                    data: { UPCCode: _upccode },
+                    complete: function () {
+                    },
+                    success: function (_retrunProductDetail) {
+                        var _product;
+                        var data = _retrunProductDetail;
+                        var json = JSON.parse(data);
+                        _product = {
+                            upc_code: json["upc_code"],
+                            brand: json["brand"],
+                            image: json["image"],
+                            uom: json["uom"],
+                            description: json["description"],
+                            product_web_page: json["product_web_page"],
+                            usage: json["usage"],
+                            return_code: json["return_code"],
+                            nutrition: json["nutrition"],
+                            gcp: json["gcp"],
+                            return_message: json["return_message"],
+                            websiteLink: json["website"],
+                            language: json["language"],
+                            formattedNutrition: json["formattedNutrition"],
+                            gcp_gcp: json["gcp_gcp"],
+                            ingredients: json["ingredients"],
+                            company: json.manufacturer.company,
+                            city: json.manufacturer.city,
+                            address: json.manufacturer.address,
+                            address2: json.manufacturer.address2,
+                            state: json.manufacturer.state,
+                            country: json.manufacturer.country,
+                            postal_code: json.manufacturer.postal_code,
+                            contact: json.manufacturer.contact,
+                            phone: json.manufacturer.phone,
+                        };
+                        var $row = $('<tr>' +
+                              '<td>' + _product.upc_code + '</td>' +
+                              '<td>' + _product.brand + '</td>' +
+                              '<td><a href="' + _product.image + '" target="_blank"><img src="' + _product.image + '" style="height: 80px;width: 100px;">' + '"</a></td>' +
+                              '<td>' + _product.uom + '</td>' +
+                              '<td>' + _product.description + '</td>' +
+                              '<td><a href="' + _product.product_web_page + '" target="_blank">"' + _product.product_web_page + '"</a></td>' +
+                              '<td>' + _product.usage + '</td>' +
+                              '<td>' + _product.return_code + '</td>' +
+                              '<td>' + _product.nutrition + '</td>' +
+                              '<td>' + _product.gcp + '</td>' +
+                              '<td>' + _product.return_message + '</td>' +
+                              '<td><a href="' + _product.websiteLink + '" target="_blank">"' + _product.websiteLink + '"</a></td>' +
+                              '<td>' + _product.language + '</td>' +
+                              '<td>' + _product.formattedNutrition + '</td>' +
+                              '<td>' + _product.gcp_gcp + '</td>' +
+                              '<td>' + _product.ingredients + '</td>' +
+                              '<td>' + _product.company + '</td>' +
+                              '<td>' + _product.city + '</td>' +
+                              '<td>' + _product.address + '</td>' +
+                              '<td>' + _product.address2 + '</td>' +
+                              '<td>' + _product.state + '</td>' +
+                              '<td>' + _product.country + '</td>' +
+                              '<td>' + _product.postal_code + '</td>' +
+                              '<td>' + _product.contact + '</td>' +
+                              '<td>' + _product.phone + '</td>' +
+                              '</tr>');
+                        jQuery('#example tbody:last').append($row);
+                    },
+                    error: function () {
+                        //called when there is an error
+                    },
+                });
+            }
+        });
+    });
+</script>
+<style type="text/css">
+    .container {
+        margin-top: 20px;
+    }
+
+    .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+
+        .image-preview-input input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+    .image-preview-input-title {
+        margin-left: 2px;
+    }
+</style>

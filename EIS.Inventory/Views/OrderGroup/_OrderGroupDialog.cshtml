@@ -1,0 +1,74 @@
+﻿
+<div style="display:none;" class="modal fade" id="OrderGroupDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: orderGroup">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: (isCreate() ? 'Create Order Group' : 'Edit Order Group')">Create Order Group</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <div></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" for="Name">Group Name</label>
+                                <div class="col-xs-8">
+                                    <input class="form-control" id="Name" name="Name" data-bind="value: Name, event: { change: valueChanged }" required="required" placeholder="Enter group name" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" for="Description">Description</label>
+                                <div class="col-xs-8">
+                                    <input id="ContactPerson" name="Description" class="form-control" data-bind="value: Description" placeholder="Enter description" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-4">Order Id</th>
+                                    <th class="col-md-7">Buyer</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: Orders().length != 0 -->
+                            <tbody data-bind="foreach: Orders">
+                                <tr>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input class="form-control" type="text" data-bind="value: OrderId, event: { change: $parent.orderIdValueChanged}, attr: { tabindex: ($index() +1 ) * 10 }" placeholder="Order ID" required="required" />
+                                        </div>
+                                    </td>
+                                    <td><input class="form-control" type="text" data-bind="value: BuyerName, attr: { title: BuyerName}" readonly="readonly" placeholder="BuyerName" /> </td>
+                                    <th>
+                                        <a class="btn btn-xs btn-danger" href="#deleteitem" title="Delete this item" data-bind="click: $parent.deleteOrderItem"><i class=" fa fa-trash-o"></i></a>
+                                    </th>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: Orders().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="5">No order items added yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin:2px 8px"><a class="btn btn-xs btn-success" href="#additem" title="Add new item" data-bind="click: addOrderItem"><i class=" fa fa-plus"></i> Add new item</a></p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnSaveOrderGroup" type="button" class="btn btn-primary" data-bind="click: saveOrderGroup, text: (isCreate() ? 'Create Order Group' : 'Save Changes')"></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#ProductGroupDialog -->

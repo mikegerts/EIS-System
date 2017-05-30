@@ -1,0 +1,51 @@
+﻿@model EIS.Inventory.Core.ViewModels.CustomerAddressModel
+
+<div class="row">
+    <div class="col-md-5" style="margin: 0 0 10px">
+        <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#AddressDialog" data-title="Add New Address" data-id="-1" href="#AddressDialog">Create New Address</a>
+    </div>
+</div>
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblCustomerAddress">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Recipient</th>
+            <th>Email Address</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Address Line 1</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.customerAddressListDto.Any())
+        {
+            <tr>
+                <td colspan="10">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.customerAddressListDto)
+            {
+                <tr id="@Html.Raw("traddress"+item.CustomerAddressID)">
+
+                    <td>@Html.DisplayFor(modelItem => item.Company)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Recipient)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.City)</td>
+                    <td>@Html.DisplayFor(modelItem => item.State)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AddressLine1)</td>
+                    <td style="width:12%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#AddressDialog" data-title="Edit address" href="#edit" data-id="@item.CustomerAddressID"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete address" href="#delete" onclick="return deleteCustomerAddress(@string.Format("this, \'{0}\',\'{1}\'", item.CustomerAddressID,item.Recipient))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_AddressDialog", Model.customerAddressDto)

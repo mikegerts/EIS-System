@@ -1,0 +1,59 @@
+﻿
+<div style="display:none;" class="modal fade" id="OrderItemDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Order Item Details</h4>
+            </div>
+            <form role="form" class="form" method="post">
+                <div class="modal-body">
+                    <div>
+                        @*<div class="alertMsgStatus" data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>*@
+
+                        <div class="form-group">
+                            <label for="SKU">EisSKU</label>
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="EIS SKU" required="required" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Title">Product Name</label>
+                            <div class="form-group">
+                                <input class="form-control" type="text" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="QtyOrdered">Qty Ordered</label>
+                            <div class="form-group">
+                                <input class="form-control" type="text" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="SellingPrice">Selling Price</label>
+                            <div class="form-group">
+                                <input class="form-control" type="text" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TotalPrice">Total Price</label>
+                            <div class="form-group">
+                                <input class="form-control" type="text" readonly="readonly" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button type="button" class="btn btn-warning">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

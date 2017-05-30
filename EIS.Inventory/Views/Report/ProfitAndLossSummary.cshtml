@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "P&L Summary Report";
+    ViewBag.ActiveMenu = "profit_loss";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Profit & Loss Summary<small> Report</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#reports">Reports</a></li>
+            <li><a class="active">Profit &Aacute; Loss Summary</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class=" col-md-12">
+                <div class="box box-primary">
+                    @using (Html.BeginForm("generateprofitlosssummary", "report", FormMethod.Get, new { @class = "form-horizontal", @role = "form" }))
+                    {
+                    <div class="box-header"></div>
+                    <div class="box-body">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="filterDateFrom">Filter Date Range</label>                                
+                                <div class="form-inline">
+                                    <div class="col-md-3">
+                                        <div class="form-group no-margin" style="width: 100%;">
+                                            <div class="input-group bootstrap-timepicker" style="width: 100%;">
+                                                <input class="form-control text-box" id="filterDateFrom" name="filterDateFrom" data-bind="datepicker: filterDateFrom, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                                                <label class="input-group-addon" for="filterDateFrom">
+                                                    <i class="fa fa-calendar"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group no-margin" style="width: 100%;">
+                                            <div class="input-group bootstrap-timepicker" style="width: 100%;">
+                                                <input class="form-control text-box" id="filterDateTo" name="filterDateTo" data-bind="datepicker: filterDateTo, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                                                <label class="input-group-addon" for="filterDateTo">
+                                                    <i class="fa fa-calendar"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="filterDateBy">Filter Date By</label>
+                                <div class="form-inline">
+                                    <div class="col-md-3">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" checked="" value="shipment" id="filterSByShipmentDate" class="filterDateBy" name="filterDateBy">
+                                                &nbsp; Shipment Date
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" checked="" value="order" id="filterSByOrderDate" class="filterDateBy" name="filterDateBy">
+                                                &nbsp; Order Date
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                                <div class="col-md-6">
+                                    <select class="form-control" id="VendorId" name="VendorId" data-bind="options: vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- all --', value: selectedVendor"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="orderIds">Order ID(s)</label>
+                                <div class="col-md-6">
+                                    <input id="orderIds" name="orderIds" class="form-control" placeholder="Enter Order IDs (comma separated)"/>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="box-footer">     
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-6">
+                                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                                <button id="btnRunReport" type="submit" class="btn btn-primary">Run Report</button></div>
+                        </div>      
+                    </div>
+                  }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+<link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+<script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/profitloss.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_VENDORS_URL = "@Html.Raw(Url.Action("_getvendors", "vendor"))"
+    var viewModel = new ViewModel();
+    $(document).ready(function () {
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData();
+
+        // bind the checkbox
+        $("input.filterDateBy").iCheck({
+            radioClass: 'iradio_minimal-blue'
+        });
+    });
+</script>
+}

@@ -1,0 +1,562 @@
+﻿@model IEnumerable<EIS.Inventory.Core.ViewModels.FileSettingViewModel>
+
+@{
+    ViewBag.Title = "Product Files List";
+    ViewBag.ActiveMenu = "product_files";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Product File Settings <small>List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#FileSettingDialog" data-model-id="-1" data-template="entryFileSetting">Create Product Setting</button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body no-padding">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Vendor</th>
+                                    <th>File Name</th>
+                                    <th>File Type</th>
+                                    <th>Read Time</th>
+                                    <th>Next Read Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: fileSettings().length != 0 -->
+                            <tbody data-bind="foreach: fileSettings">
+                                <tr>
+                                    <td data-bind="text: VendorName"></td>
+                                    <td data-bind="text: FileName"></td>
+                                    <td data-bind="text: (FileType == 0 ? 'EXCEL' : 'CSV')"></td>
+                                    <td data-bind="timeString: ReadTime, timePattern: 'hh:mm A'"></td>
+                                    <td data-bind="dateString: NextRunDate, datePattern: 'MM/DD/YYYY'"></td>
+                                    <td align="right">
+                                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#FileSettingDialog" data-template="entryFileSetting" href="#edit" data-bind="click: $parent.editFileSetting, attr:{ 'data-model-id': VendorId }"><i class="fa fa-edit"></i> Edit</a>
+                                        <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#FileSettingDialog" data-template="detailsFileSetting" href="#details" data-bind="attr:{ 'data-model-id': VendorId }"><i class="fa  fa-external-link"></i> View</a>
+                                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product file setting" href="#delete" data-bind="click: $parent.deleteFileSetting"><span class="fa fa-trash-o"></span> Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: fileSettings().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div style="display:none;" class="modal fade" id="FileSettingDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: fileSetting">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingDiv" class="loading-gif"></div>
+
+                <div class="alert alert-success alert-dismissable" id="success-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Success!</b> File setting has been successfully saved.
+                </div>
+                <div class="alert alert-danger alert-dismissable" id="error-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Error!</b> Error in saving file setting. Please contact web administrator!
+                </div>
+
+                <div class="row" data-bind="template: $parent.templateName">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-warning" data-bind="visible: $parent.isDetails(), click: $parent.editFileSetting">Edit</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !$parent.isDetails(), click: $parent.saveFileSetting, text: $parent.isEdit() ? 'Save Changes' : 'Save File Setting'"></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- template for File Setting entry -->
+<script type="text/html" id="entryFileSetting">
+    <div class="col-md-6">
+        <div class="box box-solid">
+            @*<div class="box-header">
+                    <div class="alert alert-info" role="alert">
+                        Enter the supplier's product file information.
+                    </div>
+                </div>*@
+            <div class="box-body">
+
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="IsDeleteFile">Delete File?</label>
+                        <div class="col-md-8">
+                            <div class="checkbox">
+                                <input id="IsDeleteFile" name="IsDeleteFile" type="checkbox" data-bind="iCheckBox: IsDeleteFile" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                        <div class="col-md-8">
+                            <!-- ko if: !$parent.isEdit() -->
+                            <select class="form-control text-box" id="VendorId" name="VendorId" data-bind="options: $parent.vendors, optionsValue: 'Id', optionsText: 'Name', value: VendorId, event: { change: valueChanged }" placeholder="Enter vendor" required="required"></select>
+                            <!-- /ko -->
+                            <!-- ko if: $parent.isEdit() -->
+                            <p class="form-control-static" data-bind="text: VendorName"></p>
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FileName">File Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FileName" name="FileName" data-bind="value: FileName, event: { change: valueChanged }" placeholder="{0:yyyy}{0:MM}{0:dd}_productfilename" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FileType">File Type</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="FileType" name="FileType" data-bind="options: $parent.fileTypes, optionsCaption: '-- choose --', optionsValue: 'Id', optionsText: 'Name', value: FileType, event: { change: $parent.fileTypeChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Extension" data-bind="text:((FileType() == 0) ? 'File Extension' : 'Extension & Delimter')"></label>
+                        <div data-bind="css: { 'col-md-8' : (FileType() == 0), 'col-md-6': (FileType() == 1), 'col-md-8': true }">
+                            <select class="form-control text-box" id="Extension" name="Extension" data-bind="options: $parent.extensions, optionsCaption: '-- choose --', value: Extension, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                        <div class="col-md-2" data-bind="visible: (FileType() == 1)">
+                            <input class="form-control text-box" type="text" data-bind="value: Delimiter" placeholder="Delimiter" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="RowAt">Has File Header</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="RowAt" name="RowAt" data-bind="options: $parent.yesNos, optionsCaption: '-- choose --', optionsValue: 'Id', optionsText: 'Name', value: RowAt, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- time Picker -->
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ReadTime">Read Time</label>
+                        <div class="col-md-8">
+                            <div class="input-group bootstrap-timepicker timepicker">
+                                <input type="text" class="form-control" id="ReadTime" name="ReadTime" data-bind="timeValue: ReadTime" data-minute-step="1" />
+                                <label class="input-group-addon" for="ReadTime">
+                                    <i class="fa fa-clock-o"></i>
+                                </label>
+                            </div><!-- /.input group -->
+                        </div>
+                    </div><!-- /.form group -->
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="NextRunDate">Next RunDate</label>
+                        <div class="col-md-8">
+                            <div class="input-group bootstrap-timepicker">
+                                <input class="form-control text-box" id="NextRunDate" name="NextRunDate" data-bind="datepicker: NextRunDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                                <label class="input-group-addon" for="NextRunDate">
+                                    <i class="fa fa-calendar"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- /.col-md-6 -->
+    <div class="col-md-6">
+        <div class="box box-solid">
+            @*<div class="box-header">
+                    <div class="alert alert-info" role="alert">
+                        Set what column index of each property from the file.
+                    </div>
+                </div>*@
+            <div class="box-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="SKU">Supplier SKU</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="SKU" name="SKU" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: SKU, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Quantity">Quantity</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="Quantity" name="Quantity" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: Quantity, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Name">Name</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="Name" name="Name" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: Name, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Description">Description</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="Description" name="Description" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: Description"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ShortDescription">Short Description</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="ShortDescription" name="ShortDescription" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: ShortDescription"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Category">Category Code</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="Category" name="Category" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: Category, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="UPC">UPC Code</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="UPC" name="UPC" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: UPC"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Cost">Cost</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="Cost" name="Cost" data-bind="options: $root.columIndexes, optionsCaption: '-- choose column index --', value: Cost, event: { change: valueChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /.col-md-6 -->
+
+    <div class="col-md-12">
+
+        <div class="box box-solid">
+            <div class="box-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpServer">FTP Server</label>
+                        <div class="col-md-7">
+                            <input class="form-control text-box" id="FtpServer" name="FtpServer" data-bind="value: FtpServer, event: { change: valueChanged }" placeholder="Enter FTP server" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpUser">FTP User</label>
+                        <div class="col-md-7">
+                            <input class="form-control text-box" id="FtpUser" name="FtpUser" data-bind="value: FtpUser, event: { change: valueChanged }" placeholder="Enter FTP user" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPassword">FTP Password</label>
+                        <div class="col-md-7">
+                            <input class="form-control text-box" id="FtpPassword" name="FtpPassword" data-bind="value: FtpPassword, event: { change: valueChanged }" placeholder="Enter FTP password" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPort">FTP Port</label>
+                        <div class="col-md-7">
+                            <input type="number" class="form-control text-box" id="FtpPort" name="FtpPort" data-bind="value: FtpPort, event: { change: valueChanged }" placeholder="Enter FTP port" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="RemoteFolder">Remote Folder</label>
+                        <div class="col-md-7">
+                            <input class="form-control text-box" id="RemoteFolder" name="RemoteFolder" data-bind="value: RemoteFolder, event: { change: valueChanged }" placeholder="Enter remote folder path" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+</script>
+<!-- end of File Setting edit -->
+<!-- template for File Setting Details -->
+<script type="text/html" id="detailsFileSetting">
+    <div class="col-md-6">
+        <div class="box box-solid">
+            <div class="box-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: VendorName"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FileName">File Name</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: FileName"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FileType">File Type</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: (FileType == 0 ? 'EXCEL' : 'CSV')"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Extension">Extension</label>
+                        <div data-bind="css: { 'col-md-8' : (FileType() == 0), 'col-md-3': (FileType() == 1), 'col-md-8': true }">
+                            <p class="form-control-static" data-bind="text: Extension"></p>
+                        </div>
+                        <label class="control-label col-md-3" for="Extension" data-bind="visible: (FileType() == 1)">Delimiter</label>
+                        <div class="col-md-2" data-bind="visible: (FileType() == 1)">
+                            <p class="form-control-static" data-bind="text: Delimiter"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="RowAt">Has File Header</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: (RowAt == 1 ? 'Yes' : 'No')"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- time Picker -->
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="UploadTime">Upload Time</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="timeString: UploadTime, timePattern: 'hh:mm A'"></p>
+                        </div>
+                    </div><!-- /.form group -->
+                </div>
+
+                <!-- time Picker -->
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ReadTime">Read Time</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="timeString: ReadTime, timePattern: 'hh:mm A'"></p>
+                        </div>
+                    </div><!-- /.form group -->
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="NextRunDate">Next RunDate</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="dateString: NextRunDate, datePattern: 'MMM DD YYYY'"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- /.col-md-6 -->
+    <div class="col-md-6">
+        <div class="box box-solid">
+            <div class="box-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="SKU">SKU</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: SKU"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Name">Name</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: Name"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Description">Description</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: Description"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ShortDescription">Short Description</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: ShortDescription"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Category">Category Code</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: Category"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="UPC">UPC Code</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: UPC"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Cost">Cost</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: Cost"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="Quantity">Quantity</label>
+                        <div class="col-md-8">
+                            <p class="form-control-static" data-bind="text: Quantity"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /.col-md-6 -->
+</script>
+<!-- end of template-->
+@section Scripts {
+<!-- Bootstrap time Picker -->
+<link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+<link href="@Url.Content("~/content/css/timepicker/bootstrap-timepicker.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/timepicker/bootstrap-timepicker.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/filesetting.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_FILE_SETTINGS_URL = "@Html.Raw(Url.Action("_getproductsettings"))"
+    var GET_FILE_SETTING_URL = "@Html.Raw(Url.Action("_getproductsetting"))?vendorid="
+    var GET_UNCONFIGURED_VENDORS_URL = "@Html.Raw(Url.Action("_getunconfiguredproductvendors"))"
+    var SAVE_FILE_SETTING_URL = "@Html.Raw(Url.Action("_saveproductsetting"))"
+    var DELETE_FILE_SETTING_URL =  "@Html.Raw(Url.Action("_deleteproductsetting"))"
+    var FILE_SETTING_NAME = "Product File Setting";
+
+    $(document).ready(function () {
+        var viewModel = new ViewModel();
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData(GET_FILE_SETTINGS_URL);
+
+
+        // register some events when modal dialog is showing
+        $('#FileSettingDialog').on('shown.bs.modal', function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("model-id");
+            var templateName = element.data("template");
+
+            // set the view model template
+            viewModel.templateName(templateName);
+
+            // load the unconfigured vendors
+            if (modelId == -1)
+                viewModel.loadUnconfiguedVendors(GET_UNCONFIGURED_VENDORS_URL);
+
+            // set the model id
+            viewModel.modelId(modelId);
+            viewModel.loadModel();
+        })
+
+        $('#FileSettingDialog').on('hidden.bs.modal', function () {
+            $("#error-status").hide();
+            $("#success-status").hide();
+            viewModel.onClosingDialog();
+        })
+    });
+</script>
+}

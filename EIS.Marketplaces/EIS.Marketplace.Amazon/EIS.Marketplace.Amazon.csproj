@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3031527F-7C6B-477A-B6F2-CE9DF3A70C2F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Marketplace.Amazon</RootNamespace>
+    <AssemblyName>EIS.Marketplace.Amazon</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CsvHelper.2.13.2.0\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AmazonMarketplaceInventoryProvider.cs" />
+    <Compile Include="AmazonMarketplaceOrdersProvider.cs" />
+    <Compile Include="AmazonProductProvider.cs" />
+    <Compile Include="AmazonMarketplaceReportProvider.cs" />
+    <Compile Include="Helpers\AmazonHeader.cs" />
+    <Compile Include="Helpers\AmazonSigningEndpointBehavior.cs" />
+    <Compile Include="Helpers\AmazonSigningMessageInspector.cs" />
+    <Compile Include="Helpers\InventoryPriceExcelWriter.cs" />
+    <Compile Include="Helpers\SignedRequestHelper.cs" />
+    <Compile Include="Helpers\XmlParser.cs" />
+    <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AmazonService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SubmitFeedController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EIS.Inventory.Core\EIS.Inventory.Core.csproj">
+      <Project>{5ed5699d-e3cb-4949-b7a2-7baf822c5ec1}</Project>
+      <Name>EIS.Inventory.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EIS.Inventory.Shared\EIS.Inventory.Shared.csproj">
+      <Project>{220f7f6d-780c-407e-852e-dadde688a243}</Project>
+      <Name>EIS.Inventory.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmazonClientLibraries\AmazonWebServiceModels\AmazonWebServiceModels.csproj">
+      <Project>{c9bcb3df-7e38-45ac-9b3e-a965381d78e5}</Project>
+      <Name>AmazonWebServiceModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmazonClientLibraries\MarketplaceWebServiceOrders\MarketplaceWebServiceOrders.csproj">
+      <Project>{7ab9d8b6-0df0-44ad-a518-6ec458edfedb}</Project>
+      <Name>MarketplaceWebServiceOrders</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmazonClientLibraries\MarketplaceWebServiceProducts\MarketplaceWebServiceProducts.csproj">
+      <Project>{c3d0be71-af3b-4296-b912-6665bf03ce12}</Project>
+      <Name>MarketplaceWebServiceProducts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmazonClientLibraries\MarketplaceWebService\MarketplaceWebService.csproj">
+      <Project>{11906307-b617-43e4-bbe0-c9defa852b3f}</Project>
+      <Name>MarketplaceWebService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmazonClientLibraries\MWSClientCsRuntime\MWSClientCsRuntime.csproj">
+      <Project>{288fdd49-7a24-4723-a12f-6907c6d9ffc7}</Project>
+      <Name>MWSClientCsRuntime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AmazonService\AWSECommerceService.wsdl" />
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.BrowseNodeLookupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.BrowseNodeLookupResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartAddResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartAddResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartClearResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartClearResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartCreateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartCreateResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartGetResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartGetResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartModifyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.CartModifyResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.ItemLookupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.ItemLookupResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.ItemSearchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.ItemSearchResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.SimilarityLookupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AmazonService\EIS.Marketplace.Amazon.AmazonService.SimilarityLookupResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AmazonService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AmazonService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AmazonService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AmazonService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)EIS.Marketplace.Amazon.dll" "$(SolutionDir)extensions\EIS.Marketplace.Amazon.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

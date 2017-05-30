@@ -1,0 +1,394 @@
+﻿
+<div style="display:none;" class="modal fade" id="VendorDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-bind="with: vendor">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="form-horizontal">
+
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" data-bind="visible: Id() != -1">
+                                        <label class="control-label col-md-4" for="Name">Vendor ID</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Id, event: { change: valueChanged }" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Name">Vendor Name</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Name, attr: { 'readonly': $parent.isViewOnly() }, event: { change: valueChanged }" placeholder="Enter vendor name" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="company">Company</label>
+                                        <div class="col-md-8">
+                                            <select id="company" name="company" class="form-control" data-bind="options: $parent.company, optionsValue: 'Id', optionsText: 'Name', value: CompanyId, attr: { 'disabled': $parent.isViewOnly() }" required="required"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="CreditTerm">Vendor Address</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: VendorAddress, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter vendor address" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="State">State</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: State, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter state" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="FirstName">Contact Person</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: ContactPerson, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter contact person name" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Email">Contact Email</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Email, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter contact email" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Address">Suite/Apartment</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: SuiteApartment, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter suite/apartment" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="City">City/Locality</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: City, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter city" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="ZipCode">Zip Code</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: ZipCode, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter postal code" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="PhoneNumber">Phone Number</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: PhoneNumber, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter telephone number" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Website">Website</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Website, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter website" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="ShippingMethod">Shipping Method</label>
+                                        <div class="col-md-8">
+                                            <label class="radio-inline"><input type="radio" name="optradioShippingMethod" value="0" data-bind="checked: ShippingMethod">ShipStation</label>
+                                            <label class="radio-inline"><input type="radio" name="optradioShippingMethod" value="1" data-bind="checked: ShippingMethod">Email</label>
+                                            <label class="radio-inline"><input type="radio" name="optradioShippingMethod" value="2" data-bind="checked: ShippingMethod">Ship to Us</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="FaxField">Fax</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: FaxField, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter fax" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="AccountNumber">Account</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: AccountNumber, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter account number" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="AccountType">Account Type</label>
+                                        <div class="col-md-8">
+                                            <label class="radio-inline"><input type="radio" name="optradioAccountType" value="0" data-bind="checked: AccountType">Dropship</label>
+                                            <label class="radio-inline"><input type="radio" name="optradioAccountType" value="1" data-bind="checked: AccountType">WholeSale</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="margin-top:12px;">
+                        <div class="col-md-12">
+
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#product_setting" aria-expanded="true">Product Settings</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab_2" aria-expanded="false">Drop Ship Fee & Terms</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab_3" aria-expanded="false">Shipping & Return Policy</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab_4" aria-expanded="false">Inventory</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab_5" aria-expanded="false">Departments</a></li>
+                                    @*<li class=""><a data-toggle="tab" href="#profit_rule" aria-expanded="false">Profit Rule</a></li>*@
+                                    <li class="pull-right"><a class="text-muted" href="#"><i class="fa fa-gear"></i></a></li>
+                                </ul>
+                                <div class="tab-content">
+
+                                    <div id="product_setting" class="tab-pane active">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="SKUCodeStart">EIS SKU Start</label>
+                                            <div class="col-md-6">
+                                                <input id="SKUCodeStart" name="SKUCodeStart" class="form-control" data-bind="value: SKUCodeStart, attr: { 'readonly': $parent.isViewOnly() }, event: { change: valueChanged }" placeholder="Enter EIS SKU start" required="required" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="SafetyQty">Safety Quantity</label>
+                                            <div class="col-md-6">
+                                                <input type="number" id="SafetyQty" name="SafetyQty" class="form-control" data-bind="value:SafetyQty, attr: { 'readonly': $parent.isViewOnly() }" onfocus="rateFieldOnFocus(this)" placeholder="Enter safety quantity" />
+                                            </div>
+                                        </div>
+                                    </div><!-- /.tab-pane -->
+
+                                    <div id="tab_2" class="tab-pane">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="PaymentTerms">Our Payment Terms</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="PaymentTerms" name="PaymentTerms" class="form-control" data-bind="value:PaymentTerms, attr: { 'readonly': $parent.isViewOnly() }" onfocus="rateFieldOnFocus(this)" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="CreditLimit">Credit Limit</label>
+                                            <div class="col-md-6">
+                                                <input type="text" id="CreditLimit" name="CreditLimit" class="form-control" data-bind="value:CreditLimit, attr: { 'readonly': $parent.isViewOnly() }" onfocus="rateFieldOnFocus(this)" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="DropShipFeeType">Drop Ship Fee Type</label>
+                                            <div class="col-md-6">
+                                                <select id="DropShipFeeType" name="DropShipFeeType" class="form-control" data-bind="options: $parent.dropShipFeeType, optionsValue: 'Id', optionsText: 'Name', value: DropShipFeeType, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="DropShipFee">Drop Ship Fee</label>
+                                            <div class="col-md-6">
+                                                <input type="number" id="DropShipFee" name="DropShipFee" class="form-control" data-bind="value:DropShipFee, attr: { 'readonly': $parent.isViewOnly() }" onfocus="rateFieldOnFocus(this)" />
+                                            </div>
+                                        </div>
+                                    </div><!-- /.tab-pane -->
+
+                                    <div id="tab_3" class="tab-pane">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="no-border">
+                                                    <div class="box-header">
+                                                        <h4 class="box-title">Shipping details</h4>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-5" for="ShippingType">Shipping Type</label>
+                                                                <div class="col-md-7">
+                                                                    <select id="ShippingType" name="ShippingType" class="form-control" data-bind="options: $parent.shippingTypes, optionsValue: 'Id', optionsText: 'Name', value: ShippingType, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-5" for="ShippingService">Shipping Service</label>
+                                                                <div class="col-md-7">
+                                                                    <select id="ShippingService" name="ShippingService" class="form-control" data-bind="options: $parent.shippingServices, optionsValue: 'Id', optionsText: 'Name', value: ShippingService, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-5" for="ShippingServiceCost">Shipping Cost</label>
+                                                                <div class="col-md-7">
+                                                                    <input id="ShippingServiceCost" name="ShippingServiceCost" class="form-control" data-bind="value: ShippingServiceCost, enable: !isFreeShippingTypeSelected()" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-5" for="PickupFrequency">Pickup Frequency</label>
+                                                                <div class="col-md-7">
+                                                                    <input id="PickupFrequency" name="PickupFrequency" class="form-control" data-bind="value: PickupFrequency, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-5" for="ContactName">Contact Name</label>
+                                                                <div class="col-md-7">
+                                                                    <input id="ContactName" name="ContactName" class="form-control" data-bind="value: ContactName, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShipFromAddress">Address</label>
+                                                                <div class="col-md-8">
+                                                                    <input id="ShipFromAddress" name="ShipFromAddress" class="form-control" data-bind="value: ShipFromAddress, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShipInfoCity">City</label>
+                                                                <div class="col-md-8">
+                                                                    <input id="ShipInfoCity" name="ShipInfoCity" class="form-control" data-bind="value: ShipInfoCity, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShipInfoState">State</label>
+                                                                <div class="col-md-8">
+                                                                    <input id="ShipInfoState" name="ShipInfoState" class="form-control" data-bind="value: ShipInfoState, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShipInfoZipCode">ZIP Code</label>
+                                                                <div class="col-md-8">
+                                                                    <input id="ShipInfoZipCode" name="ShipInfoZipCode" class="form-control" data-bind="value: ShipInfoZipCode, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShipInfoPhone">Phone</label>
+                                                                <div class="col-md-8">
+                                                                    <input id="ShipInfoPhone" name="ShipInfoPhone" class="form-control" data-bind="value: ShipInfoPhone, attr: { 'readonly': $parent.isViewOnly() }" />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="box-solid">
+                                                    <div class="box-header">
+                                                        <h4 class="box-title">Return Policy</h4>
+                                                    </div>
+
+                                                    <div class="box-body">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="ReturnsAcceptedOption">Returns option</label>
+                                                            <div class="col-md-8">
+                                                                <select id="ReturnsAcceptedOption" name="ReturnsAcceptedOption" class="form-control" data-bind="options: $parent.returnsAcceptedOptions, optionsValue: 'Id', optionsText: 'Name', value: ReturnsAcceptedOption, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div data-bind="visible: isReturnAcceptedSelected()">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ReturnsWithinOption">Returns start within</label>
+                                                                <div class="col-md-8">
+                                                                    <select id="ReturnsWithinOption" name="ReturnsWithinOption" class="form-control" data-bind="options: $parent.returnsWithinOptions, optionsValue: 'Id', optionsText: 'Name', value: ReturnsWithinOption, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="RefundOption">Refund given as</label>
+                                                                <div class="col-md-8">
+                                                                    <select id="RefundOption" name="RefundOption" class="form-control" data-bind="options: $parent.refundOptions, optionsValue: 'Id', optionsText: 'Name', value: RefundOption, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4" for="ShippingCostPaidByOption">Shipping be paid</label>
+                                                                <div class="col-md-8">
+                                                                    <select id="ShippingCostPaidByOption" name="ShippingCostPaidByOption" class="form-control" data-bind="options: $parent.shippingCostPaidByOptions, optionsValue: 'Id', optionsText: 'Name', value: ShippingCostPaidByOption, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="ReturnPolicyDescription">Returns details</label>
+                                                            <div class="col-md-8">
+                                                                <textarea id="ReturnPolicyDescription" name="ReturnPolicyDescription" class="form-control" data-bind="value: ReturnPolicyDescription"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.tab-pane -->
+
+                                    <div id="tab_4" class="tab-pane">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3" for="InventoryUpdateFrequency">Inventory Frequency Update</label>
+                                            <div class="col-md-6">
+                                                <select id="InventoryUpdateFrequency" name="InventoryUpdateFrequency" class="form-control" data-bind="options: $parent.inventoryUpdateFrequency, optionsValue: 'Id', optionsText: 'Name', value: InventoryUpdateFrequency, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" data-bind="visible: isAlwaysInStockSelected()">
+                                            <label class="control-label col-md-3" for="AlwaysQuantity">Always Quantity</label>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="number" id="AlwaysQuantity" data-bind="value: AlwaysQuantity" placeholder="Enter always quantity" />
+                                                    <span class="input-group-addon help no-border">
+                                                        <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="The constant quantity for all of its vendor products for this vendor even one of its products has ZERO inventory quantity."></a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="visible: isAlwaysInStockSelected()">
+                                            <div class="col-lg-offset-3 col-md-6 alert alert-warning ">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-warning"></i> Warning!</h4>
+                                                Setting 'Inventory Frequency Update' to 'Always in Stock' will update all of its vendor products' quantity with the specified 'Always Quantity'. Once save, this can't be undone.
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.tab-pane -->
+
+                                    <div id="tab_5" class="tab-pane">
+                                        <div class="form-group">
+                                            <div class="departmentHeaders">
+                                                <label class="control-label col-md-3">Departments</label>
+                                                <label class="control-label col-md-3">Name</label>
+                                                <label class="control-label col-md-3">Email Address</label>
+                                                <label class="control-label col-md-3">Phone #</label>
+                                            </div>
+                                            <div class="departmentLabels" data-bind="foreach: $parent.departments">
+                                                <div class="departmentRow">
+                                                    <label class="control-label col-md-3 text-left" data-bind="text: DepartmentName"></label>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" placeholder="Enter name" data-bind="attr: { id: 'VDName_' + Id }" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" placeholder="Enter email address" data-bind="attr: { id: 'VDEmail_' + Id }" />
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" class="form-control" placeholder="Enter phone number" data-bind="attr: { id: 'VDPhone_' + Id }" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /.tab-pane -->
+
+
+                                </div><!-- /.tab-content -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-warning" style="display:none" data-bind="visible: $parent.isViewOnly(), click: $parent.editVendor">Edit Vendor</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !$parent.isViewOnly(),click: $parent.saveVendor, text: (Id() == -1 ? 'Save Vendor' : 'Save Changes')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

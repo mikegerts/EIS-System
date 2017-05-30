@@ -1,0 +1,64 @@
+﻿@model  StaticPagedList<EIS.Inventory.Shared.ViewModels.SystemJobListDto>
+
+@{
+    ViewBag.Title = "System Jobs";
+    ViewBag.ActiveMenu = "system_job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>System Jobs<small>List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body no-padding">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "systemjob", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize }, { "id", "showEntryForm" } }))
+                                        {
+                                            <input type="hidden" id="logsType" name="logsType" value="0" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right" style="margin-right:10px;">
+                                    @*<button class="btn btn-sm bg-orange" type="button"><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+                                        <a data-pageindex="@Model.CurrentPageIndex" href="/systemjob?page=@Model.CurrentPageIndex">Refresh</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div id="model_list_container">
+                            @{ Html.RenderPartial("_PagedSystemJobs", Model); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><!-- /.content-wrapper -->
+
+@section Scripts{
+    <script type="text/javascript">
+        function loadPagedDataComplete() {
+
+        }
+    </script>
+}

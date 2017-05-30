@@ -1,0 +1,46 @@
+﻿@using EIS.Inventory.Core.Helpers;
+@model Webdiyer.WebControls.Mvc.PagedList<EIS.Inventory.Core.ViewModels.PurchaseOrderViewModel>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblModels">
+    <thead>
+    <tr>
+        <th><input type="checkbox" id="selectCurrentPageBox" class="billingCheckbox" /></th>
+        <th>PO ID</th>
+        <th>Billed To</th>
+        <th>Total</th>
+        <th>Generated</th>
+        <th>Last Updated</th>
+        <th>Status</th>
+        <th style="width:15%;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="5">No records available.</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td><input type="checkbox" class="billingCheckbox modelIdCheckbox" data-id="@item.Id" /></td>                 
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.VendorName)</td>
+                <td>@string.Format("USD {0:0.#0}", item.Total)</td>
+                <td>@item.Created.ToLocalTime()</td>
+                <td>@item.Modified.ToLocalTime()</td>
+                <td>
+                    <span class="@string.Format("label bg-{0}", item.PaymentStatus)"> @item.PaymentStatus.GetDescription()</span>
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" data-toggle="modal" data-target="#PurchaseOrderDetailDialog" title="Manage this Purchase Order" href="#manage" data-id="@item.Id"><i class="fa  fa-edit"></i> Manage PO</a>
+                    <a class="btn btn-sm btn-warning @(item.IsManual ? "" : "disabled")" data-toggle="modal" data-target="#PurchaseOrdeDialog" title="Edit this Purchase Order" href="#edit" data-id="@item.Id"><i class="fa fa-edit"></i> Edit PO</a>                    
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

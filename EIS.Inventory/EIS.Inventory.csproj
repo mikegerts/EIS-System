@@ -1,0 +1,1758 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{14668E57-8667-4AF1-BE72-AC4F62C95C06}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Inventory</RootNamespace>
+    <AssemblyName>EIS.Inventory</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.13.2.0\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper.Rainbow.MySql, Version=0.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Rainbow.MySql.0.8.2\lib\net451\Dapper.Rainbow.MySql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.3.3.2\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.3.3.2\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Webdiyer.MvcPager">
+      <HintPath>..\packages\Webdiyer.MvcPager.3.0\lib\Webdiyer.MvcPager.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="X.PagedList, Version=5.3.0.21888, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\X.PagedList.5.3.0.5300\lib\portable-net45+wp8+win8\X.PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="X.PagedList.Mvc">
+      <HintPath>..\packages\X.PagedList.Mvc.5.3.0.5300\lib\net46\X.PagedList.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\ApplicationGroupManager.cs" />
+    <Compile Include="App_Start\AuthorizeRolesAttribute.cs" />
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SimpleInjectorConfig.cs" />
+    <Compile Include="App_Start\SimpleInjectorHubActivator.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BillingController.cs" />
+    <Compile Include="Controllers\CategoryMappingController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\FileSettingController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KitController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\CredentialController.cs" />
+    <Compile Include="Controllers\MessageTemplateController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderGroupController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductGroupController.cs" />
+    <Compile Include="Controllers\ProductTypeController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ScheduledTaskController.cs" />
+    <Compile Include="Controllers\ShippingController.cs" />
+    <Compile Include="Controllers\ShippingRateController.cs" />
+    <Compile Include="Controllers\SystemEmailController.cs" />
+    <Compile Include="Controllers\SystemJobController.cs" />
+    <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="Controllers\VendorProductController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ClaimType.cs" />
+    <Compile Include="Helpers\DecimalModelBinder.cs" />
+    <Compile Include="Helpers\PrincipalExtensions.cs" />
+    <Compile Include="Helpers\Role.cs" />
+    <Compile Include="Hubs\SystemJobHub.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\AdminLTE.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\datepicker\datepicker.css" />
+    <Content Include="Content\css\datepicker\datepicker3.css" />
+    <Content Include="Content\css\daterangepicker-0.0.9\daterangepicker.css" />
+    <Content Include="Content\css\daterangepicker-0.0.9\daterangepicker.min.css" />
+    <Content Include="Content\css\daterangepicker\daterangepicker-bs3.css" />
+    <Content Include="Content\css\fancyBox-2.1.5\blank.gif" />
+    <Content Include="Content\css\fancyBox-2.1.5\fancybox_loading%402x.gif" />
+    <Content Include="Content\css\fancyBox-2.1.5\fancybox_loading.gif" />
+    <Content Include="Content\css\fancyBox-2.1.5\fancybox_overlay.png" />
+    <Content Include="Content\css\fancyBox-2.1.5\fancybox_sprite%402x.png" />
+    <Content Include="Content\css\fancyBox-2.1.5\fancybox_sprite.png" />
+    <Content Include="Content\css\fancyBox-2.1.5\helpers\fancybox_buttons.png" />
+    <Content Include="Content\css\fancyBox-2.1.5\helpers\jquery.fancybox-buttons.css" />
+    <Content Include="Content\css\fancyBox-2.1.5\helpers\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\css\fancyBox-2.1.5\jquery.fancybox.css" />
+    <Content Include="Content\css\fileupload\jquery.fileupload-ui.css" />
+    <Content Include="Content\css\fileupload\jquery.fileupload.css" />
+    <Content Include="Content\css\fullcalendar\fullcalendar.css" />
+    <Content Include="Content\css\fullcalendar\fullcalendar.min.css" />
+    <Content Include="Content\css\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\css\iCheck\all.css" />
+    <Content Include="Content\css\iCheck\flat\aero%402x.png" />
+    <Content Include="Content\css\iCheck\flat\aero.css" />
+    <Content Include="Content\css\iCheck\flat\aero.png" />
+    <Content Include="Content\css\iCheck\flat\blue%402x.png" />
+    <Content Include="Content\css\iCheck\flat\blue.css" />
+    <Content Include="Content\css\iCheck\flat\blue.png" />
+    <Content Include="Content\css\iCheck\flat\flat%402x.png" />
+    <Content Include="Content\css\iCheck\flat\flat.css" />
+    <Content Include="Content\css\iCheck\flat\flat.png" />
+    <Content Include="Content\css\iCheck\flat\green%402x.png" />
+    <Content Include="Content\css\iCheck\flat\green.css" />
+    <Content Include="Content\css\iCheck\flat\green.png" />
+    <Content Include="Content\css\iCheck\flat\grey%402x.png" />
+    <Content Include="Content\css\iCheck\flat\grey.css" />
+    <Content Include="Content\css\iCheck\flat\grey.png" />
+    <Content Include="Content\css\iCheck\flat\orange%402x.png" />
+    <Content Include="Content\css\iCheck\flat\orange.css" />
+    <Content Include="Content\css\iCheck\flat\orange.png" />
+    <Content Include="Content\css\iCheck\flat\pink%402x.png" />
+    <Content Include="Content\css\iCheck\flat\pink.css" />
+    <Content Include="Content\css\iCheck\flat\pink.png" />
+    <Content Include="Content\css\iCheck\flat\purple%402x.png" />
+    <Content Include="Content\css\iCheck\flat\purple.css" />
+    <Content Include="Content\css\iCheck\flat\purple.png" />
+    <Content Include="Content\css\iCheck\flat\red%402x.png" />
+    <Content Include="Content\css\iCheck\flat\red.css" />
+    <Content Include="Content\css\iCheck\flat\red.png" />
+    <Content Include="Content\css\iCheck\flat\yellow%402x.png" />
+    <Content Include="Content\css\iCheck\flat\yellow.css" />
+    <Content Include="Content\css\iCheck\flat\yellow.png" />
+    <Content Include="Content\css\iCheck\flat\_all.css" />
+    <Content Include="Content\css\iCheck\futurico\futurico%402x.png" />
+    <Content Include="Content\css\iCheck\futurico\futurico.css" />
+    <Content Include="Content\css\iCheck\futurico\futurico.png" />
+    <Content Include="Content\css\iCheck\line\aero.css" />
+    <Content Include="Content\css\iCheck\line\blue.css" />
+    <Content Include="Content\css\iCheck\line\green.css" />
+    <Content Include="Content\css\iCheck\line\grey.css" />
+    <Content Include="Content\css\iCheck\line\line%402x.png" />
+    <Content Include="Content\css\iCheck\line\line.css" />
+    <Content Include="Content\css\iCheck\line\line.png" />
+    <Content Include="Content\css\iCheck\line\orange.css" />
+    <Content Include="Content\css\iCheck\line\pink.css" />
+    <Content Include="Content\css\iCheck\line\purple.css" />
+    <Content Include="Content\css\iCheck\line\red.css" />
+    <Content Include="Content\css\iCheck\line\yellow.css" />
+    <Content Include="Content\css\iCheck\line\_all.css" />
+    <Content Include="Content\css\iCheck\minimal\aero%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\aero.css" />
+    <Content Include="Content\css\iCheck\minimal\aero.png" />
+    <Content Include="Content\css\iCheck\minimal\blue%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\blue.css" />
+    <Content Include="Content\css\iCheck\minimal\blue.png" />
+    <Content Include="Content\css\iCheck\minimal\green%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\green.css" />
+    <Content Include="Content\css\iCheck\minimal\green.png" />
+    <Content Include="Content\css\iCheck\minimal\grey%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\grey.css" />
+    <Content Include="Content\css\iCheck\minimal\grey.png" />
+    <Content Include="Content\css\iCheck\minimal\minimal%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\minimal.css" />
+    <Content Include="Content\css\iCheck\minimal\minimal.png" />
+    <Content Include="Content\css\iCheck\minimal\orange%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\orange.css" />
+    <Content Include="Content\css\iCheck\minimal\orange.png" />
+    <Content Include="Content\css\iCheck\minimal\pink%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\pink.css" />
+    <Content Include="Content\css\iCheck\minimal\pink.png" />
+    <Content Include="Content\css\iCheck\minimal\purple%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\purple.css" />
+    <Content Include="Content\css\iCheck\minimal\purple.png" />
+    <Content Include="Content\css\iCheck\minimal\red%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\red.css" />
+    <Content Include="Content\css\iCheck\minimal\red.png" />
+    <Content Include="Content\css\iCheck\minimal\yellow%402x.png" />
+    <Content Include="Content\css\iCheck\minimal\yellow.css" />
+    <Content Include="Content\css\iCheck\minimal\yellow.png" />
+    <Content Include="Content\css\iCheck\minimal\_all.css" />
+    <Content Include="Content\css\iCheck\polaris\polaris%402x.png" />
+    <Content Include="Content\css\iCheck\polaris\polaris.css" />
+    <Content Include="Content\css\iCheck\polaris\polaris.png" />
+    <Content Include="Content\css\iCheck\square\aero%402x.png" />
+    <Content Include="Content\css\iCheck\square\aero.css" />
+    <Content Include="Content\css\iCheck\square\aero.png" />
+    <Content Include="Content\css\iCheck\square\blue%402x.png" />
+    <Content Include="Content\css\iCheck\square\blue.css" />
+    <Content Include="Content\css\iCheck\square\blue.png" />
+    <Content Include="Content\css\iCheck\square\green%402x.png" />
+    <Content Include="Content\css\iCheck\square\green.css" />
+    <Content Include="Content\css\iCheck\square\green.png" />
+    <Content Include="Content\css\iCheck\square\grey%402x.png" />
+    <Content Include="Content\css\iCheck\square\grey.css" />
+    <Content Include="Content\css\iCheck\square\grey.png" />
+    <Content Include="Content\css\iCheck\square\orange%402x.png" />
+    <Content Include="Content\css\iCheck\square\orange.css" />
+    <Content Include="Content\css\iCheck\square\orange.png" />
+    <Content Include="Content\css\iCheck\square\pink%402x.png" />
+    <Content Include="Content\css\iCheck\square\pink.css" />
+    <Content Include="Content\css\iCheck\square\pink.png" />
+    <Content Include="Content\css\iCheck\square\purple%402x.png" />
+    <Content Include="Content\css\iCheck\square\purple.css" />
+    <Content Include="Content\css\iCheck\square\purple.png" />
+    <Content Include="Content\css\iCheck\square\red%402x.png" />
+    <Content Include="Content\css\iCheck\square\red.css" />
+    <Content Include="Content\css\iCheck\square\red.png" />
+    <Content Include="Content\css\iCheck\square\square%402x.png" />
+    <Content Include="Content\css\iCheck\square\square.css" />
+    <Content Include="Content\css\iCheck\square\square.png" />
+    <Content Include="Content\css\iCheck\square\yellow%402x.png" />
+    <Content Include="Content\css\iCheck\square\yellow.css" />
+    <Content Include="Content\css\iCheck\square\yellow.png" />
+    <Content Include="Content\css\iCheck\square\_all.css" />
+    <Content Include="Content\css\ionicons-2.0.1\css\ionicons.css" />
+    <Content Include="Content\css\ionicons-2.0.1\css\ionicons.min.css" />
+    <Content Include="Content\css\ionicons-2.0.1\fonts\ionicons.svg" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\alert-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\alert.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-add-contact.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-add.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-alarm.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-archive.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-back.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-down-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-down-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-forward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-up-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-arrow-up-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-battery.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-book.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-calendar.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-call.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-camera.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-chat.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-checkmark.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-clock.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-close.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-contact.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-contacts.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-data.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-developer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-display.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-download.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-drawer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-dropdown.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-earth.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-folder.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-forums.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-friends.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-hand.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-image.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-inbox.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-information.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-keypad.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-lightbulb.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-locate.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-location.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-mail.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-microphone.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-mixer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-more.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-note.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-playstore.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-printer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-promotion.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-reminder.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-remove.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-search.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-send.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-settings.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-share.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-social-user.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-social.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-sort.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-stair-drawer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-star.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-stopwatch.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-storage.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-system-back.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-system-home.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-system-windows.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-timer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-trash.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-user-menu.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-volume.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\android-wifi.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\aperture.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\archive.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-down-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-down-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-down-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-expand.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-graph-down-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-graph-down-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-graph-up-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-graph-up-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-left-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-left-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-left-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-move.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-resize.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-return-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-return-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-right-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-right-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-right-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-shrink.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-swap.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-up-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-up-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\arrow-up-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\asterisk.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\at.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\bag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\battery-charging.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\battery-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\battery-full.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\battery-half.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\battery-low.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\beaker.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\beer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\bluetooth.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\bonfire.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\bookmark.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\briefcase.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\bug.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\calculator.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\calendar.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\camera.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\card.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\cash.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatbox-working.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatbox.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatboxes.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatbubble-working.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatbubble.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chatbubbles.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\checkmark-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\checkmark-round.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\checkmark.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chevron-down.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chevron-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chevron-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\chevron-up.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\clipboard.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\clock.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\close-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\close-round.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\close.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\closed-captioning.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\cloud.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\code-download.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\code-working.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\code.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\coffee.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\compass.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\compose.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\connection-bars.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\contrast.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\cube.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\disc.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\document-text.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\document.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\drag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\earth.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\edit.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\egg.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\eject.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\email.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\eye-disabled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\eye.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\female.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\filing.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\film-marker.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\fireball.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\flag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\flame.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\flash-off.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\flash.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\flask.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\folder.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\fork-repo.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\fork.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\forward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\funnel.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\game-controller-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\game-controller-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\gear-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\gear-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\grid.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\hammer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\happy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\headphone.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\heart-broken.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\heart.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\help-buoy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\help-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\help.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\home.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\icecream.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\icon-social-google-plus-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\icon-social-google-plus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\image.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\images.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\information-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\information.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ionic.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-alarm-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-alarm.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-albums-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-albums.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-americanfootball-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-americanfootball.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-analytics-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-analytics.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-back.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-down.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-forward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-thin-down.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-thin-left.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-thin-right.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-thin-up.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-arrow-up.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-at-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-at.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-barcode-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-barcode.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-baseball-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-baseball.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-basketball-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-basketball.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bell-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bell.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bolt-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bolt.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bookmarks-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-bookmarks.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-box-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-box.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-briefcase-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-briefcase.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-browsers-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-browsers.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-calculator-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-calculator.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-calendar-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-calendar.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-camera-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-camera.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cart-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cart.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-chatboxes-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-chatboxes.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-chatbubble-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-chatbubble.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-checkmark-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-checkmark-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-checkmark.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-circle-filled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-circle-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-clock-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-clock.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-close-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-close-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-close.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud-download-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud-download.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud-upload-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud-upload.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloud.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloudy-night-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloudy-night.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloudy-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cloudy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cog-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-cog.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-compose-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-compose.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-contact-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-contact.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-copy-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-copy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-download-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-download.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-drag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-email-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-email.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-expand.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-eye-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-eye.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-fastforward-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-fastforward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-filing-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-filing.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-film-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-film.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-flag-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-flag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-folder-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-folder.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-football-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-football.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-gear-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-gear.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-glasses-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-glasses.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-heart-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-heart.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-help-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-help-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-help.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-home-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-home.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-infinite-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-infinite.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-information-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-information-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-information.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-ionic-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-keypad-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-keypad.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-lightbulb-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-lightbulb.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-location-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-location.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-locked-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-locked.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-loop-strong.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-loop.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-medkit-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-medkit.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-mic-off.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-mic-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-mic.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-minus-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-minus-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-minus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-monitor-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-monitor.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-moon-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-moon.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-more-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-more.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-musical-note.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-musical-notes.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-navigate-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-navigate.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paper-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paper.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paperplane-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paperplane.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-partlysunny-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-partlysunny.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pause-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pause.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paw-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-paw.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-people-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-people.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-person-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-person.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-personadd-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-personadd.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-photos-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-photos.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pie-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pie.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-play-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-play.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-plus-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-plus-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-plus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pricetag-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pricetag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pricetags-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pricetags.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-printer-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-printer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pulse-strong.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-pulse.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-rainy-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-rainy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-recording-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-recording.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-redo-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-redo.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-refresh-empty.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-refresh-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-refresh.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-reload.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-reverse-camera-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-reverse-camera.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-rewind-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-rewind.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-search-strong.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-search.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-settings-strong.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-settings.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-shrink.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-skipbackward-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-skipbackward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-skipforward-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-skipforward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-snowy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-speedometer-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-speedometer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-star-half.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-star-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-star.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-stopwatch-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-stopwatch.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-sunny-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-sunny.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-telephone-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-telephone.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-tennisball-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-tennisball.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-thunderstorm-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-thunderstorm.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-time-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-time.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-timer-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-timer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-toggle-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-toggle.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-trash-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-trash.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-undo-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-undo.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-unlocked-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-unlocked.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-upload-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-upload.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-videocam-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-videocam.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-volume-high.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-volume-low.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-wineglass-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-wineglass.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-world-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ios7-world.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ipad.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\iphone.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ipod.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\jet.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\key.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\knife.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\laptop.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\leaf.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\levels.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\lightbulb.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\link.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\load-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\load-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\load-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\load-d.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\location.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\locked.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\log-in.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\log-out.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\loop.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\magnet.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\male.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\man.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\map.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\medkit.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\merge.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\mic-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\mic-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\mic-c.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\minus-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\minus-round.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\minus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\model-s.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\monitor.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\more.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\mouse.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\music-note.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\navicon-round.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\navicon.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\navigate.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\network.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\no-smoking.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\nuclear.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\outlet.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\paper-airplane.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\paperclip.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pause.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\person-add.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\person-stalker.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\person.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pie-graph.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pin.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pinpoint.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pizza.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\plane.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\planet.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\play.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\playstation.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\plus-circled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\plus-round.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\plus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\podium.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pound.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\power.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pricetag.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pricetags.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\printer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\pull-request.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\qr-scanner.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\quote.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\radio-waves.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\record.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\refresh.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\reply-all.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\reply.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ribbon-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\ribbon-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\sad.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\scissors.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\search.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\settings.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\share.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\shuffle.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\skip-backward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\skip-forward.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-android-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-android.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-apple-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-apple.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-bitcoin-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-bitcoin.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-buffer-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-buffer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-designernews-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-designernews.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-dribbble-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-dribbble.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-dropbox-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-dropbox.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-facebook-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-facebook.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-foursquare-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-foursquare.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-freebsd-devil.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-github-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-github.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-google-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-google.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-googleplus-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-googleplus.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-hackernews-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-hackernews.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-instagram-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-instagram.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-linkedin-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-linkedin.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-pinterest-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-pinterest.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-reddit-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-reddit.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-rss-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-rss.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-skype-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-skype.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-tumblr-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-tumblr.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-tux.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-twitter-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-twitter.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-usd-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-usd.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-vimeo-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-vimeo.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-windows-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-windows.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-wordpress-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-wordpress.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-yahoo-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-yahoo.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-youtube-outline.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\social-youtube.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\speakerphone.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\speedometer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\spoon.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\star.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\stats-bars.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\steam.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\stop.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\thermometer.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\thumbsdown.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\thumbsup.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\toggle-filled.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\toggle.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\trash-a.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\trash-b.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\trophy.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\umbrella.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\university.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\unlocked.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\upload.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\usb.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\videocamera.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\volume-high.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\volume-low.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\volume-medium.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\volume-mute.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\wand.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\waterdrop.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\wifi.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\wineglass.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\woman.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\wrench.png" />
+    <Content Include="Content\css\ionicons-2.0.1\png\512\xbox.png" />
+    <Content Include="Content\css\jstree\default-dark\32px.png" />
+    <Content Include="Content\css\jstree\default-dark\40px.png" />
+    <Content Include="Content\css\jstree\default-dark\style.css" />
+    <Content Include="Content\css\jstree\default-dark\style.min.css" />
+    <Content Include="Content\css\jstree\default-dark\throbber.gif" />
+    <Content Include="Content\css\jstree\default\32px.png" />
+    <Content Include="Content\css\jstree\default\40px.png" />
+    <Content Include="Content\css\jstree\default\style.css" />
+    <Content Include="Content\css\jstree\default\style.min.css" />
+    <Content Include="Content\css\jstree\default\throbber.gif" />
+    <Content Include="Content\css\pnotify\pnotify.custom.min.css" />
+    <Content Include="Content\css\select2-4.0.2-rc.1\select2.min.css" />
+    <Content Include="Content\css\select2\select2-bootstrap.css" />
+    <Content Include="Content\css\select2\select2-spinner.gif" />
+    <Content Include="Content\css\select2\select2.css" />
+    <Content Include="Content\css\select2\select2.png" />
+    <Content Include="Content\css\select2\select2x2.png" />
+    <Content Include="Content\css\skins\skin-blue-light.min.css" />
+    <Content Include="Content\css\skins\skin-blue.min.css" />
+    <Content Include="Content\css\skins\_all-skins.min.css" />
+    <Content Include="Content\css\timepicker\bootstrap-timepicker.min.css" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\css\font-awesome.css" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\css\font-awesome.min.css" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\animated.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\bordered-pulled.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\core.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\fixed-width.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\font-awesome.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\icons.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\larger.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\list.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\mixins.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\path.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\rotated-flipped.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\stacked.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\variables.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\font-awesome.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_animated.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_bordered-pulled.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_core.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_fixed-width.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_icons.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_larger.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_list.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_mixins.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_path.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_rotated-flipped.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_stacked.scss" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_variables.scss" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\img\ajax-loader_blue.gif" />
+    <Content Include="Content\img\arrow.png" />
+    <Content Include="Content\img\avatar.png" />
+    <Content Include="Content\img\avatar04.png" />
+    <Content Include="Content\img\avatar2.png" />
+    <Content Include="Content\img\avatar3.png" />
+    <Content Include="Content\img\avatar5.png" />
+    <Content Include="Content\img\boxed-bg.jpg" />
+    <Content Include="Content\img\boxed-bg.png" />
+    <Content Include="Content\img\credit\american-express.png" />
+    <Content Include="Content\img\credit\cirrus.png" />
+    <Content Include="Content\img\credit\mastercard.png" />
+    <Content Include="Content\img\credit\mestro.png" />
+    <Content Include="Content\img\credit\paypal.png" />
+    <Content Include="Content\img\credit\paypal2.png" />
+    <Content Include="Content\img\credit\visa.png" />
+    <Content Include="Content\img\default-50x50.gif" />
+    <Content Include="Content\img\DocImage.png" />
+    <Content Include="Content\img\eis.png" />
+    <Content Include="Content\img\icons.png" />
+    <Content Include="Content\img\marketplace\amazon.png" />
+    <Content Include="Content\img\marketplace\ebay-20.png" />
+    <Content Include="Content\img\marketplace\ebay-32.png" />
+    <Content Include="Content\img\marketplace\eshopo.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\css\Site.css" />
+    <Content Include="Scripts\AdminLTE\app.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\less\404_500_errors.less" />
+    <Content Include="Content\less\AdminLTE.less" />
+    <Content Include="Content\less\alerts.less" />
+    <Content Include="Content\less\bootstrap-social.less" />
+    <Content Include="Content\less\boxes.less" />
+    <Content Include="Content\less\buttons.less" />
+    <Content Include="Content\less\callout.less" />
+    <Content Include="Content\less\carousel.less" />
+    <Content Include="Content\less\control-sidebar.less" />
+    <Content Include="Content\less\core.less" />
+    <Content Include="Content\less\direct-chat.less" />
+    <Content Include="Content\less\dropdown.less" />
+    <Content Include="Content\less\forms.less" />
+    <Content Include="Content\less\fullcalendar.less" />
+    <Content Include="Content\less\header.less" />
+    <Content Include="Content\less\info-box.less" />
+    <Content Include="Content\less\invoice.less" />
+    <Content Include="Content\less\labels.less" />
+    <Content Include="Content\less\lockscreen.less" />
+    <Content Include="Content\less\login_and_register.less" />
+    <Content Include="Content\less\mailbox.less" />
+    <Content Include="Content\less\miscellaneous.less" />
+    <Content Include="Content\less\mixins.less" />
+    <Content Include="Content\less\modal.less" />
+    <Content Include="Content\less\navs.less" />
+    <Content Include="Content\less\print.less" />
+    <Content Include="Content\less\products.less" />
+    <Content Include="Content\less\progress-bars.less" />
+    <Content Include="Content\less\sidebar-mini.less" />
+    <Content Include="Content\less\sidebar.less" />
+    <Content Include="Content\less\small-box.less" />
+    <Content Include="Content\less\table.less" />
+    <Content Include="Content\less\timeline.less" />
+    <Content Include="Content\less\users-list.less" />
+    <Content Include="Content\less\variables.less" />
+    <Content Include="Content\less\skins\skin-blue-light.less" />
+    <Content Include="Content\less\skins\skin-blue.less" />
+    <Content Include="Content\less\skins\_all-skins.less" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\less\screen-reader.less" />
+    <Content Include="Content\fonts\font-awesome-4.6.3\scss\_screen-reader.scss" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\css\ionicons-2.0.1\fonts\ionicons.eot" />
+    <Content Include="Content\css\ionicons-2.0.1\fonts\ionicons.ttf" />
+    <Content Include="Content\css\ionicons-2.0.1\fonts\ionicons.woff" />
+    <Content Include="Content\css\ionicons-2.0.1\less\ionicons.less" />
+    <Content Include="Content\css\ionicons-2.0.1\less\_ionicons-font.less" />
+    <Content Include="Content\css\ionicons-2.0.1\less\_ionicons-icons.less" />
+    <Content Include="Content\css\ionicons-2.0.1\less\_ionicons-variables.less" />
+    <Content Include="Content\css\ionicons-2.0.1\scss\ionicons.scss" />
+    <Content Include="Content\css\ionicons-2.0.1\scss\_ionicons-font.scss" />
+    <Content Include="Content\css\ionicons-2.0.1\scss\_ionicons-icons.scss" />
+    <Content Include="Content\css\ionicons-2.0.1\scss\_ionicons-variables.scss" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\LIVE.pubxml" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\plugins\strinsert\plugin.js" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\readme.md" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\ckeditor.js" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\config.js" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\contents.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\lang\en-gb.js" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\lang\en.js" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\dialog.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\dialog_ie.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\dialog_ie7.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\dialog_ie8.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\dialog_iequirks.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor_gecko.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor_ie.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor_ie7.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor_ie8.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\editor_iequirks.css" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\icons.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\icons_hidpi.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\arrow.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\close.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\hidpi\close.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\hidpi\lock.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\lock-open.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\lock.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\refresh.png" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\skins\moono\images\spinner.gif" />
+    <Content Include="Scripts\ckeditor-4.5.11-standard\styles.js" />
+    <Content Include="Scripts\daterangepicker-0.0.9\daterangepicker.js" />
+    <Content Include="Scripts\daterangepicker-0.0.9\daterangepicker.min.js" />
+    <Content Include="Scripts\fancyBox-2.1.5\helpers\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\fancyBox-2.1.5\helpers\jquery.fancybox-media.js" />
+    <Content Include="Scripts\fancyBox-2.1.5\helpers\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\fancyBox-2.1.5\jquery.fancybox.js" />
+    <Content Include="Scripts\fancyBox-2.1.5\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\history-ajax-pagination.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery.confirm.min.js" />
+    <Content Include="Scripts\jquery.lazyload.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Scripts\jquery.ui.widget.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jstree.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout-bootstrap.js" />
+    <Content Include="Scripts\ko-ui-bindings.js" />
+    <Content Include="Scripts\ko.eis.mainmodel.js" />
+    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\models\billing.js" />
+    <Content Include="Scripts\models\categorymapping.js" />
+    <Content Include="Scripts\models\Customer.js" />
+    <Content Include="Scripts\models\messagetemplate.js" />
+    <Content Include="Scripts\models\ordergroup.js" />
+    <Content Include="Scripts\models\awaitingshipment.js" />
+    <Content Include="Scripts\models\shippinglocation.js" />
+    <Content Include="Scripts\models\shippingrate.js" />
+    <Content Include="Scripts\models\filesetting.js" />
+    <Content Include="Scripts\models\kit.js" />
+    <Content Include="Scripts\models\log.js" />
+    <Content Include="Scripts\models\credential.js" />
+    <Content Include="Scripts\models\order.js" />
+    <Content Include="Scripts\models\product.js" />
+    <Content Include="Scripts\models\productgroup.js" />
+    <Content Include="Scripts\models\producttype.js" />
+    <Content Include="Scripts\models\profitloss.js" />
+    <Content Include="Scripts\models\report.js" />
+    <Content Include="Scripts\models\role.js" />
+    <Content Include="Scripts\models\scheduledtask.js" />
+    <Content Include="Scripts\models\company.js" />
+    <Content Include="Scripts\models\vendor.js" />
+    <Content Include="Scripts\models\vendorproduct.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\plugins\datepicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\plugins\daterangepicker\daterangepicker.js" />
+    <Content Include="Scripts\plugins\daterangepicker\moment.js" />
+    <Content Include="Scripts\plugins\daterangepicker\moment.min.js" />
+    <Content Include="Scripts\plugins\fastclick\fastclick.js" />
+    <Content Include="Scripts\plugins\fastclick\fastclick.min.js" />
+    <Content Include="Scripts\plugins\fileupload\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\plugins\fileupload\jquery.fileupload.js" />
+    <Content Include="Scripts\plugins\fileupload\jquery.iframe-transport.js" />
+    <Content Include="Scripts\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="Scripts\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Scripts\plugins\iCheck\icheck.js" />
+    <Content Include="Scripts\plugins\iCheck\icheck.min.js" />
+    <Content Include="Scripts\plugins\select2\select2.min.js" />
+    <Content Include="Scripts\plugins\slimScroll\jquery.slimscroll.js" />
+    <Content Include="Scripts\plugins\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\pnotify\pnotify.custom.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2-4.0.2-rc.1\select2.full.min.js" />
+    <Content Include="Scripts\select2-4.0.2-rc.1\select2.min.js" />
+    <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
+    <Content Include="Scripts\tinymce\license.txt" />
+    <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\anchor\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\autolink\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\autoresize\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\autosave\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\bbcode\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\charmap\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\codesample\css\prism.css" />
+    <Content Include="Scripts\tinymce\plugins\codesample\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\codesample\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\code\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\colorpicker\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\colorpicker\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\css\dialog.css" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\buttons.png" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\icons.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\items.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\menu_arrow.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\menu_check.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\progress.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\img\tabs.gif" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\tiny_mce_popup.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\utils\editable_selects.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\utils\form_utils.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\utils\mctabs.js" />
+    <Content Include="Scripts\tinymce\plugins\compat3x\utils\validate.js" />
+    <Content Include="Scripts\tinymce\plugins\contextmenu\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\directionality\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-cool.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-cry.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-frown.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-smile.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-wink.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\example\dialog.html" />
+    <Content Include="Scripts\tinymce\plugins\example\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\example\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\example_dependency\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\example_dependency\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\fullpage\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\hr\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\imagetools\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\imagetools\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\image\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\importcss\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\insertdatetime\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\legacyoutput\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\link\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\lists\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\media\moxieplayer.swf" />
+    <Content Include="Scripts\tinymce\plugins\media\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\nonbreaking\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\noneditable\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\pagebreak\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\paste\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\preview\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\print\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\save\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\searchreplace\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\spellchecker\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\tabfocus\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\table\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\template\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\textcolor\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\textpattern\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\textpattern\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\toc\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\toc\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\address.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\article.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\aside.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\blockquote.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\div.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\dl.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\figure.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h1.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h2.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h3.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h4.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h5.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\h6.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\hgroup.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\ol.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\p.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\pre.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\section.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\img\ul.gif" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\visualchars\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="Scripts\tinymce\plugins\wordcount\plugin.js" />
+    <Content Include="Scripts\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Scripts\tinymce\skins\lightgray\content.inline.min.css" />
+    <Content Include="Scripts\tinymce\skins\lightgray\content.min.css" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.svg" />
+    <Content Include="Scripts\tinymce\skins\lightgray\img\anchor.gif" />
+    <Content Include="Scripts\tinymce\skins\lightgray\img\loader.gif" />
+    <Content Include="Scripts\tinymce\skins\lightgray\img\object.gif" />
+    <Content Include="Scripts\tinymce\skins\lightgray\img\trans.gif" />
+    <Content Include="Scripts\tinymce\skins\lightgray\skin.ie7.min.css" />
+    <Content Include="Scripts\tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="Scripts\tinymce\themes\inlite\theme.js" />
+    <Content Include="Scripts\tinymce\themes\inlite\theme.min.js" />
+    <Content Include="Scripts\tinymce\themes\modern\theme.js" />
+    <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
+    <Content Include="Scripts\tinymce\tinymce.js" />
+    <Content Include="Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Manage\CreateRole.cshtml" />
+    <Content Include="Views\Manage\EditRole.cshtml" />
+    <Content Include="Views\Manage\RoleDetails.cshtml" />
+    <Content Include="Views\Manage\Roles.cshtml" />
+    <Content Include="Scripts\ko.editables.js" />
+    <Content Include="Scripts\knockout.mapping-2.4.1.js" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\Create.cshtml" />
+    <Content Include="Views\Product\Edit.cshtml" />
+    <Content Include="Views\Vendor\Create.cshtml" />
+    <Content Include="Views\Vendor\Details.cshtml" />
+    <Content Include="Views\Vendor\Index.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\FileSetting\ProductFiles.cshtml" />
+    <Content Include="Views\FileSetting\InventoryFiles.cshtml" />
+    <Content Include="Views\ProductType\Index.cshtml" />
+    <Content Include="Views\CategoryMapping\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Logs\_LoadPagedRequestReports.cshtml" />
+    <Content Include="Views\Logs\_DataTableRequestReport.cshtml" />
+    <Content Include="Views\Logs\RequestReportList.cshtml" />
+    <Content Include="Views\Logs\_LoadPagedMainLogs.cshtml" />
+    <Content Include="Views\Logs\_DataTableMainLogs.cshtml" />
+    <Content Include="Views\Logs\LogList.cshtml" />
+    <Content Include="Views\Logs\_LoadPagedFileUploader.cshtml" />
+    <Content Include="Views\Logs\_DataTableFileUploader.cshtml" />
+    <Content Include="Views\Logs\FileUploaderList.cshtml" />
+    <Content Include="Views\ScheduledTask\Index.cshtml" />
+    <Content Include="Views\Billing\Index.cshtml" />
+    <Content Include="Views\Billing\_DataTable.cshtml" />
+    <Content Include="Views\Billing\_LoadPagedPurchaseOrders.cshtml" />
+    <Content Include="Views\Product\_Amazon.cshtml" />
+    <Content Include="Views\Product\_Eshopo.cshtml" />
+    <Content Include="Views\Product\_eBay.cshtml" />
+    <Content Include="Views\Product\_Buycom.cshtml" />
+    <Content Include="Views\ScheduledTask\_MarketplaceInventoryDialog.cshtml" />
+    <Content Include="Views\ScheduledTask\_GeneratePODialog.cshtml" />
+    <Content Include="Views\ScheduledTask\_CustomExportOrderDialog.cshtml" />
+    <Content Include="Views\Billing\_PurchaseOrderDialog.cshtml" />
+    <Content Include="Views\Billing\_PurchaseOrderDetailDialog.cshtml" />
+    <Content Include="Views\Order\_OrderDetailsDialog.cshtml" />
+    <Content Include="Views\Order\_ConfirmShipmentDialog.cshtml" />
+    <Content Include="Views\Order\_OrderDialog.cshtml" />
+    <Content Include="Views\Report\DownloadProducts.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Product\_CustomExportDialog.cshtml" />
+    <Content Include="Views\Product\_FileUploadDialog.cshtml" />
+    <Content Include="Views\Product\_FilterDialog.cshtml" />
+    <Content Include="Views\Product\_MarketplaceDialog.cshtml" />
+    <Content Include="Views\ProductGroup\Index.cshtml" />
+    <Content Include="Views\ProductGroup\_FileUploadDialog.cshtml" />
+    <Content Include="Views\ScheduledTask\_VendorProductFileInventoryDialog.cshtml" />
+    <Content Include="Views\Product\_GetProductsInfoDialog.cshtml" />
+    <Content Include="Views\SystemJob\Index.cshtml" />
+    <Content Include="Views\Order\_FilterDialog.cshtml" />
+    <Content Include="Views\Order\_MarkOrderDialog.cshtml" />
+    <Content Include="Views\Vendor\_VendorDialog.cshtml" />
+    <Content Include="Views\Billing\_FilterDialog.cshtml" />
+    <Content Include="Views\Kit\_Kit.cshtml" />
+    <Content Include="Views\Kit\_SelectProductDialog.cshtml" />
+    <Content Include="Views\Kit\_EditKitComponentDialog.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\_CompanyDialog.cshtml" />
+    <Content Include="Views\Report\ProfitAndLossSummary.cshtml" />
+    <Content Include="Views\Credential\Index.cshtml" />
+    <Content Include="Views\Credential\_CredentialDialog.cshtml" />
+    <Content Include="Views\Credential\_AmazonDialog.cshtml" />
+    <Content Include="Views\Credential\_eBayDialog.cshtml" />
+    <Content Include="Views\Credential\_SelectCredentialDialog.cshtml" />
+    <Content Include="Views\Credential\_ShipStationDialog.cshtml" />
+    <Content Include="Views\Product\_eBayCategoryDialog.cshtml" />
+    <Content Include="TemplateFiles\Kit_Upload_Template.csv" />
+    <Content Include="TemplateFiles\Shadow_Upload_Template.csv" />
+    <Content Include="Views\Product\_BigCommerce.cshtml" />
+    <Content Include="Views\Credential\_BigCommerceDialog.cshtml" />
+    <Content Include="TemplateFiles\BlacklistedSKU_Template.csv" />
+    <Content Include="TemplateFiles\EIS_ProductFile_Template.csv" />
+    <Content Include="Views\ShippingRate\Index.cshtml" />
+    <Content Include="Views\ShippingRate\_ShippingRateDialog.cshtml" />
+    <Content Include="Views\Order\_CustomExportDialog.cshtml" />
+    <Content Include="Views\MessageTemplate\Index.cshtml" />
+    <Content Include="Views\MessageTemplate\_PagedMessageTemplates.cshtml" />
+    <Content Include="Views\MessageTemplate\Create.cshtml" />
+    <Content Include="Views\MessageTemplate\Edit.cshtml" />
+    <Content Include="Views\Product\_PagedProducts.cshtml" />
+    <Content Include="Views\Order\_PagedOrders.cshtml" />
+    <Content Include="Views\ShippingRate\_PagedShippingRate.cshtml" />
+    <Content Include="Views\ScheduledTask\_CustomExportProductDialog.cshtml" />
+    <Content Include="Views\VendorProduct\Index.cshtml" />
+    <Content Include="Views\VendorProduct\_PagedVendorProducts.cshtml" />
+    <Content Include="Views\VendorProduct\Create.cshtml" />
+    <Content Include="Views\VendorProduct\Edit.cshtml" />
+    <Content Include="Views\VendorProduct\_FileUploadDialog.cshtml" />
+    <Content Include="Views\SystemJob\_PagedSystemJobs.cshtml" />
+    <Content Include="Views\VendorProduct\_CustomExportDialog.cshtml" />
+    <Content Include="Views\VendorProduct\_ProductLinkDialog.cshtml" />
+    <Content Include="Views\Order\OrderDetails.cshtml" />
+    <Content Include="Views\Company\_PagedCompanies.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Product\_ProductLinkDialog.cshtml" />
+    <Content Include="Views\Order\_ImportMarketplaceOrderDialog.cshtml" />
+    <Content Include="Views\VendorProduct\_FilterDialog.cshtml" />
+    <Content Include="TemplateFiles\EIS_VendorProductFile_Template.csv" />
+    <Content Include="Views\Manage\Groups.cshtml" />
+    <Content Include="Views\Manage\CreateGroup.cshtml" />
+    <Content Include="Views\Manage\EditGroup.cshtml" />
+    <Content Include="Views\Manage\_PagedRoles.cshtml" />
+    <Content Include="Views\Manage\_PagedGroups.cshtml" />
+    <Content Include="Views\Manage\Users.cshtml" />
+    <Content Include="Views\Manage\_PagedUsers.cshtml" />
+    <Content Include="Views\Manage\CreateUser.cshtml" />
+    <Content Include="Views\Manage\EditUser.cshtml" />
+    <Content Include="Views\Account\MyProfile.cshtml" />
+    <Content Include="Views\Account\AccessDenied.cshtml" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.json" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.json" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
+    <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
+    <Content Include="Scripts\tinymce\langs\readme.md" />
+    <Content Include="Views\OrderGroup\Index.cshtml" />
+    <Content Include="Views\OrderGroup\_OrderGroupDialog.cshtml" />
+    <Content Include="Views\OrderGroup\_LoadPagedOrderGroups.cshtml" />
+    <Content Include="Views\OrderGroup\_Datatable.cshtml" />
+    <Content Include="Views\OrderGroup\_FileUploadDialog.cshtml" />
+    <Content Include="Views\Report\UPCSearch.cshtml" />
+    <Content Include="Views\Order\_OrderItemDialog.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Shipping\AwaitingShipment.cshtml" />
+    <Content Include="Views\Shipping\_PagedAwaitingShipments.cshtml" />
+    <Content Include="Scripts\sticky-kit1.1.3.min.js" />
+    <Content Include="Views\Shipping\ShippingLocation.cshtml" />
+    <Content Include="Views\Product\_BigCommerceCategoryDialog.cshtml" />
+    <Content Include="Views\Shipping\_PagedShippingLocations.cshtml" />
+    <Content Include="Views\Shipping\_ShippingLocationDialog.cshtml" />
+    <Content Include="Views\ProductGroup\_PagedProductGroups.cshtml" />
+    <Content Include="Views\ProductGroup\_ProductGroupDetailDialog.cshtml" />
+    <Content Include="Views\Shipping\_RateCalculatorDialog.cshtml" />
+    <Content Include="Views\SystemEmail\Index.cshtml" />
+    <Content Include="Views\SystemEmail\_PagedSystemEmails.cshtml" />
+    <Content Include="Views\SystemEmail\Create.cshtml" />
+    <Content Include="Views\SystemEmail\Edit.cshtml" />
+    <Content Include="Views\ShippingRate\_FileUploadDialog.cshtml" />
+    <Content Include="TemplateFiles\EIS_VendorInventoryFile_Template.csv" />
+    <Content Include="TemplateFiles\ShippingRate_Template.csv" />
+    <Content Include="Views\ScheduledTask\_CustomImportOrderDialog.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\_PagedCustomers.cshtml" />
+    <Content Include="Views\Customer\_FilterDialog.cshtml" />
+    <Content Include="Views\Customer\_GeneralInformation.cshtml" />
+    <Content Include="Views\Customer\_Notes.cshtml" />
+    <Content Include="Views\Customer\_NotesDialog.cshtml" />
+    <Content Include="Views\Customer\_Address.cshtml" />
+    <Content Include="Views\Customer\_AddressDialog.cshtml" />
+    <Content Include="Views\Customer\_WholeSalePrice.cshtml" />
+    <Content Include="TemplateFiles\Customer_WholeSalePrice_EisSkuTemplate.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Scripts\tinymce\plugins\layer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EIS.Inventory.Shared\EIS.Inventory.Shared.csproj">
+      <Project>{220f7f6d-780c-407e-852e-dadde688a243}</Project>
+      <Name>EIS.Inventory.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\BigCommerceClientLibraries\BigCommerce4Net.Domain\BigCommerce4Net.Domain.csproj">
+      <Project>{0a8b96c4-4fbe-4772-84aa-0b3d023f2e21}</Project>
+      <Name>BigCommerce4Net.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MySql.AspNet.Identity\MySql.AspNet.Identity.csproj">
+      <Project>{ec3add94-5e1d-4a5f-be06-788ac6c0e252}</Project>
+      <Name>MySql.AspNet.Identity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Inventory.Core\EIS.Inventory.Core.csproj">
+      <Project>{5ed5699d-e3cb-4949-b7a2-7baf822c5ec1}</Project>
+      <Name>EIS.Inventory.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\knockout-select2.min.js" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>43079</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:43079/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

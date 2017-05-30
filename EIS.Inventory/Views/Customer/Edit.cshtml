@@ -1,0 +1,580 @@
+﻿@model EIS.Inventory.Core.ViewModels.MainCustomerDto
+
+@{
+    ViewBag.Title = "Edit Customer";
+    ViewBag.ActiveMenu = "customer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Customer Information <small>Edit customer</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                <a href="@Html.Raw(Url.Action("index"))" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+            </div>
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                @if (ViewBag.Message != null)
+                {
+                    <div id="msgStatus" class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
+                @Html.ValidationMessage("Error", new { @class = "bg-red" })
+                <div class="alert" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Edit Customer</h3>
+                    </div>
+                    <div id="tab">
+                        <ul class="ui-tab" role="tablist">
+                            <li role="tab">
+                                <a href="#tab1" data-bind="click: showBlock, css: { 'active': selected() == 'tab1' || init() == 1 }">
+                                    General Information
+                                </a>
+                            </li>
+                            <li role="tab">
+                                <a href="#tab2" data-bind="click: showBlock, css: { 'active': selected() == 'tab2' }">
+                                    Orders
+                                </a>
+                            </li>
+                            <li role="tab">
+                                <a href="#tab3" data-bind="click: showBlock, css: { 'active': selected() == 'tab3' }">
+                                    Addresses
+                                </a>
+                            </li>
+                            <li role="tab">
+                                <a href="#tab4" data-bind="click: showBlock, css: { 'active': selected() == 'tab4' }">
+                                    Wholesale Prices
+                                </a>
+                            </li>
+                            <li role="tab">
+                                <a href="#tab5" data-bind="click: showBlock, css: { 'active': selected() == 'tab5' }">
+                                    Notes
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="ui-tabpanel" role="tabpanel" data-bind="visible: selected() == 'tab1' || init() == 1">
+                            @Html.Partial("_GeneralInformation",Model.customerModel)
+                        </div>
+                        <div class="ui-tabpanel" role="tabpanel" data-bind="visible: selected() == 'tab2'">
+                            <p>
+                                TabPanel2 Tab Panel2 Tab Panel2 Tab Panel2 Tab Panel2
+                            </p>
+                        </div>
+                        <div class="ui-tabpanel" role="tabpanel" data-bind="visible: selected() == 'tab3'">
+                            <p>
+                                @Html.Partial("_Address", Model.customerAddressModel)
+                            </p>
+                        </div>
+                        <div class="ui-tabpanel" role="tabpanel" data-bind="visible: selected() == 'tab4'">
+                           @Html.Partial("_WholeSalePrice", Model.customerWholeSaleModel)
+                        </div>
+                        <div class="ui-tabpanel" role="tabpanel" data-bind="visible: selected() == 'tab5'">
+                            @Html.Partial("_Notes", Model.customerNotesModel)
+                        </div>
+                    </div>
+                </div><!-- /.box -->
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header  with-border">
+                                <h3 class="box-title">Documents</h3>
+                                <div class="box-tools">
+                                    <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" id="product-images">
+                                <div class="row">
+                                    <div class="col-md-12 margin-bottom">
+                                        <button class="btn btn-sm bg-olive" data-toggle="modal" data-target="#UploadImageDialog" data-id="-1">Add File</button>
+                                    </div>
+                                </div>
+
+                                <!-- ko if: images().length != 0 -->
+                                <div class="row" data-bind="foreach: images">
+                                    <div class="col-md-12 thumb">
+                                        <div class="thumbnail product-images">
+                                            <a class="fancy-images" data-bind="attr: { href: Url, title: Caption }" target="_blank">
+                                                <img class="img-responsive" src="/Content/img/DocImage.png" alt="" style="height:175px;">
+                                                @*<img class="img-responsive" data-bind="attr: { src: Url }" alt="" >*@
+                                            </a>
+
+                                            <div class="image-buttons">
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#UploadImageDialog" data-bind="attr: { 'data-id': Id }">Change</button>
+                                                <button class="btn btn-danger btn-xs" data-bind="attr: { 'data-id': Id }, click: $parent.deleteImage">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <p data-bind="visible: images().length == 0" style="display:none;">
+                                    No documents available.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+    
+#tab {
+	width: 100%;margin: 0;padding: 0;
+}
+
+.ui-tab {
+	list-style: none;
+	text-align: center;margin: 0;padding: 0;
+}
+.ui-tab li {
+	display: inline-block;
+	
+	text-align: center;
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border-radius: 5px 5px 0 0;
+}
+
+.ui-tab li a {
+	text-decoration: none;
+	display: block;
+	color: #000;
+	padding: 6px 10px 5px;
+}
+
+.ui-tabpanel {
+	border: 1px solid #999;
+	min-height: 200px;
+	padding: 10px;
+}
+.active {
+	padding: 10px 10px 5px !important;
+	border-bottom: 1px solid #fff;
+	margin: 0 0 -1px;
+}
+</style>
+<div style="display:none;" class="modal fade" id="UploadImageDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal_title">Upload File</h4>
+            </div>
+            <div class="modal-body dropzone">
+                <div class="form-horizontal">
+                    <input type="hidden" id="ImageId" name="ImageId" value="-1" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="ImageCaption">Caption</label>
+                        <div class="col-xs-10">
+                            <input id="ImageCaption" name="ImageCaption" type="text" class="form-control" placeholder="Enter image caption" />
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2" for="txtImageUrl">Url</label>
+                        <div class="col-xs-10">
+                            <input id="txtImageUrl" name="txtImageUrl" type="text" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2"></label>
+                        <div class="col-xs-10">
+                            <img id="ImageUrl" class="img-responsive" style="max-width: 215px;display:none;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <span class="btn btn-sm btn-success fileinput-button" id="fileupload">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Select file...</span>
+                                <input type="file" name="files[]" id="fileuploadField">
+                            </span>
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="table no-margin" id="tblFiles">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="progress active no-margin">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                            </div>
+                            <div class="no-margin text-muted" id="uploadStatus"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnStartUpload" type="button" class="btn btn-primary">Upload File</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe id="download_frame" style="display:none"></iframe>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fancyBox-2.1.5/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/fancyBox-2.1.5/jquery.fancybox.pack.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/css/timepicker/bootstrap-timepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/timepicker/bootstrap-timepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/customer.js")" type="text/javascript"></script>
+    
+
+    <script>
+        var jqXHRData = null;
+        var GET_CUSTOMER_FILES_URL = "@Html.Raw(Url.Action("_GetCustomerFiles"))";
+        var GET_CUSTOMER_FILE_URL = "@Html.Raw(Url.Action("_GetCustomerFile"))";
+        var DELETE_CUSTOMER_FILE_URL = "@Html.Raw(Url.Action("_DeleteCustomerFile"))";
+
+        var GET_CUSTOMER_NOTES_URL = "@Html.Raw(Url.Action("_GetCustomerNotes"))";
+        var DELETE_CUSTOMER_NOTES_URL = "@Html.Raw(Url.Action("_DeleteCustomerNotes"))";
+
+        var GET_CUSTOMER_ADDRESS_URL = "@Html.Raw(Url.Action("_GetCustomerAddress"))";
+        var DELETE_CUSTOMER_ADDRESS_URL= "@Html.Raw(Url.Action("_DeleteCustomerAddress"))";
+
+        var GET_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_getscheduledtask"))"
+        var GET_SCHEDULED_TASKS_URL = "@Html.Raw(Url.Action("_getscheduledtasks"))"
+        var SAVE_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_SaveScheduledTask"))"
+        var DELETE_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_deletescheduledtask"))"
+        var GET_TASK_EXPORTED_FILES_URL = "@Html.Raw(Url.Action("_gettaskexportedfiles"))"
+        var DOWNLOAD_EXPORTED_FILE_URL = "@Html.Raw(Url.Action("downloadexportedfile"))"
+        var EXECUTE_TASK_NOW_URL = "@Html.Raw(Url.Action("executescheduledtasknow"))"
+        var SAVE_SCHEDULED_FILE_TASK_URL = "@Html.Raw(Url.Action("_SaveCustomerTaskFile"))"
+
+        var CHECK_FTP_CONNECTION = "@Html.Raw(Url.Action("_CheckFtpConnection", "home"))"
+        var CHECK_FILE_FROM_FTP = "@Html.Raw(Url.Action("_CheckFileFromFtp", "home"))"
+
+        var GET_FILE_TEMPLATE_URL = "@Html.Raw(Url.Action("GetFileTemplate", "home"))"
+
+        var GET_CUSTOMER_WHOLESALEPRICE_HISTORY = "@Html.Raw(Url.Action("_GetCustomerWholeSalePriceHistory"))"
+
+        var viewModel = new ViewModel();
+        var customerId = '@Model.customerModel.CustomerId';
+
+
+        var accountTypeId = '@Model.customerModel.SelectedAccountType';
+        $(document).ready(function () {
+
+            ko.applyBindings(viewModel, document.getElementById("product-images"));
+            viewModel.loadImages(customerId);
+
+            viewModel.loadScheduleTasks();
+
+
+            ko.applyBindings(viewModel, document.getElementById("tab"));
+
+            ShowHidePriceAttr(accountTypeId);
+            fadeOutMessage();
+
+            $(".fancy-images").fancybox();
+
+            // set action for showing the Upload Image Dialog
+            $("#UploadImageDialog").on('show.bs.modal', function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                if (modelId === undefined || modelId == -1) {
+                    $("#ImageId").val(-1);
+                    $("#modal_title").text("Upload New File");
+                    return true;
+                }
+
+                $("#modal_title").text("Change File");
+                $.ajax({
+                    url: GET_CUSTOMER_FILE_URL,
+                    data: { id: modelId },
+                    success: function (result) {
+                        $("#ImageId").val(result.Id);
+                        $("#ImageCaption").val(result.Caption);
+                        $("#ImageUrl").attr("src", result.Url);
+                        $("#txtImageUrl").val(result.Url);
+                        $(".image_div").show();
+                    }
+                });
+            });
+
+
+            $("#NotesDialog").on('show.bs.modal', function (event) {
+
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                if (modelId === undefined || modelId == -1) {
+                    $("#CustomerNotesId").val(-1);
+                    $("#NotesTitle").val("");
+                    $("#Notes").val("");
+                    return true;
+                }
+
+                $.ajax({
+                    url: GET_CUSTOMER_NOTES_URL,
+                    data: { id: modelId },
+                    success: function (result) {
+
+                        $("#NotesCustomerId").val(result.CustomerId);
+                        $("#CustomerNotesId").val(result.CustomerNotesId);
+                        $("#NotesTitle").val(result.NotesTitle);
+                        $("#Notes").val(result.Notes);
+                    }
+                });
+            });
+
+            $("#AddressDialog").on('show.bs.modal', function (event) {
+
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                if (modelId === undefined || modelId == -1) {
+                    $("#CustomerAddressID").val(-1);
+                    $("#Recipient").val("");
+                    $("#Company").val("");
+                    $("#AddressLine1").val("");
+                    $("#AddressLine2").val("");
+                    $("#SelectedCountryId").val("");
+                    $("#State").val("");
+                    $("#City").val("");
+                    $("#ZipCode").val("");
+                    $("#Phone").val("");
+                    $("#customerEmailAddress").val("");
+                    $("input[type='checkbox']#IsPrimary").iCheck("uncheck");
+                    return true;
+                }
+
+                $.ajax({
+                    url: GET_CUSTOMER_ADDRESS_URL,
+                    data: { id: modelId },
+                    success: function (result) {
+
+                        $("#AddressCustomerId").val(result.CustomerId);
+                        $("#CustomerAddressID").val(modelId);
+                        $("#Recipient").val(result.Recipient);
+                        $("#Company").val(result.Company);
+                        $("#AddressLine1").val(result.AddressLine1);
+                        $("#AddressLine2").val(result.AddressLine2);
+                        $("#SelectedCountryId").val(result.Country);
+                        $("#State").val(result.State);
+                        $("#City").val(result.City);
+                        $("#ZipCode").val(result.ZipCode);
+                        $("#Phone").val(result.Phone);
+                        $("#customerEmailAddress").val(result.EmailAddress);
+                        if (result.IsPrimary) {
+                            $("input[type='checkbox']#IsPrimary").iCheck("check");
+                        }
+                        else {
+                            $("input[type='checkbox']#IsPrimary").iCheck("uncheck");
+                        }
+
+                    }
+                });
+            });
+            // init the scripts for the Image Upload
+            $('#fileupload').fileupload({
+                url: "@Url.Action("_SaveCustomerFile")",
+                dataType: 'json',
+                dropZone: $(".dropzone"),
+                maxNumberOfFiles: 1,
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('div.progress .progress-bar').css('width', progress + '%');
+                },
+                add: function (e, data) {
+                    var acceptFileTypes = ["pdf", "xls", "xlsx", "doc", "docx", "csv", "txt"];
+                    var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                    var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                    if (isValidFile) {
+                        $("#uploadStatus").html("");
+                        jqXHRData = data;
+                        $.each(data.files, function (index, file) {
+                            var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                            $("#tblFiles tbody").html(rowHtml);
+                        });
+                    } else {
+                        $("#uploadStatus").html("<p style='color: red;'> Unsupported file extension: " + addedFileExtension.toUpperCase() + "</p>")
+                    }
+                },
+                start: function (e, data) {
+                    $("#uploadStatus").html("Processing file...")
+                },
+                submit: function (e, data) {
+                    var id = $("#ImageId").val();
+                    var caption = $("#ImageCaption").val();
+                    var eisSku = $("#CustomerId").val();
+                    data.formData = { Id: id, Caption: caption, ParentId: eisSku, customerId: eisSku };
+                    console.log(data.formData);
+                },
+                done: function (e, data) {
+                    if (data.result.isUploaded) {
+                        $("#uploadStatus").html(data.result.message)
+                        setTimeout("$('#UploadImageDialog').modal('hide');", 1000);
+                        location.reload();
+                    } else {
+                        $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                        $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                    }
+                },
+                fail: function (event, data) {
+                    $("#uploadStatus").html("");
+                    $.each(data.messages, function (index, error) {
+                        $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                            .appendTo('#uploadStatus');
+                    });
+                }
+            });
+
+            $("#btnStartUpload").on("click", function () {
+
+                if (jqXHRData == null || jqXHRData.files.length == 0) {
+                    $("#uploadStatus").html("<p style='color: red;'>Please select image to upload!</p>")
+                    return false;
+                }
+
+                jqXHRData.submit();
+            });
+
+            // do some clean-ups when modal is closing
+            $('#UploadImageDialog').on('hidden.bs.modal', function () {
+                $("div.progress .progress-bar").removeClass("progress-bar-danger");
+                $('div.progress .progress-bar').css('width', '0%');
+                $("#tblFiles > tbody").html("");
+                $("#uploadStatus").html("")
+                $(".image_div").hide();
+                jqXHRData = null;
+            })
+
+            $("#IsPrimary").change(function () {
+                $("#IsPrimary").val($("#IsPrimary").prop("checked"));
+            })
+            $("input[type='checkbox']#IsPrimary").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+            $("input[type='checkbox']#IsPrimary").iCheck("uncheck");
+
+            $("#ExportedFilesDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var taskId = element.data("id");
+                var taskType = element.data("task-type");
+                viewModel.modalTitle("Exported Files for " + element.data("task-name"));
+                viewModel.loadTaskExportedFiles(taskId, taskType);
+            })
+
+            // register some events when modal dialog is showing
+            $("#TaskDialog").on("shown.bs.modal", function (event) {
+
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                var taskType = "CustomerExportSku";
+
+                viewModel.selectedTaskType(taskType);
+
+                viewModel.modalTitle(element.data("title"));
+                viewModel.loadModel(modelId);
+            })
+
+            $('.modal').on('hidden.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.scheduledTask(null);
+                viewModel.loadScheduleTasks();
+            })
+        });
+
+        function ShowHidePriceAttr(_accountTypeId) {
+            if (_accountTypeId == 1) {
+                $("#divWholesalePriceAttr").show();
+            }
+            else {
+                $("#divWholesalePriceAttr").hide();
+                $("#SelectedCostPlusBasedWholeSalePriceType").val("");
+                $("#CostPlusBasedWholeSalePrice").val("");
+            }
+        }
+
+        function deleteCustomerNote(source, id, name) {
+            $.confirm({
+                title: "Delete Customer Notes",
+                text: "Are you sure you want to delete customer note: <strong> " + name + "</strong>",
+                cancel: function () {
+                    return false;
+                },
+                confirm: function () {
+                    $.post(DELETE_CUSTOMER_NOTES_URL, { id: id }, function (result) {
+
+                        if (result) {
+
+                            $(source).parent().parent().fadeOut();
+                            $("#trnotes" + id).remove();
+                            displayMessage("Notes deleted successfully !", "success");
+
+                            fadeOutMessage();
+                        }
+
+                    });
+
+                },
+                confirmButton: "Yes, I am",
+                confirmButtonClass: "btn-warning"
+            });
+
+            return false;
+        }
+
+        function deleteCustomerAddress(source, id, name) {
+            $.confirm({
+                title: "Delete Customer Address",
+                text: "Are you sure you want to delete customer address: <strong> " + name + "</strong>",
+                cancel: function () {
+                    return false;
+                },
+                confirm: function () {
+                    $.post(DELETE_CUSTOMER_ADDRESS_URL, { id: id }, function (result) {
+
+                        if (result) {
+
+                            $(source).parent().parent().fadeOut();
+                            $("#traddress" + id).remove();
+                            displayMessage("Address deleted successfully !", "success");
+
+                            fadeOutMessage();
+                        }
+
+                    });
+
+                },
+                confirmButton: "Yes, I am",
+                confirmButtonClass: "btn-warning"
+            });
+
+            return false;
+        }
+
+        function loadPagedDataComplete() { }
+    </script>
+}

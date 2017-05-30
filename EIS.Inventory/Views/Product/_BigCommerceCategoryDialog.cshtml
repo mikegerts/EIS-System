@@ -1,0 +1,53 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="BigCommerceCategoryDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: BigCommerceCategoryModel">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select BigCommerce Category</h4>
+            </div>
+
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModalBigCommerce" class="loading-gif "></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="form-group">
+                    <label class="control-label" for="BigCommerceKeyword">Enter keyword/UPC to get categories suggestions</label>
+                    <div class="form-horizontal">
+                        <div class="form-group no-margin">
+                            <div class="col-md-9" style="padding-left:0;">
+                                <input class="form-control" id="BigCommerceKeyword" name="BigCommerceKeyword" placeholder="Enter keyword/UPC" data-bind="value: keyword" />
+                            </div>
+                            <a class="btn btn-info col-md-3" href="#findcategories" data-bind="click: findCategoryClicked">Find Categories</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="SuggestedBigCommerceCategory">Suggested Categories:</label>
+                    <select class="form-control" id="SuggestedBigCommerceCategory" 
+                            name="SuggestedBigCommerceCategory" 
+                            data-bind="options: categories, 
+                                        optionsText: function(item) { 
+                                            return item.Id() + ' - ' + item.Name()
+                                        }, 
+                                        optionsValue: 'Id', value: selectedCategory"></select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnDownloadBigCommerceCategory" type="button" class="btn btn-success pull-left" data-bind="click: downloadReportCategoriesClicked" data-dismiss="modal">Download Categories Report</button>
+                <button id="btnSelectBigCommerceCategory" type="button" class="btn btn-primary" data-bind="click: useSelectedCategoryClicked" data-dismiss="modal">Use Selected Category</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+
+            @using (Html.BeginForm("exportbigcommercecategoriesreport", "product", FormMethod.Post, new { @role = "form", @id = "bigCommerceCategoryForm", @hidden = "hidden" }))
+            {
+                <button type="button" id="btnBigCommerceExportCategories" class="btn btn-primary" data-bind="click: downloadReportCategoriesClicked">Start Export</button>
+            }
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

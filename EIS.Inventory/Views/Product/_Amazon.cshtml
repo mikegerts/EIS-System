@@ -1,0 +1,225 @@
+﻿@model EIS.Inventory.Core.ViewModels.ProductAmazonDto
+
+<div class="row">
+    <div id="" class="col-md-12">
+
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">Amazon Product Details</h3>
+
+                <span id="spnViewOnAmazon" class="pull-right">
+                    @if (!string.IsNullOrEmpty(Model.ASIN))
+                    {
+                        <a href="http://www.amazon.com/dp/@Model.ASIN" class="btn btn-sm btn-info btn-flat" target="_blank">View on Amazon</a>
+                    }
+                </span>
+            </div>
+
+            @using (Html.BeginForm("updateamazonproduct", "product", new { id = ViewBag.EisSKU }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="box-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <input type="hidden" id="EisSKU" name="EisSKU" value="@ViewBag.EisSKU" />
+                        @Html.HiddenFor(model => model.ProductGroup)
+                        @Html.HiddenFor(model => model.ProductTypeName)
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="IsEnabled">Is Enabled</label>
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.IsEnabled)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ProductTitle">Product Title</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ProductTitle, new { htmlAttributes = new { @class = "form-control", @required = "required", @placeholder = "Enter product title" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ASIN">ASIN</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ASIN, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter ASIN" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Price">Price</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = ".01", @placeholder = "Enter Amazon price", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="LeadtimeShip">Leadtime Ship</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.LeadtimeShip, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter leadtime ship" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="SafetyQty">Safety Qty</label>
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.SafetyQty, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Safe Quantity", @id = "safetyQtyInput" } })
+                            </div>
+                            <input id="ovverideCheckBox" type="checkbox" name="safetyQty" value="safetyQty">Override Safety Qty<br>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="PackageQty">Package Qty</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.PackageQty, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter package  quantity", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="NumOfItems">Num Of Items</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.NumOfItems, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter number of items", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="MaxOrderQty">Max Order Qty</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.MaxOrderQty, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Enter max order quantity", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="MapPrice">MAP Price</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.MapPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = ".01", @placeholder = "Enter MAP price", onfocus = "rateFieldOnFocus(this)" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="IsAllowGiftWrap">Allow Gift Wrap</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.IsAllowGiftWrap)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="IsAllowGiftMsg">Allow Gift Msg</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.IsAllowGiftMsg)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="TaxCode">Tax Code </label>
+                            <div class="col-md-9">
+                                <select name="TaxCode" class="form-control" required="required">
+                                    <option value="A_GEN_NOTAX" @(Model.TaxCode == "A_GEN_NOTAX" ? "selected" : "")>A_GEN_NOTAX </option>
+                                    <option value="A_GEN_TAX" @(Model.TaxCode == "A_GEN_TAX" ? "selected" : "")>A_GEN_TAX </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="Condition">Condition</label>
+                            <div class="col-md-9">
+                                <select id="Condition" name="Condition" class="form-control" required="required">
+                                    <option value="New" @(Model.Condition == "New" ? "selected" : "")>New</option>
+                                    <option value="Used" @(Model.Condition == "Used" ? "selected" : "")>Used</option>
+                                    <option value="Collectible" @(Model.Condition == "Collectible" ? "selected" : "")>Collectible</option>
+                                    <option value="Refurbished" @(Model.Condition == "Refurbished" ? "selected" : "")>Refurbished</option>
+                                    <option value="Club" @(Model.Condition == "Club" ? "selected" : "")>Club</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="ConditionNote">Condition Note</label>
+                            <div class="col-md-9">
+                                @Html.TextAreaFor(model => model.ConditionNote, new { @class = "form-control", @placeholder = "Enter condition notes" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="FulfilledBy">Fulfilled By</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.FulfilledBy, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter fulfilled by" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="FbaSKU">FBA SKU</label>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.FbaSKU, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter FBA SKU" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="WeightBox1">Weight</label>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-3 no-margin">
+                                        <label class="sr-only" for="WeightBox1">1st Box Weight</label>
+                                        @Html.EditorFor(model => model.WeightBox1, new { htmlAttributes = new { @class = "form-control", @step = ".01", @placeholder = "1st Box Weight", type = "number", title = "1st Box Weight" } })
+                                    </div>
+                                    <div class="col-md-3 no-margin">
+                                        <label class="sr-only" for="WeightBox1Unit">WeightBox1Unit</label>
+                                        <select class="form-control" id="WeightBox1Unit" name="WeightBox1Unit">
+                                            <option value="">-- select --</option>
+                                            <option value="ounces" @(Model.WeightBox1Unit == "ounces" ? "selected" : "")>ounces</option>
+                                            <option value="pounds" @(Model.WeightBox1Unit == "pounds" ? "selected" : "")>pounds</option>
+                                            <option value="grams" @(Model.WeightBox1Unit == "grams" ? "selected" : "")>grams</option>
+                                            <option value="kilograms" @(Model.WeightBox1Unit == "kilograms" ? "selected" : "")>kilograms</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 no-margin">
+                                        <label class="sr-only" for="WeightBox2">WeightBox2</label>
+                                        @Html.EditorFor(model => model.WeightBox2, new { htmlAttributes = new { @class = "form-control", @step = ".01", @placeholder = "2nd Box Weight", type = "number", title = "2nd Box Weight" } })
+                                    </div>
+                                    <div class="col-md-3 no-margin">
+                                        <label class="sr-only" for="WeightBox2Unit">WeightBox2Unit</label>
+                                        <select class="form-control" id="WeightBox2Unit" name="WeightBox2Unit">
+                                            <option value="">-- select --</option>
+                                            <option value="ounces" @(Model.WeightBox2Unit == "ounces" ? "selected" : "")>ounces</option>
+                                            <option value="pounds" @(Model.WeightBox2Unit == "pounds" ? "selected" : "")>pounds</option>
+                                            <option value="grams" @(Model.WeightBox2Unit == "grams" ? "selected" : "")>grams</option>
+                                            <option value="kilograms" @(Model.WeightBox2Unit == "kilograms" ? "selected" : "")>kilograms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9 no-padding">
+                            <button id="btn-Save" class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save changes">Save Changes</button>&nbsp;
+                            @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to products list" })
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/fancyBox-2.1.5/jquery.fancybox.pack.js")" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#ovverideCheckBox").on("click", function () {
+            var check = $("#ovverideCheckBox").is(":checked");
+            if (check) {
+                $("#safetyQtyInput").attr('readonly', false)
+            } else {
+                $("#safetyQtyInput").attr('readonly', true)
+            }
+        });
+    });
+</script>

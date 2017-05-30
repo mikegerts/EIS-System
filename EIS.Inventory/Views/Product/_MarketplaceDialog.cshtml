@@ -1,0 +1,75 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="MarketplaceDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: marketplaceFeed">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: modalTitle"></h4>
+            </div>
+            <form role="form" id="marketplaceFeedForm" class="form" method="post" data-bind="attr: {action: feedUrl }">
+                <div class="modal-body" id="marketplace-feed-form">
+                    <div>
+                        <div class="alertMsgStatus" data-bind="visible: $parent.message(), alert: { message: $parent.message, type: $parent.type, template: 'alertTemplate' }"></div>
+                        <p class="text-light-blue" data-bind="text: modalInfoMsg"></p>
+                        <input type="hidden" data-bind="value: ExcludedEisSKUs" />
+                        <input type="hidden" data-bind="value: SelectedEisSKUs" />
+                        <input type="hidden" name="IsAllProductItems" data-bind="value: IsAllProductItems" />
+                        <input type="hidden" name="VendorId" data-bind="value: VendorId" />
+                        <input type="hidden" name="CompanyId" data-bind="value: CompanyId" />
+                        <input type="hidden" name="SearchString" data-bind="value: SearchString" />
+                        <input type="hidden" name="QuantityFrom" data-bind="value: QuantityFrom" />
+                        <input type="hidden" name="QuantityTo" data-bind="value: QuantityTo" />
+                        <input type="hidden" name="IsKit" data-bind="value: IsKit" />
+                        <input type="hidden" name="SkuType" data-bind="value: SkuType" />
+                        <input type="hidden" name="IsAmazonEnabled" data-bind="value: IsAmazonEnabled" />
+                        <input type="hidden" name="HasASIN" data-bind="value: HasASIN" />
+
+                        <div class="form-group">
+                            <label>
+                                <input type="radio" name="marketplaceMode" class="marketplaceModes" value="TEST" checked data-bind="click: toggleMarketplaceMode" />                            
+                                &nbsp;TEST
+                            </label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="marketplaceMode" class="marketplaceModes" value="LIVE" data-bind="click: toggleMarketplaceMode" />                            
+                                &nbsp;LIVE
+                            </label>
+                            <input name="Mode" type="hidden" data-bind="value: Mode" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Company">Select Company</label>
+                            <div id="companies" class="well well-sm no-padding" data-bind="foreach: $parent.companies, attr: {'data-value': Companies}" required="required">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" class="company" />
+                                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input name="Companies" type="hidden" data-bind="value: Companies" />
+                        </div>
+                        <div class="form-group" data-bind="visible: !isForeBayOnly()">
+                            <label for="Marketplaces">Select Marketplaces</label>
+                            <div id="marketplaces" class="well well-sm no-padding" data-bind="foreach: $parent.marketplaces, attr: {'data-value': Marketplaces}" required="required">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Name" class="marketplace" />
+                                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input name="Marketplaces" type="hidden" data-bind="value: Marketplaces" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button id="btnSubmitFeed" type="button" class="btn btn-warning" data-bind="click: submitMarketplaceFeed, enable: hasRecordsSelected">Submit Feed</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{81157DDA-1FE8-4A88-9E78-5356C82D1AA8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eBay.Service</RootNamespace>
+    <AssemblyName>eBay.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Call\AddDisputeCall.cs" />
+    <Compile Include="Call\AddDisputeResponseCall.cs" />
+    <Compile Include="Call\AddFixedPriceItemCall.cs" />
+    <Compile Include="Call\AddItemCall.cs" />
+    <Compile Include="Call\AddItemFromSellingManagerTemplateCall.cs" />
+    <Compile Include="Call\AddItemsCall.cs" />
+    <Compile Include="Call\AddMemberMessageAAQToPartnerCall.cs" />
+    <Compile Include="Call\AddMemberMessageRTQCall.cs" />
+    <Compile Include="Call\AddMemberMessagesAAQToBidderCall.cs" />
+    <Compile Include="Call\AddOrderCall.cs" />
+    <Compile Include="Call\AddSecondChanceItemCall.cs" />
+    <Compile Include="Call\AddSellingManagerInventoryFolderCall.cs" />
+    <Compile Include="Call\AddSellingManagerProductCall.cs" />
+    <Compile Include="Call\AddSellingManagerTemplateCall.cs" />
+    <Compile Include="Call\AddToItemDescriptionCall.cs" />
+    <Compile Include="Call\AddToWatchListCall.cs" />
+    <Compile Include="Call\AddTransactionConfirmationItemCall.cs" />
+    <Compile Include="Call\CompleteSaleCall.cs" />
+    <Compile Include="Call\ConfirmIdentityCall.cs" />
+    <Compile Include="Call\DeleteMyMessagesCall.cs" />
+    <Compile Include="Call\DeleteSellingManagerInventoryFolderCall.cs" />
+    <Compile Include="Call\DeleteSellingManagerItemAutomationRuleCall.cs" />
+    <Compile Include="Call\DeleteSellingManagerProductCall.cs" />
+    <Compile Include="Call\DeleteSellingManagerTemplateAutomationRuleCall.cs" />
+    <Compile Include="Call\DeleteSellingManagerTemplateCall.cs" />
+    <Compile Include="Call\DisableUnpaidItemAssistanceCall.cs" />
+    <Compile Include="Call\EndFixedPriceItemCall.cs" />
+    <Compile Include="Call\EndItemCall.cs" />
+    <Compile Include="Call\EndItemsCall.cs" />
+    <Compile Include="Call\ExtendSiteHostedPicturesCall.cs" />
+    <Compile Include="Call\FetchTokenCall.cs" />
+    <Compile Include="Call\GetAccountCall.cs" />
+    <Compile Include="Call\GetAdFormatLeadsCall.cs" />
+    <Compile Include="Call\GetAllBiddersCall.cs" />
+    <Compile Include="Call\GetApiAccessRulesCall.cs" />
+    <Compile Include="Call\GetBestOffersCall.cs" />
+    <Compile Include="Call\GetBidderListCall.cs" />
+    <Compile Include="Call\GetCategoriesCall.cs" />
+    <Compile Include="Call\GetCategoryFeaturesCall.cs" />
+    <Compile Include="Call\GetCategoryMappingsCall.cs" />
+    <Compile Include="Call\GetCategorySpecificsCall.cs" />
+    <Compile Include="Call\GetChallengeTokenCall.cs" />
+    <Compile Include="Call\GetCharitiesCall.cs" />
+    <Compile Include="Call\GetClientAlertsAuthTokenCall.cs" />
+    <Compile Include="Call\GetContextualKeywordsCall.cs" />
+    <Compile Include="Call\GetDescriptionTemplatesCall.cs" />
+    <Compile Include="Call\GetDisputeCall.cs" />
+    <Compile Include="Call\GeteBayDetailsCall.cs" />
+    <Compile Include="Call\GeteBayOfficialTimeCall.cs" />
+    <Compile Include="Call\GetFeedbackCall.cs" />
+    <Compile Include="Call\GetItemCall.cs" />
+    <Compile Include="Call\GetItemsAwaitingFeedbackCall.cs" />
+    <Compile Include="Call\GetItemShippingCall.cs" />
+    <Compile Include="Call\GetItemTransactionsCall.cs" />
+    <Compile Include="Call\GetMemberMessagesCall.cs" />
+    <Compile Include="Call\GetMessagePreferencesCall.cs" />
+    <Compile Include="Call\GetMyeBayBuyingCall.cs" />
+    <Compile Include="Call\GetMyeBayRemindersCall.cs" />
+    <Compile Include="Call\GetMyeBaySellingCall.cs" />
+    <Compile Include="Call\GetMyMessagesCall.cs" />
+    <Compile Include="Call\GetNotificationPreferencesCall.cs" />
+    <Compile Include="Call\GetNotificationsUsageCall.cs" />
+    <Compile Include="Call\GetOrdersCall.cs" />
+    <Compile Include="Call\GetOrderTransactionsCall.cs" />
+    <Compile Include="Call\GetPromotionalSaleDetailsCall.cs" />
+    <Compile Include="Call\GetSellerDashboardCall.cs" />
+    <Compile Include="Call\GetSellerEventsCall.cs" />
+    <Compile Include="Call\GetSellerListCall.cs" />
+    <Compile Include="Call\GetSellerPaymentsCall.cs" />
+    <Compile Include="Call\GetSellerTransactionsCall.cs" />
+    <Compile Include="Call\GetSellingManagerAlertsCall.cs" />
+    <Compile Include="Call\GetSellingManagerEmailLogCall.cs" />
+    <Compile Include="Call\GetSellingManagerInventoryCall.cs" />
+    <Compile Include="Call\GetSellingManagerInventoryFolderCall.cs" />
+    <Compile Include="Call\GetSellingManagerItemAutomationRuleCall.cs" />
+    <Compile Include="Call\GetSellingManagerSaleRecordCall.cs" />
+    <Compile Include="Call\GetSellingManagerSoldListingsCall.cs" />
+    <Compile Include="Call\GetSellingManagerTemplateAutomationRuleCall.cs" />
+    <Compile Include="Call\GetSellingManagerTemplatesCall.cs" />
+    <Compile Include="Call\GetSessionIDCall.cs" />
+    <Compile Include="Call\GetShippingDiscountProfilesCall.cs" />
+    <Compile Include="Call\GetStoreCall.cs" />
+    <Compile Include="Call\GetStoreCategoryUpdateStatusCall.cs" />
+    <Compile Include="Call\GetStoreCustomPageCall.cs" />
+    <Compile Include="Call\GetStoreOptionsCall.cs" />
+    <Compile Include="Call\GetStorePreferencesCall.cs" />
+    <Compile Include="Call\GetSuggestedCategoriesCall.cs" />
+    <Compile Include="Call\GetTaxTableCall.cs" />
+    <Compile Include="Call\GetTokenStatusCall.cs" />
+    <Compile Include="Call\GetUserCall.cs" />
+    <Compile Include="Call\GetUserContactDetailsCall.cs" />
+    <Compile Include="Call\GetUserDisputesCall.cs" />
+    <Compile Include="Call\GetUserPreferencesCall.cs" />
+    <Compile Include="Call\GetVeROReasonCodeDetailsCall.cs" />
+    <Compile Include="Call\GetVeROReportStatusCall.cs" />
+    <Compile Include="Call\IssueRefundCall.cs" />
+    <Compile Include="Call\LeaveFeedbackCall.cs" />
+    <Compile Include="Call\MoveSellingManagerInventoryFolderCall.cs" />
+    <Compile Include="Call\PlaceOfferCall.cs" />
+    <Compile Include="Call\RelistFixedPriceItemCall.cs" />
+    <Compile Include="Call\RelistItemCall.cs" />
+    <Compile Include="Call\RemoveFromWatchListCall.cs" />
+    <Compile Include="Call\RespondToBestOfferCall.cs" />
+    <Compile Include="Call\RespondToFeedbackCall.cs" />
+    <Compile Include="Call\ReviseCheckoutStatusCall.cs" />
+    <Compile Include="Call\ReviseFixedPriceItemCall.cs" />
+    <Compile Include="Call\ReviseInventoryStatusCall.cs" />
+    <Compile Include="Call\ReviseItemCall.cs" />
+    <Compile Include="Call\ReviseMyMessagesCall.cs" />
+    <Compile Include="Call\ReviseMyMessagesFoldersCall.cs" />
+    <Compile Include="Call\ReviseSellingManagerInventoryFolderCall.cs" />
+    <Compile Include="Call\ReviseSellingManagerProductCall.cs" />
+    <Compile Include="Call\ReviseSellingManagerSaleRecordCall.cs" />
+    <Compile Include="Call\ReviseSellingManagerTemplateCall.cs" />
+    <Compile Include="Call\RevokeTokenCall.cs" />
+    <Compile Include="Call\SaveItemToSellingManagerTemplateCall.cs" />
+    <Compile Include="Call\SellerReverseDisputeCall.cs" />
+    <Compile Include="Call\SendInvoiceCall.cs" />
+    <Compile Include="Call\SetMessagePreferencesCall.cs" />
+    <Compile Include="Call\SetNotificationPreferencesCall.cs" />
+    <Compile Include="Call\SetPromotionalSaleCall.cs" />
+    <Compile Include="Call\SetPromotionalSaleListingsCall.cs" />
+    <Compile Include="Call\SetSellingManagerFeedbackOptionsCall.cs" />
+    <Compile Include="Call\SetSellingManagerItemAutomationRuleCall.cs" />
+    <Compile Include="Call\SetSellingManagerTemplateAutomationRuleCall.cs" />
+    <Compile Include="Call\SetShippingDiscountProfilesCall.cs" />
+    <Compile Include="Call\SetStoreCall.cs" />
+    <Compile Include="Call\SetStoreCategoriesCall.cs" />
+    <Compile Include="Call\SetStoreCustomPageCall.cs" />
+    <Compile Include="Call\SetStorePreferencesCall.cs" />
+    <Compile Include="Call\SetTaxTableCall.cs" />
+    <Compile Include="Call\SetUserNotesCall.cs" />
+    <Compile Include="Call\SetUserPreferencesCall.cs" />
+    <Compile Include="Call\ValidateChallengeInputCall.cs" />
+    <Compile Include="Call\ValidateTestUserRegistrationCall.cs" />
+    <Compile Include="Call\VerifyAddFixedPriceItemCall.cs" />
+    <Compile Include="Call\VerifyAddItemCall.cs" />
+    <Compile Include="Call\VerifyAddSecondChanceItemCall.cs" />
+    <Compile Include="Call\VerifyRelistItemCall.cs" />
+    <Compile Include="Call\VeROReportItemsCall.cs" />
+    <Compile Include="Core\Sdk\ApiAccount.cs" />
+    <Compile Include="Core\Sdk\ApiCall.cs" />
+    <Compile Include="Core\Sdk\ApiContext.cs" />
+    <Compile Include="Core\Sdk\ApiCredential.cs" />
+    <Compile Include="Core\Sdk\ApiException.cs" />
+    <Compile Include="Core\Sdk\ApiLogManager.cs" />
+    <Compile Include="Core\Sdk\CallMetricsEntry.cs" />
+    <Compile Include="Core\Sdk\CallMetricsTable.cs" />
+    <Compile Include="Core\Sdk\CallRetry.cs" />
+    <Compile Include="Core\Sdk\eBayAccount.cs" />
+    <Compile Include="Core\Sdk\eBayAPIInterfaceService2.cs" />
+    <Compile Include="Core\Sdk\ExceptionFilter.cs" />
+    <Compile Include="Core\Sdk\HttpException.cs" />
+    <Compile Include="Core\Sdk\HttpWebResponseDecompressed.cs" />
+    <Compile Include="Core\Sdk\SdkException.cs" />
+    <Compile Include="Core\Soap\eBayXmlAPIInterfaceService.cs" />
+    <Compile Include="Core\Soap\ErrorLanguageCodeType.cs" />
+    <Compile Include="Core\Soap\TimeFilter.cs" />
+    <Compile Include="Core\Soap\TypeCollection.cs" />
+    <Compile Include="Core\Soap\WebService.cs" />
+    <Compile Include="EPS\eBayPictureService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ApiLogger.cs" />
+    <Compile Include="Util\AttributeHelper.cs" />
+    <Compile Include="Util\ConsoleLogger.cs" />
+    <Compile Include="Util\CurrencyUtility.cs" />
+    <Compile Include="Util\EBayDetailsHelper.cs" />
+    <Compile Include="Util\ErrorLangUtil.cs" />
+    <Compile Include="Util\EventLogger.cs" />
+    <Compile Include="Util\FileLogger.cs" />
+    <Compile Include="Util\GetCategoryFeaturesHelper.cs" />
+    <Compile Include="Util\MotorAttributeHelper.cs" />
+    <Compile Include="Util\SdkUtility.cs" />
+    <Compile Include="Util\SiteUtility.cs" />
+    <Compile Include="Util\XmlUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Core\Soap\WebService.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)eBay.Service.dll" "$(SolutionDir)extensions\eBay.Service.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,817 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dapper.Rainbow.MySql</name>
+    </assembly>
+    <members>
+        <member name="T:Dapper.Database`1">
+            <summary>
+            A container for a database, assumes all the tables have an Id column named Id
+            </summary>
+            <typeparam name="TDatabase"></typeparam>
+        </member>
+        <member name="T:Dapper.Database`1.Table`2">
+            <summary>
+            A container for table with table type and id type
+            <typeparam name="T"></typeparam>
+            <typeparam name="TId"></typeparam>
+            </summary>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertAsync(System.Object)">
+            <summary>
+            Insert a row into the db asynchronously
+            </summary>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.UpdateAsync(`2,System.Object)">
+            <summary>
+            Update a record in the DB asynchronously
+            </summary>
+            <param name="id"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.UpdateAsync(System.Object,System.Object)">
+            <summary>
+            Update a record in the DB asynchronously
+            </summary>
+            <param name="where"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertOrUpdateAsync(`2,System.Object)">
+            <summary>
+            Insert a row into the db or update when key is duplicated asynchronously
+            only for autoincrement key
+            </summary>
+            <param name="id"></param>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertOrUpdateAsync(System.Object,System.Object)">
+            <summary>
+            Insert a row into the db or update when key is duplicated asynchronously
+            for autoincrement key
+            </summary>
+            <param name="key"></param>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.DeleteAsync(`2)">
+            <summary>
+            Delete a record for the DB asynchronously
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.GetAsync(`2)">
+            <summary>
+            Grab a record with a particular Id from the DB asynchronously
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.GetAsync(System.Object)">
+            <summary>
+            Grab a record with where clause from the DB 
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.FirstAsync(System.Object)">
+            <summary>
+            Firsts the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="where">Where.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.AllAsync(System.Object)">
+            <summary>
+            Alls the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="where">Where.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.#ctor(Dapper.Database{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Dapper.Database`1.Table`2"/> class.
+            </summary>
+            <param name="database">Database.</param>
+            <param name="likelyTableName">Likely table name.</param>
+        </member>
+        <member name="P:Dapper.Database`1.Table`2.TableName">
+            <summary>
+            Gets the name of the table.
+            </summary>
+            <value>The name of the table.</value>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Insert(System.Object)">
+            <summary>
+            Insert a row into the db
+            </summary>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Update(`2,System.Object)">
+            <summary>
+            Update a record in the DB
+            </summary>
+            <param name="id"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Update(System.Object,System.Object)">
+            <summary>
+            Update a record in the DB
+            </summary>
+            <param name="where"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertOrUpdate(`2,System.Object)">
+            <summary>
+            Insert a row into the db or update when key is duplicated 
+            only for autoincrement key
+            </summary>
+            <param name="id"></param>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertOrUpdate(System.Object,System.Object)">
+            <summary>
+            Insert a row into the db or update when key is duplicated 
+            for autoincrement key
+            </summary>
+            <param name="key"></param>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.InsertOrUpdate(System.Object)">
+            <summary>
+            Insert a row into the db
+            </summary>
+            <param name="data">Either DynamicParameters or an anonymous type or concrete type</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Delete(`2)">
+            <summary>
+            Delete a record for the DB
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Delete(System.Object)">
+            <summary>
+            Delete a record for the DB
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Get(`2)">
+            <summary>
+            Grab a record with a particular Id from the DB 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Get(System.Object)">
+            <summary>
+            Grab a record with where clause from the DB 
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.First(System.Object)">
+            <summary>
+            Grab a first record
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.All(System.Object)">
+            <summary>
+            Return All record
+            </summary>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.Table`2.Page(System.Int32,System.Int32,System.Object)">
+            <summary>
+            Return record in page object
+            </summary>
+            <param name="page"></param>
+            <param name="itemsPerPage"></param>
+            <param name="where"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.ExecuteAsync(System.String,System.Object)">
+            <summary>
+            Executes the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync``1(System.String,System.Object)">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync``3(System.String,System.Func{``0,``1,``2},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TReturn">The 3rd type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync``4(System.String,System.Func{``0,``1,``2,``3},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TReturn">The 4th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync``5(System.String,System.Func{``0,``1,``2,``3,``4},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TReturn">The 5th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync``6(System.String,System.Func{``0,``1,``2,``3,``4,``5},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TFifth">The 5th type parameter.</typeparam>
+            <typeparam name="TReturn">The 6th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.QueryAsync(System.String,System.Object)">
+            <summary>
+            Queries the async.
+            </summary>
+            <returns>The async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+        </member>
+        <member name="M:Dapper.Database`1.QueryMultipleAsync(System.String,System.Object,System.Data.IDbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
+            <summary>
+            Queries the multiple async.
+            </summary>
+            <returns>The multiple async.</returns>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <param name="commandType">Command type.</param>
+        </member>
+        <member name="T:Dapper.Database`1.Table`1">
+            <summary>
+            Table implementation using id long
+            </summary>
+        </member>
+        <member name="M:Dapper.Database`1.Table`1.#ctor(Dapper.Database{`0},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Dapper.Database`1.Table`1"/> class.
+            </summary>
+            <param name="database">Database.</param>
+            <param name="likelyTableName">Likely table name.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Init(System.Data.IDbConnection,System.Int32,System.Boolean)">
+            <summary>
+            Initiate Database
+            </summary>
+            <param name="connection"></param>
+            <param name="commandTimeout"></param>
+            <param name="lowerCase"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dapper.Database`1.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            Begins the transaction.
+            </summary>
+            <param name="isolation">Isolation.</param>
+        </member>
+        <member name="M:Dapper.Database`1.CommitTransaction">
+            <summary>
+            Commits the transaction.
+            </summary>
+        </member>
+        <member name="M:Dapper.Database`1.RollbackTransaction">
+            <summary>
+            Rollbacks the transaction.
+            </summary>
+        </member>
+        <member name="M:Dapper.Database`1.CreateTableConstructor(System.Type)">
+            <summary>
+            Creates the table constructor.
+            </summary>
+            <returns>The table constructor.</returns>
+            <param name="tableType">Table type.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Execute(System.String,System.Object)">
+            <summary>
+            Execute the specified sql and param.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Query``1(System.String,System.Object,System.Boolean)">
+            <summary>
+            Query the specified sql, param and buffered.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Query``3(System.String,System.Func{``0,``1,``2},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Query the specified sql, map, param, transaction, buffered, splitOn and commandTimeout.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TReturn">The 3rd type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Query``4(System.String,System.Func{``0,``1,``2,``3},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Query the specified sql, map, param, transaction, buffered, splitOn and commandTimeout.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TReturn">The 4th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Query``5(System.String,System.Func{``0,``1,``2,``3,``4},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Query the specified sql, map, param, transaction, buffered, splitOn and commandTimeout.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TReturn">The 5th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Query``6(System.String,System.Func{``0,``1,``2,``3,``4,``5},System.Object,System.Data.IDbTransaction,System.Boolean,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Query the specified sql, map, param, transaction, buffered, splitOn and commandTimeout.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+            <param name="splitOn">Split on.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TFifth">The 5th type parameter.</typeparam>
+            <typeparam name="TReturn">The 6th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Query(System.String,System.Object,System.Boolean)">
+            <summary>
+            Query the specified sql, param and buffered.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+            <param name="buffered">If set to <c>true</c> buffered.</param>
+        </member>
+        <member name="M:Dapper.Database`1.QueryMultiple(System.String,System.Object,System.Data.IDbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
+            <summary>
+            Queries the multiple.
+            </summary>
+            <returns>The multiple.</returns>
+            <param name="sql">Sql.</param>
+            <param name="param">Parameter.</param>
+            <param name="transaction">Transaction.</param>
+            <param name="commandTimeout">Command timeout.</param>
+            <param name="commandType">Command type.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Dispose">
+            <summary>
+            Releases all resource used by the <see cref="T:Dapper.Database`1"/> object.
+            </summary>
+            <remarks>Call <see cref="M:Dapper.Database`1.Dispose"/> when you are finished using the <see cref="T:Dapper.Database`1"/>. The
+            <see cref="M:Dapper.Database`1.Dispose"/> method leaves the <see cref="T:Dapper.Database`1"/> in an unusable state. After calling
+            <see cref="M:Dapper.Database`1.Dispose"/>, you must release all references to the <see cref="T:Dapper.Database`1"/> so the garbage
+            collector can reclaim the memory that the <see cref="T:Dapper.Database`1"/> was occupying.</remarks>
+        </member>
+        <member name="M:Dapper.Database`1.Page``1(System.String,System.Int32,System.Object,System.Int32)">
+            <summary>
+            Page the specified sql, page, param and itemsPerPage.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Page(System.String,System.Int32,System.Object,System.Int32)">
+            <summary>
+            Page the specified sql, page, param and itemsPerPage.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+        </member>
+        <member name="M:Dapper.Database`1.Page``3(System.String,System.Func{``0,``1,``2},System.Int32,System.Object,System.Int32,System.String)">
+            <summary>
+            Page the specified sql, map, page, param, itemsPerPage and splitOn.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+            <param name="splitOn">Split on.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TReturn">The 3rd type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Page``4(System.String,System.Func{``0,``1,``2,``3},System.Int32,System.Object,System.Int32,System.String)">
+            <summary>
+            Page the specified sql, map, page, param, itemsPerPage and splitOn.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+            <param name="splitOn">Split on.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TReturn">The 4th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Page``5(System.String,System.Func{``0,``1,``2,``3,``4},System.Int32,System.Object,System.Int32,System.String)">
+            <summary>
+            Page the specified sql, map, page, param, itemsPerPage and splitOn.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+            <param name="splitOn">Split on.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TReturn">The 5th type parameter.</typeparam>
+        </member>
+        <member name="M:Dapper.Database`1.Page``6(System.String,System.Func{``0,``1,``2,``3,``4,``5},System.Int32,System.Object,System.Int32,System.String)">
+            <summary>
+            Page the specified sql, map, page, param, itemsPerPage and splitOn.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="map">Map.</param>
+            <param name="page">Page.</param>
+            <param name="param">Parameter.</param>
+            <param name="itemsPerPage">Items per page.</param>
+            <param name="splitOn">Split on.</param>
+            <typeparam name="TFirst">The 1st type parameter.</typeparam>
+            <typeparam name="TSecond">The 2nd type parameter.</typeparam>
+            <typeparam name="TThird">The 3rd type parameter.</typeparam>
+            <typeparam name="TFourth">The 4th type parameter.</typeparam>
+            <typeparam name="TFifth">The 5th type parameter.</typeparam>
+            <typeparam name="TReturn">The 6th type parameter.</typeparam>
+        </member>
+        <member name="T:Dapper.IgnorePropertyAttribute">
+            <summary>
+            Ignore property attribute.
+            </summary>
+        </member>
+        <member name="M:Dapper.IgnorePropertyAttribute.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Dapper.IgnorePropertyAttribute"/> class.
+            </summary>
+            <param name="ignore">If set to <c>true</c> ignore.</param>
+        </member>
+        <member name="P:Dapper.IgnorePropertyAttribute.Value">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:Dapper.IgnorePropertyAttribute"/> is value.
+            </summary>
+            <value><c>true</c> if value; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Dapper.Page`1">
+            <summary>
+            Page.
+            </summary>
+        </member>
+        <member name="P:Dapper.Page`1.ItemsPerPage">
+            <summary>
+            Gets or sets the items per page.
+            </summary>
+            <value>The items per page.</value>
+        </member>
+        <member name="P:Dapper.Page`1.CurrentPage">
+            <summary>
+            Gets or sets the current page.
+            </summary>
+            <value>The current page.</value>
+        </member>
+        <member name="P:Dapper.Page`1.PageDisplayed">
+            <summary>
+            Gets or sets the page displayed.
+            </summary>
+            <value>The page displayed.</value>
+        </member>
+        <member name="P:Dapper.Page`1.TotalPage">
+            <summary>
+            Gets or sets the total page.
+            </summary>
+            <value>The total page.</value>
+        </member>
+        <member name="P:Dapper.Page`1.TotalItems">
+            <summary>
+            Gets or sets the total items.
+            </summary>
+            <value>The total items.</value>
+        </member>
+        <member name="P:Dapper.Page`1.Start">
+            <summary>
+            Gets or sets the start.
+            </summary>
+            <value>The start.</value>
+        </member>
+        <member name="P:Dapper.Page`1.Numbering">
+            <summary>
+            Gets or sets the numbering.
+            </summary>
+            <value>The numbering.</value>
+        </member>
+        <member name="P:Dapper.Page`1.HasPrevious">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:Dapper.Page`1"/> has previous.
+            </summary>
+            <value><c>true</c> if has previous; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Dapper.Page`1.HasNext">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:Dapper.Page`1"/> has next.
+            </summary>
+            <value><c>true</c> if has next; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Dapper.Page`1.Items">
+            <summary>
+            Gets or sets the items.
+            </summary>
+            <value>The items.</value>
+        </member>
+        <member name="T:Dapper.Snapshotter">
+            <summary>
+            Snapshotter.
+            </summary>
+        </member>
+        <member name="M:Dapper.Snapshotter.Start``1(``0)">
+            <summary>
+            Start the specified obj.
+            </summary>
+            <param name="obj">Object.</param>
+            <typeparam name="T">The 1st type parameter.</typeparam>
+        </member>
+        <member name="T:Dapper.Snapshotter.Snapshot`1">
+            <summary>
+            Snapshot.
+            </summary>
+        </member>
+        <member name="M:Dapper.Snapshotter.Snapshot`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Dapper.Snapshotter.Snapshot`1"/> class.
+            </summary>
+            <param name="original">Original.</param>
+        </member>
+        <member name="T:Dapper.Snapshotter.Snapshot`1.Change">
+            <summary>
+            Change.
+            </summary>
+        </member>
+        <member name="P:Dapper.Snapshotter.Snapshot`1.Change.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:Dapper.Snapshotter.Snapshot`1.Change.NewValue">
+            <summary>
+            Gets or sets the new value.
+            </summary>
+            <value>The new value.</value>
+        </member>
+        <member name="M:Dapper.Snapshotter.Snapshot`1.Diff">
+            <summary>
+            Diff this instance.
+            </summary>
+        </member>
+        <member name="T:Dapper.SqlBuilder">
+            <summary>
+            Sql builder.
+            </summary>
+        </member>
+        <member name="T:Dapper.SqlBuilder.Template">
+            <summary>
+            Template.
+            </summary>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Template.#ctor(Dapper.SqlBuilder,System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Dapper.SqlBuilder.Template"/> class.
+            </summary>
+            <param name="builder">Builder.</param>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="P:Dapper.SqlBuilder.Template.RawSql">
+            <summary>
+            Gets the raw sql.
+            </summary>
+            <value>The raw sql.</value>
+        </member>
+        <member name="P:Dapper.SqlBuilder.Template.Parameters">
+            <summary>
+            Gets the parameters.
+            </summary>
+            <value>The parameters.</value>
+        </member>
+        <member name="M:Dapper.SqlBuilder.AddTemplate(System.String,System.Object)">
+            <summary>
+            Adds the template.
+            </summary>
+            <returns>The template.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.AddClause(System.String,System.String,System.Object,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Adds the clause.
+            </summary>
+            <param name="name">Name.</param>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+            <param name="joiner">Joiner.</param>
+            <param name="prefix">Prefix.</param>
+            <param name="postfix">Postfix.</param>
+            <param name="isInclusive">If set to <c>true</c> is inclusive.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Intersect(System.String,System.Object)">
+            <summary>
+            Intersect the specified sql and parameters.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.InnerJoin(System.String,System.Object)">
+            <summary>
+            Inners the join.
+            </summary>
+            <returns>The join.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.LeftJoin(System.String,System.Object)">
+            <summary>
+            Lefts the join.
+            </summary>
+            <returns>The join.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.RightJoin(System.String,System.Object)">
+            <summary>
+            Rights the join.
+            </summary>
+            <returns>The join.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Where(System.String,System.Object)">
+            <summary>
+            Where the specified sql and parameters.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.OrWhere(System.String,System.Object)">
+            <summary>
+            Ors the where.
+            </summary>
+            <returns>The where.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.OrderBy(System.String,System.Object)">
+            <summary>
+            Orders the by.
+            </summary>
+            <returns>The by.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Select(System.String,System.Object)">
+            <summary>
+            Select the specified sql and parameters.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.AddParameters(System.Object)">
+            <summary>
+            Adds the parameters.
+            </summary>
+            <returns>The parameters.</returns>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Join(System.String,System.Object)">
+            <summary>
+            Join the specified sql and parameters.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.GroupBy(System.String,System.Object)">
+            <summary>
+            Groups the by.
+            </summary>
+            <returns>The by.</returns>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+        <member name="M:Dapper.SqlBuilder.Having(System.String,System.Object)">
+            <summary>
+            Having the specified sql and parameters.
+            </summary>
+            <param name="sql">Sql.</param>
+            <param name="parameters">Parameters.</param>
+        </member>
+    </members>
+</doc>

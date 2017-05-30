@@ -1,0 +1,165 @@
+﻿@model EIS.Inventory.Shared.ViewModels.ProductDto
+
+@{
+    ViewBag.Title = "Details";
+    ViewBag.ActiveMenu = "products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Product Information <small>Details of product</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">@Model.Name</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-horizontal">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EisSKU, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.EisSKU</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SupplierSKU, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.SupplierSKU</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.VendorName</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.Name</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.Description</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.ShortDescription</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.Category</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UPC, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.UPCCode</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.Quantity</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SupplierPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.SupplierPrice</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SellerPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-sm-6">
+                                    <p class="form-control-static">@Model.SellerPrice</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="Length">Dimensions</label>
+                                <div class="col-md-10">
+                                    <div class="form-inline">
+                                        <div class="form-group no-margin">
+                                            <p class="form-control-static">@Model.Length</p>
+                                        </div>
+                                        <div class="form-group no-margin">
+                                            <p class="form-control-static">@Model.Width</p>
+                                        </div>
+                                        <div class="form-group no-margin">
+                                            <label class="sr-only" for="Height">Height</label>
+                                            <p class="form-control-static">@Model.Height</p>
+                                        </div>
+                                        <div class="form-group no-margin">
+                                            <label class="sr-only" for="Height">Unit of Length</label>
+                                            <select class="form-control" id="LenghtUnit" name="LenghtUnit" readonly="readonly">
+                                                <option value="">-- select --</option>
+                                                <option value="LB" @(Model.LenghtUnit == "LB" ? "selected" : "")>Pounds</option>
+                                                <option value="OZ" @(Model.LenghtUnit == "OZ" ? "selected" : "")>Ounces</option>
+                                                <option value="GR" @(Model.LenghtUnit == "GR" ? "selected" : "")>Grams</option>
+                                                <option value="KG" @(Model.LenghtUnit == "KG" ? "selected" : "")>Kilograms</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="Weight">Weight</label>
+                                <div class="col-md-10">
+                                    <div class="form-inline">
+                                        <div class="form-group no-margin">
+                                            <label class="sr-only" for="Weight">Weight</label>
+                                            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Weight", type = "number", title = "Product's weight" } })
+                                        </div>
+                                        <div class="form-group no-margin">
+                                            <label class="sr-only" for="Height">Unit of Mass</label>
+                                            <select class="form-control" id="MassUnit" name="MassUnit" readonly="readonly">
+                                                <option value="">-- select --</option>
+                                                <option value="IN" @(Model.MassUnit == "IN" ? "selected" : "")>Inches</option>
+                                                <option value="FT" @(Model.MassUnit == "FT" ? "selected" : "")>Feet</option>
+                                                <option value="MM" @(Model.MassUnit == "MM" ? "selected" : "")>Millimeters</option>
+                                                <option value="CM" @(Model.MassUnit == "CM" ? "selected" : "")>Centimeters</option>
+                                                <option value="DM" @(Model.MassUnit == "DM" ? "selected" : "")>Decimeters</option>
+                                                <option value="M" @(Model.MassUnit == "M" ? "selected" : "")>Meters</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <div class="margin">
+                                <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this product" href="@Html.Raw(Url.Action("edit", "product", new { id = Model.EisSKU }))">Edit Product</a> &nbsp;
+                                @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to products list" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

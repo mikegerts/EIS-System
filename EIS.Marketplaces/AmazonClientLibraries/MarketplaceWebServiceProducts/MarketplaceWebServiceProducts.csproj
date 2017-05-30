@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C3D0BE71-AF3B-4296-B912-6665BF03CE12}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MarketplaceWebServiceProducts</RootNamespace>
+    <AssemblyName>MarketplaceWebServiceProducts</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MarketplaceWebServiceProducts.cs" />
+    <Compile Include="MarketplaceWebServiceProductsClient.cs" />
+    <Compile Include="MarketplaceWebServiceProductsConfig.cs" />
+    <Compile Include="MarketplaceWebServiceProductsException.cs" />
+    <Compile Include="MarketplaceWebServiceProductsSample.cs" />
+    <Compile Include="Mock\MarketplaceWebServiceProductsMock.cs" />
+    <Compile Include="Model\ASINIdentifier.cs" />
+    <Compile Include="Model\ASINListType.cs" />
+    <Compile Include="Model\ASINOfferDetail.cs" />
+    <Compile Include="Model\ASINOfferDetailList.cs" />
+    <Compile Include="Model\AttributeSetList.cs" />
+    <Compile Include="Model\BuyBoxEligibleOffers.cs" />
+    <Compile Include="Model\BuyBoxPrices.cs" />
+    <Compile Include="Model\BuyBoxPriceType.cs" />
+    <Compile Include="Model\Categories.cs" />
+    <Compile Include="Model\CompetitivePriceList.cs" />
+    <Compile Include="Model\CompetitivePriceType.cs" />
+    <Compile Include="Model\CompetitivePricingType.cs" />
+    <Compile Include="Model\DetailedShippingTimeType.cs" />
+    <Compile Include="Model\Error.cs" />
+    <Compile Include="Model\ErrorDetail.cs" />
+    <Compile Include="Model\GetCompetitivePricingForASINRequest.cs" />
+    <Compile Include="Model\GetCompetitivePricingForASINResponse.cs" />
+    <Compile Include="Model\GetCompetitivePricingForASINResult.cs" />
+    <Compile Include="Model\GetCompetitivePricingForSKURequest.cs" />
+    <Compile Include="Model\GetCompetitivePricingForSKUResponse.cs" />
+    <Compile Include="Model\GetCompetitivePricingForSKUResult.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForASINRequest.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForASINResponse.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForASINResult.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForSKURequest.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForSKUResponse.cs" />
+    <Compile Include="Model\GetLowestOfferListingsForSKUResult.cs" />
+    <Compile Include="Model\GetLowestPricedOffersAsinIdentifier.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForASINRequest.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForASINResponse.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForASINResult.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForSKURequest.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForSKUResponse.cs" />
+    <Compile Include="Model\GetLowestPricedOffersForSKUResult.cs" />
+    <Compile Include="Model\GetLowestPricedOffersSkuIdentifier.cs" />
+    <Compile Include="Model\GetMatchingProductForIdRequest.cs" />
+    <Compile Include="Model\GetMatchingProductForIdResponse.cs" />
+    <Compile Include="Model\GetMatchingProductForIdResult.cs" />
+    <Compile Include="Model\GetMatchingProductRequest.cs" />
+    <Compile Include="Model\GetMatchingProductResponse.cs" />
+    <Compile Include="Model\GetMatchingProductResult.cs" />
+    <Compile Include="Model\GetMyPriceForASINRequest.cs" />
+    <Compile Include="Model\GetMyPriceForASINResponse.cs" />
+    <Compile Include="Model\GetMyPriceForASINResult.cs" />
+    <Compile Include="Model\GetMyPriceForSKURequest.cs" />
+    <Compile Include="Model\GetMyPriceForSKUResponse.cs" />
+    <Compile Include="Model\GetMyPriceForSKUResult.cs" />
+    <Compile Include="Model\GetProductCategoriesForASINRequest.cs" />
+    <Compile Include="Model\GetProductCategoriesForASINResponse.cs" />
+    <Compile Include="Model\GetProductCategoriesForASINResult.cs" />
+    <Compile Include="Model\GetProductCategoriesForSKURequest.cs" />
+    <Compile Include="Model\GetProductCategoriesForSKUResponse.cs" />
+    <Compile Include="Model\GetProductCategoriesForSKUResult.cs" />
+    <Compile Include="Model\GetServiceStatusRequest.cs" />
+    <Compile Include="Model\GetServiceStatusResponse.cs" />
+    <Compile Include="Model\GetServiceStatusResult.cs" />
+    <Compile Include="Model\IdentifierType.cs" />
+    <Compile Include="Model\IdListType.cs" />
+    <Compile Include="Model\IMWSResponse.cs" />
+    <Compile Include="Model\ListMatchingProductsRequest.cs" />
+    <Compile Include="Model\ListMatchingProductsResponse.cs" />
+    <Compile Include="Model\ListMatchingProductsResult.cs" />
+    <Compile Include="Model\LowestOfferListingList.cs" />
+    <Compile Include="Model\LowestOfferListingType.cs" />
+    <Compile Include="Model\LowestPrices.cs" />
+    <Compile Include="Model\LowestPriceType.cs" />
+    <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\MessageList.cs" />
+    <Compile Include="Model\MoneyType.cs" />
+    <Compile Include="Model\NumberOfOfferListingsList.cs" />
+    <Compile Include="Model\NumberOfOffers.cs" />
+    <Compile Include="Model\OfferCountType.cs" />
+    <Compile Include="Model\OfferListingCountType.cs" />
+    <Compile Include="Model\OffersList.cs" />
+    <Compile Include="Model\OfferType.cs" />
+    <Compile Include="Model\Points.cs" />
+    <Compile Include="Model\PriceType.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProductList.cs" />
+    <Compile Include="Model\ProductsUtil.cs" />
+    <Compile Include="Model\QualifiersType.cs" />
+    <Compile Include="Model\RelationshipList.cs" />
+    <Compile Include="Model\ResponseHeaderMetadata.cs" />
+    <Compile Include="Model\ResponseMetadata.cs" />
+    <Compile Include="Model\SalesRankList.cs" />
+    <Compile Include="Model\SalesRankType.cs" />
+    <Compile Include="Model\SellerFeedbackType.cs" />
+    <Compile Include="Model\SellerSKUIdentifier.cs" />
+    <Compile Include="Model\SellerSKUListType.cs" />
+    <Compile Include="Model\ServiceStatusEnum.cs" />
+    <Compile Include="Model\ShippingTimeType.cs" />
+    <Compile Include="Model\ShipsFromType.cs" />
+    <Compile Include="Model\SKUOfferDetail.cs" />
+    <Compile Include="Model\SKUOfferDetailList.cs" />
+    <Compile Include="Model\Summary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MWSClientCsRuntime\MWSClientCsRuntime.csproj">
+      <Project>{288fdd49-7a24-4723-a12f-6907c6d9ffc7}</Project>
+      <Name>MWSClientCsRuntime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetCompetitivePricingForASINResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetCompetitivePricingForSKUResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetLowestOfferListingsForASINResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetLowestOfferListingsForSKUResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetLowestPricedOffersForASINResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetLowestPricedOffersForSKUResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetMatchingProductForIdResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetMatchingProductResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetMyPriceForASINResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetMyPriceForSKUResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetProductCategoriesForASINResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetProductCategoriesForSKUResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.GetServiceStatusResponse.xml" />
+    <Content Include="Mock\MarketplaceWebServiceProducts.Model.ListMatchingProductsResponse.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)MarketplaceWebServiceProducts.dll" "$(SolutionDir)extensions\MarketplaceWebServiceProducts.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

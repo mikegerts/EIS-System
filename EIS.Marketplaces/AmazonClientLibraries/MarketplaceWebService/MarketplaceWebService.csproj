@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{11906307-B617-43E4-BBE0-C9DEFA852B3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MarketplaceWebService</RootNamespace>
+    <AssemblyName>MarketplaceWebService</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\MarketplaceWebServiceAttribute.cs" />
+    <Compile Include="Attributes\MarketplaceWebServiceRequestHeaderAttribute.cs" />
+    <Compile Include="Attributes\MarketplaceWebServiceStreamAttribute.cs" />
+    <Compile Include="Attributes\RequestType.cs" />
+    <Compile Include="Attributes\ResponseType.cs" />
+    <Compile Include="Attributes\StreamType.cs" />
+    <Compile Include="MarketplaceWebService.cs" />
+    <Compile Include="MarketplaceWebServiceClient.cs" />
+    <Compile Include="MarketplaceWebServiceConfig.cs" />
+    <Compile Include="MarketplaceWebServiceException.cs" />
+    <Compile Include="Mock\MarketplaceWebServiceMock.cs" />
+    <Compile Include="Model\CancelFeedSubmissionsRequest.cs" />
+    <Compile Include="Model\CancelFeedSubmissionsResponse.cs" />
+    <Compile Include="Model\CancelFeedSubmissionsResult.cs" />
+    <Compile Include="Model\CancelledReportRequestList.cs" />
+    <Compile Include="Model\CancelReportRequestsRequest.cs" />
+    <Compile Include="Model\CancelReportRequestsResponse.cs" />
+    <Compile Include="Model\CancelReportRequestsResult.cs" />
+    <Compile Include="Model\ContentType.cs" />
+    <Compile Include="Model\Error.cs" />
+    <Compile Include="Model\ErrorResponse.cs" />
+    <Compile Include="Model\FeedSubmissionInfo.cs" />
+    <Compile Include="Model\FeedSubmissionList.cs" />
+    <Compile Include="Model\GetFeedSubmissionCountRequest.cs" />
+    <Compile Include="Model\GetFeedSubmissionCountResponse.cs" />
+    <Compile Include="Model\GetFeedSubmissionCountResult.cs" />
+    <Compile Include="Model\GetFeedSubmissionListByNextTokenRequest.cs" />
+    <Compile Include="Model\GetFeedSubmissionListByNextTokenResponse.cs" />
+    <Compile Include="Model\GetFeedSubmissionListByNextTokenResult.cs" />
+    <Compile Include="Model\GetFeedSubmissionListRequest.cs" />
+    <Compile Include="Model\GetFeedSubmissionListResponse.cs" />
+    <Compile Include="Model\GetFeedSubmissionListResult.cs" />
+    <Compile Include="Model\GetFeedSubmissionResultRequest.cs" />
+    <Compile Include="Model\GetFeedSubmissionResultResponse.cs" />
+    <Compile Include="Model\GetFeedSubmissionResultResult.cs" />
+    <Compile Include="Model\GetReportCountRequest.cs" />
+    <Compile Include="Model\GetReportCountResponse.cs" />
+    <Compile Include="Model\GetReportCountResult.cs" />
+    <Compile Include="Model\GetReportListByNextTokenRequest.cs" />
+    <Compile Include="Model\GetReportListByNextTokenResponse.cs" />
+    <Compile Include="Model\GetReportListByNextTokenResult.cs" />
+    <Compile Include="Model\GetReportListRequest.cs" />
+    <Compile Include="Model\GetReportListResponse.cs" />
+    <Compile Include="Model\GetReportListResult.cs" />
+    <Compile Include="Model\GetReportRequest.cs" />
+    <Compile Include="Model\GetReportRequestCountRequest.cs" />
+    <Compile Include="Model\GetReportRequestCountResponse.cs" />
+    <Compile Include="Model\GetReportRequestCountResult.cs" />
+    <Compile Include="Model\GetReportRequestListByNextTokenRequest.cs" />
+    <Compile Include="Model\GetReportRequestListByNextTokenResponse.cs" />
+    <Compile Include="Model\GetReportRequestListByNextTokenResult.cs" />
+    <Compile Include="Model\GetReportRequestListRequest.cs" />
+    <Compile Include="Model\GetReportRequestListResponse.cs" />
+    <Compile Include="Model\GetReportRequestListResult.cs" />
+    <Compile Include="Model\GetReportResponse.cs" />
+    <Compile Include="Model\GetReportResult.cs" />
+    <Compile Include="Model\GetReportScheduleCountRequest.cs" />
+    <Compile Include="Model\GetReportScheduleCountResponse.cs" />
+    <Compile Include="Model\GetReportScheduleCountResult.cs" />
+    <Compile Include="Model\GetReportScheduleListByNextTokenRequest.cs" />
+    <Compile Include="Model\GetReportScheduleListByNextTokenResponse.cs" />
+    <Compile Include="Model\GetReportScheduleListByNextTokenResult.cs" />
+    <Compile Include="Model\GetReportScheduleListRequest.cs" />
+    <Compile Include="Model\GetReportScheduleListResponse.cs" />
+    <Compile Include="Model\GetReportScheduleListResult.cs" />
+    <Compile Include="Model\IContentTypeParameter.cs" />
+    <Compile Include="Model\IdList.cs" />
+    <Compile Include="Model\ManageReportScheduleList.cs" />
+    <Compile Include="Model\ManageReportScheduleRequest.cs" />
+    <Compile Include="Model\ManageReportScheduleResponse.cs" />
+    <Compile Include="Model\ManageReportScheduleResult.cs" />
+    <Compile Include="Model\MediaType.cs" />
+    <Compile Include="Model\Report.cs" />
+    <Compile Include="Model\ReportInfo.cs" />
+    <Compile Include="Model\ReportList.cs" />
+    <Compile Include="Model\ReportRequestInfo.cs" />
+    <Compile Include="Model\ReportRequestList.cs" />
+    <Compile Include="Model\ReportSchedule.cs" />
+    <Compile Include="Model\ReportScheduleList.cs" />
+    <Compile Include="Model\RequestReportRequest.cs" />
+    <Compile Include="Model\RequestReportResponse.cs" />
+    <Compile Include="Model\RequestReportResult.cs" />
+    <Compile Include="Model\ResponseHeaderMetadata.cs" />
+    <Compile Include="Model\ResponseMetadata.cs" />
+    <Compile Include="Model\StatusList.cs" />
+    <Compile Include="Model\SubmitFeedRequest.cs" />
+    <Compile Include="Model\SubmitFeedResponse.cs" />
+    <Compile Include="Model\SubmitFeedResult.cs" />
+    <Compile Include="Model\TypeList.cs" />
+    <Compile Include="Model\UpdatedReportAcknowledgementList.cs" />
+    <Compile Include="Model\UpdateReportAcknowledgementsRequest.cs" />
+    <Compile Include="Model\UpdateReportAcknowledgementsResponse.cs" />
+    <Compile Include="Model\UpdateReportAcknowledgementsResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Mock\CancelFeedSubmissionsResponse.xml" />
+    <Content Include="Mock\CancelReportRequestsResponse.xml" />
+    <Content Include="Mock\ErrorResponse.xml" />
+    <Content Include="Mock\GetFeedSubmissionCountResponse.xml" />
+    <Content Include="Mock\GetFeedSubmissionListByNextTokenResponse.xml" />
+    <Content Include="Mock\GetFeedSubmissionListResponse.xml" />
+    <Content Include="Mock\GetFeedSubmissionResultResponse.xml" />
+    <Content Include="Mock\GetReportCountResponse.xml" />
+    <Content Include="Mock\GetReportListByNextTokenResponse.xml" />
+    <Content Include="Mock\GetReportListResponse.xml" />
+    <Content Include="Mock\GetReportRequestCountResponse.xml" />
+    <Content Include="Mock\GetReportRequestListByNextTokenResponse.xml" />
+    <Content Include="Mock\GetReportRequestListResponse.xml" />
+    <Content Include="Mock\GetReportResponse.xml" />
+    <Content Include="Mock\GetReportScheduleCountResponse.xml" />
+    <Content Include="Mock\GetReportScheduleListByNextTokenResponse.xml" />
+    <Content Include="Mock\GetReportScheduleListResponse.xml" />
+    <Content Include="Mock\ManageReportScheduleResponse.xml" />
+    <Content Include="Mock\RequestReportResponse.xml" />
+    <Content Include="Mock\SubmitFeedResponse.xml" />
+    <Content Include="Mock\UpdateReportAcknowledgementsResponse.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)MarketplaceWebService.dll" "$(SolutionDir)extensions\MarketplaceWebService.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

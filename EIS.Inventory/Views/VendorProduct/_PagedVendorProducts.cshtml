@@ -1,0 +1,82 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.VendorProductListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblVendorProducts">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="selectCurrentPageBox" class="customExportBox" /></th>
+            <th>EIS SupplierSKU</th>
+            <th>SupplierSKU</th>
+            <th>Vendor</th>
+            <th>Company</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>MinPack</th>
+            <th>Actions</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="10">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="customExportBox productEisSkuBox" data-id="@item.EisSupplierSKU" /></td>
+                    <td>@Html.DisplayFor(modelItem => item.EisSupplierSKU)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SupplierSKU)</td>
+                    <td>@Html.DisplayFor(modelItem => item.VendorName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
+                    <td title="@item.Name">@item.Name.Truncate(30)</td>
+                    <td title="The supplier price">@Html.DisplayFor(modelItem => item.SupplierPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MinPack)</td>
+                    <td style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this vendor product" href="@Html.Raw(Url.Action("edit", "vendorproduct", new { id = item.EisSupplierSKU }))"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this vendor product" href="#delete" onclick="return deleteVendorProduct(@string.Format("this, \'{0}\'", item.EisSupplierSKU))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize,
+           searchString = ViewBag.SearchString,
+           vendorId = ViewBag.VendorId,
+           companyId = ViewBag.CompanyId,
+           withEisSKULink = ViewBag.WithEisSKULink,
+           inventoryQtyFrom = ViewBag.InventoryQtyFrom,
+           inventoryQtyTo = ViewBag.InventoryQtyTo,
+           withImages = ViewBag.WithImages
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

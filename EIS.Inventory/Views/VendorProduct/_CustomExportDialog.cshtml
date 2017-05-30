@@ -1,0 +1,76 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="CustomExportDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: customExport">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Custom Export Vendor Products</h4>
+            </div>
+            @using (Html.BeginForm("customexportvendorproducts", "vendorproduct", FormMethod.Post, new { @role = "form", @id = "customExportForm" }))
+            {
+                <div class="modal-body">
+                    <input type="hidden" id="RequestedDate" name="RequestedDate" value="@DateTime.Now" />
+                    <div class="form-horizontal" id="custom-export-form">
+                        <div class="alertMsgStatus" data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                        <input type="hidden" name="ExcludedEisSKUs" data-bind="value: ExcludedEisSKUs" />
+                        <input type="hidden" id="SelectedEisSKUs" name="SelectedEisSKUs" data-bind="value: SelectedEisSKUs" />
+                        <input type="hidden" name="IsAllProductItems" data-bind="value: IsAllProductItems" />
+                        <input type="hidden" name="VendorId" data-bind="value: VendorId" />
+                        <input type="hidden" name="CompanyId" data-bind="value: CompanyId" />
+                        <input type="hidden" name="WithEisSKULink" data-bind="value:WithEisSKULink" />
+                        <input type="hidden" name="SearchString" data-bind="value: SearchString" />
+                        <input type="hidden" name="QuantityFrom" data-bind="value: QuantityFrom" />
+                        <input type="hidden" name="QuantityTo" data-bind="value: QuantityTo" />
+
+                        <div class="row margin">
+                            <div class="col-sm-5">
+                                <div class="form-group ">
+                                    <label>Available Vendor Product Fields</label>
+                                    <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="options: availableProductFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToAdd"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label></label>
+                                <div class="row margin">
+                                    <button class="btn btn-default center-block" data-bind="click: addSelectedFields, enable: selectedFieldsToAdd().length > 0"><span class="fa fa-chevron-right"></span></button>
+                                </div>
+                                <div class="row margin">
+                                    <button class="btn btn-default center-block" data-bind="click: removeSelectedFields, enable: selectedFieldsToRemove().length > 0"><span class="fa fa-chevron-left"></span></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group ">
+                                    <label>Selected Vendor Product Fields</label>
+                                    <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="attr: {'data-value': ProductFields }, options: selectedProductFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToRemove, event: { change: valueChanged }" required="required"></select>
+                                    <input type="hidden" name="ProductFields" data-bind="value: ProductFields" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="FileFormat">File Format</label>
+                            <div class="col-md-10">
+                                <select name="Delimiter" class="form-control" data-bind="options: fileFormats, optionsText: 'Name', optionsValue: 'Id', value: Delimiter"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SortBy">Sort By</label>
+                            <div class="col-md-10">
+                                <select name="SortBy" class="form-control" data-bind="options: selectedProductFields, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- none --', value: SortBy"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button type="button" id="btnCustomExport" class="btn btn-primary" data-bind="click: downloadCustomExport, enable: (recordsSelected != 0)">Start Export</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

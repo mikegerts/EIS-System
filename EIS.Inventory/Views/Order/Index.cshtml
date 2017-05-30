@@ -1,0 +1,607 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.OrderListViewModel>
+@{
+    ViewBag.Title = "Marketplace Orders List";
+    ViewBag.ActiveMenu = "orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Marketplace Orders <small>List</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#orders">Orders</a></li>
+            <li><a class="active">List</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-4">
+                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#OrderDialog" data-id="-1">Create New Order</button>
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle" type="button" aria-expanded="true">Actions <i class="fa fa-caret-down"></i></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#importmarketplaceorder" data-toggle="modal" data-target="#ImportMarketplaceOrderDialog" title="Import marketplace order IDs" data-backdrop="static" data-keyboard="false">Import Marketplace Orders</a></li>
+                        <li><a href="#customexportorder" data-toggle="modal" data-target="#CustomExportOrderDialog" title="Custom export for selected orders">Custom Export Orders</a></li>
+                        <li><a href="#markingorder" data-toggle="modal" data-target="#MarkOrderDialog" disable>Mark/Unmark Orders</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#FilterDialog" title="Filter for order results" href="#filter"><i class="fa fa-filter"></i> Show Filter</a>
+            </div>
+            <div class="col-sm-5">
+                <div class="alert-warning" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+            <div class="col-sm-3">
+                <div class="pull-right checkbox">
+                    <label>
+                        <input type="checkbox" id="selectAllPagesBox" class="customExportBox" /> Select All Pages
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body no-padding">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "order", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize } }))
+                                        {
+                                            <input type="hidden" id="searchString" value="@ViewBag.SearchString" name="searchString" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_filter pull-right">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "order", FormMethod.Get, null))
+                                        {
+                                            <label for="searchString" onclick="focusOnSearchFile()">Search:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="searchString" name="searchString" value="@ViewBag.SearchString" title="Type here the EIS orderid, orderid, buyer name, address and order status to search." placeholder="Search..." class="form-control input-sm searchField" />
+                                                @Html.HiddenFor(m => m.PageSize)
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-info btn-sm" title="Search the entered string.">Go!</button>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="model_list_container">
+                            @{ Html.RenderPartial("_PagedOrders", Model); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><!-- /.content-wrapper -->
+@{ Html.RenderPartial("_OrderDetailsDialog"); }
+@{ Html.RenderPartial("_ConfirmShipmentDialog"); }
+@{ Html.RenderPartial("_OrderDialog"); }
+@{ Html.RenderPartial("_FilterDialog"); }
+@{ Html.RenderPartial("_MarkOrderDialog"); }
+@{Html.RenderPartial("_CustomExportDialog");}
+@{Html.RenderPartial("_ImportMarketplaceOrderDialog");}
+
+@section Scripts {
+    @{Html.RegisterMvcPagerScriptResource();}
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/css/daterangepicker-0.0.9/daterangepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/scripts/daterangepicker-0.0.9/daterangepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/order.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var GET_VENDORS_URL = "@Html.Raw(Url.Action("_getvendors", "vendor"))"
+        var GET_ORDER_URL = "@Html.Raw(Url.Action("_getorder"))"
+        var GET_UNSHIPPED_ORDERITEMS_URL = "@Html.Raw(Url.Action("_GetUnshippedOrderItems"))"
+        var GET_SHIPPING_CARRIERS_URL = "@Html.Raw(Url.Action("_GetShippingCarriers"))"
+        var POST_ORDER_SHIPMENT_URL = "@Html.Raw(Url.Action("_PostOrderShipmentDetails"))"
+        var GET_ORDER_GROUPS_URL = "@Html.Raw(Url.Action("_getallordergroups", "ordergroup"))"
+        var GET_PRODUCT_ITEM_URL = "@Html.Raw(Url.Action("_GetProductItem", "product"))"
+        var GET_MAX_EIS_ORDERID_URL = "@Html.Raw(Url.Action("_GetNextEisOrderId"))"
+        var IMPORT_MARKETPLACE_ORDERS_URL = "@Html.Raw(Url.Action("_ImportMarketplaceOrders"))"
+        var SAVE_MANUAL_ORDER_URL = "@Html.Raw(Url.Action("_SaveManualOrder"))"
+        var UPDATE_MANUAL_ORDER_URL = "@Html.Raw(Url.Action("_UpdateManualOrder"))"
+        var CANCEL_ORDER_URL = "@Html.Raw(Url.Action("_CancelOrder"))"
+        var UNSHIPPED_ORDER_URL = "@Html.Raw(Url.Action("_UnshippedOrder"))"
+        var TOGGLE_ORDERS_EXPORT_URL = "@Html.Raw(Url.Action("_ToggleOrdersExported"))"
+        var GET_LATEST_MARKETPLACE_ORDER_URL = "@Html.Raw(Url.Action("_GetLatestMarketplaceOrderData"))";
+        var DELETE_TEMPLATE_URL = "@Html.Raw(Url.Action("_DeleteReportTemplate"))"
+        var SAVE_TEMPLATE_URL = "@Html.Raw(Url.Action("_SaveReportTemplate"))"
+        var GET_TEMPLATE_URL = "@Html.Raw(Url.Action("_GetReportTemplates"))"
+        var CREATE_SHIPMENT_LABEL = "@Html.Raw(Url.Action("_CreateShipmentLabel"))"
+        var POST_SHIPSTATION = "@Html.Raw(Url.Action("_PostShipStation"))"
+        var MANAGE_SEARCHFILTER = "@Html.Raw(Url.Action("_ManageSearchFilter"))"
+        var DELETE_SEARCHFILTER = "@Html.Raw(Url.Action("_DeleteSearchFilter"))"
+        var LOAD_SEARCHFILTER = "@Html.Raw(Url.Action("_LoadSearchFilter"))"
+        var GET_SEARCHFILTER = "@Html.Raw(Url.Action("_GetSearchFilterValues"))"
+        var viewModel = new ViewModel();
+        var selectedEisOrderIds = [];
+        var unselectedEisOrderIds = [];
+        var recordsSelected = 0;
+        var isSelectAllPages = false;
+
+        $(document).ready(function () {
+            ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+            viewModel.loadData();
+
+            // bind the checkbox
+            bindCustomExportCheckbox();
+            bindiCheckBoxClicked();
+
+            // register some events when modal dialog is showing
+            $("#OrderDetailsDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                viewModel.loadModel(orderId);
+            })
+
+            $('#OrderDetailsDialog').on('hidden.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+            // register some events when modal shipment detail dialog is showing
+            $("#ConfirmShipmentDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                var marketplace = element.data("marketplace");
+                viewModel.loadUnshippedOrderItems(orderId);
+                viewModel.loadMarketplaceCarriers(marketplace);
+            })
+
+            // register some events when modal dialog is showing
+            $("#OrderDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                viewModel.manualOrderId(orderId);
+
+                if (orderId == -1) {
+                    $.getJSON(GET_MAX_EIS_ORDERID_URL, function (result) {
+                        viewModel.manualOrder().OrderId(result);
+                    })
+                } else {
+                    viewModel.loadManualOrder(orderId);
+                }
+            })
+
+            // register some events when modal dialog is showing
+            $("#MarkOrderDialog").on("shown.bs.modal", function (event) {
+                viewModel.markOrderExported(new MarkingOrderModel({
+                    IsExported: true,
+                    EisOrderIds: selectedEisOrderIds
+                }));
+                viewModel.type("warning");
+                viewModel.message("You have selected " + recordsSelected + " records to mark as export/unexport");
+            })
+
+            $('#OrderDialog').on('hidden.bs.modal', function () {
+                $("#btnCreateOrder").removeClass("disabled");
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+            $('#ConfirmShipmentDialog').on('hidden.bs.modal', function () {
+                $("#btnConfirmShipment").removeClass("disabled");
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+            $('#CustomExportOrderDialog').on('show.bs.modal', function () {
+                viewModel.loadCustomExportOrder(recordsSelected);
+            })
+
+            $('#loadTemplateOrderModal').on('show.bs.modal', function () {
+                viewModel.loadCustomReportTemplates();
+            })
+
+            // register some events when modal dialog is showing
+            $("#FilterDialog").on("show.bs.modal", function (event) {
+                viewModel.loadFilterModel('@ViewBag.OrderStatus',
+                    '@ViewBag.IsExported',
+                    '@ViewBag.OrderDateFrom', '@ViewBag.OrderDateTo',
+                    '@ViewBag.ShipmentDateFrom', '@ViewBag.ShipmentDateTo');
+            });
+
+            $("#btnApplyFilters").click(function (event) {
+                showSpinner();
+                $("#orderDateFrom").val(viewModel.orderDateRange()[0].format());
+                $("#orderDateTo").val(viewModel.orderDateRange()[1].format());
+                $("#shipmentDateFrom").val(viewModel.shipmentDateRange()[0].format());
+                $("#shipmentDateTo").val(viewModel.shipmentDateRange()[1].format());
+                $("#filterForm").submit();
+            });
+
+            $("#btnSaveFilter").click(function (event) {
+
+                showSpinner();
+                var filterName = $("#filterName").val();
+                if (filterName == "") {
+                    alert("Enter filter name");
+                    hideSpinner();
+                    return false;
+                }
+
+                $("#orderDateFrom").val(viewModel.orderDateRange()[0].format());
+                $("#orderDateTo").val(viewModel.orderDateRange()[1].format());
+                $("#shipmentDateFrom").val(viewModel.shipmentDateRange()[0].format());
+                $("#shipmentDateTo").val(viewModel.shipmentDateRange()[1].format());
+
+                var filterString = "ProductGroupId=" + $("#ProductGroupId").val()+
+                "&orderDateFrom=" + $("#orderDateFrom").val() +
+                "&orderDateTo=" + $("#orderDateTo").val() +
+                "&shipmentDateFrom=" + $("#shipmentDateFrom").val() +
+                "&shipmentDateTo=" + $("#shipmentDateTo").val() +
+                "&shippingAddress=" + $("#shippingAddress").val() +
+                "&shippingCity=" + $("#shippingCity").val() + "&shippingCountry=" + $("#shippingCountry").val() +
+                "&OrderStatus=" + $("#OrderStatus").val() + "&IsExported=" + $("#IsExported").val() +
+                "&MarketPlace=" + $("#MarketPlace").val() + "&PaymentStatus=" + $("#PaymentStatus").val();
+                
+                var selectedFilter = "0";
+                if ($("#SearchFilterId").val() != "") {
+                    selectedFilter = $("#SearchFilterId").val();
+                }
+
+                $.ajax({
+                    url: MANAGE_SEARCHFILTER,
+                    data: { "selectedSearchFilter": selectedFilter, "filterName": filterName, "searchString": filterString },
+                    success: function (result) {
+
+                        if (result.status == "error")
+                        {
+                            alert(result.message);
+                            hideSpinner();
+                            return false;
+                        }
+                        LoadSearchFilterDropdown();
+                        viewModel.resetFilters();
+                        alert(result.message);
+                    },
+                    error: function (result) {
+
+                        alert(result.message);
+                    }
+                });
+
+                hideSpinner();
+            });
+
+
+            bindCurrentPageClicked();
+            bindSelectAllPagesCheckBoxClicked();
+            doBindDateRangePickers();
+
+            // uncheck all order checkbox during the first load; a reset
+            $("input.customExportBox").iCheck("uncheck");
+        });
+
+        function loadPagedDataComplete() {
+
+            // re-bind the checkbox
+            bindCustomExportCheckbox();
+            bindiCheckBoxClicked();
+            bindCurrentPageClicked();
+            bindSelectAllPagesCheckBoxClicked();
+
+            if (isSelectAllPages) {
+                $("input.eisOrderIdBox").iCheck("check");
+                $("#tblOrders tbody tr").addClass("selected");
+            }
+        }
+
+        function bindCustomExportCheckbox() {
+            $("input.customExportBox").iCheck({
+                checkboxClass: 'icheckbox_minimal-blue'
+            });
+        }
+
+        function bindiCheckBoxClicked() {
+            $("input.eisOrderIdBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                var eisSKU = $(event.target).data("id");
+                if (isFromChecked) {
+                    removeSelectedSkuFromArr(eisSKU);
+                    $(event.target).parent().parent().parent().removeClass("selected");
+
+                    if (isSelectAllPages)
+                        unselectedEisOrderIds.push(eisSKU);
+
+                } else {
+                    selectedEisOrderIds.push(eisSKU);
+                    $(event.target).parent().parent().parent().addClass("selected");
+
+                    if (isSelectAllPages)
+                        removeUnselectedSkuFromArr(eisSKU);
+                }
+
+                updateSelectedOrderIdMsg();
+            });
+        }
+
+        function bindCurrentPageClicked() {
+            // bind the click event for the Current Page checkbox
+            $("input#selectCurrentPageBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                selectedEisOrderIds = [];
+                unselectedEisOrderIds = [];
+                isSelectAllPages = false;
+
+                if (isFromChecked) { // uncheck of products' checkbox
+                    $("input.eisOrderIdBox").iCheck("uncheck");
+                    $("#tblOrders tbody tr").removeClass("selected");
+                } else { // otherwise; check it all
+                    var $inputEisSkuBoxes = $(":input.eisOrderIdBox");
+                    $inputEisSkuBoxes.each(function () {
+                        selectedEisOrderIds.push($(this).data("id"));
+                    })
+
+                    $("input.eisOrderIdBox").iCheck("check");
+                    $("#tblOrders tbody tr").addClass("selected");
+                }
+
+                $("input#selectAllPagesBox").iCheck("uncheck");
+
+                // update the message status
+                updateSelectedOrderIdMsg();
+            });
+        }
+
+        function bindSelectAllPagesCheckBoxClicked() {
+            // bind the click event for the Select All Pages checkbox
+            $("input#selectAllPagesBox").on("ifClicked", function (event) {
+                var isFromChecked = $(event.target).is(":checked");
+                selectedEisOrderIds = [];
+
+                if (isFromChecked) { // uncheck of products' checkbox
+                    unselectedEisOrderIds = [];
+                    $("input.eisOrderIdBox").iCheck("uncheck");
+                    $("#tblOrders tbody tr").removeClass("selected");
+                    isSelectAllPages = false;
+                } else {
+                    $("input.eisOrderIdBox").iCheck("check");
+                    $("#tblOrders tbody tr").addClass("selected");
+                    isSelectAllPages = true;
+                }
+
+                $("input#selectCurrentPageBox").iCheck("uncheck");
+
+                // update the message status
+                updateSelectedOrderIdMsg();
+            });
+        }
+
+        function removeSelectedSkuFromArr(sku) {
+            selectedEisOrderIds = $.grep(selectedEisOrderIds, function (value) {
+                return value != sku;
+            })
+        }
+
+        function removeUnselectedSkuFromArr(sku) {
+            unselectedEisOrderIds = $.grep(unselectedEisOrderIds, function (value) {
+                return value != sku;
+            })
+        }
+
+        function updateSelectedOrderIdMsg() {
+            var totalProducts = $("#TotalItemCount").val();
+            recordsSelected = isSelectAllPages ? (totalProducts - unselectedEisOrderIds.length)
+                : selectedEisOrderIds.length;
+            displayMessage("Total rows selected: " + recordsSelected, "info");
+
+            // hide the message box if there's no selected EIS SKUs
+            if (recordsSelected == 0)
+                fadeOutMessage();
+        }
+
+        function doBindDateRangePickers() {
+            // hook the event for the Order Date daterange
+            $('#orderDate').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+                        'Last 30 Days': [moment().subtract('days', 29), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                    },
+                    startDate: moment().subtract('days', 29),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $("#OrderDateFrom").val(start.format('MMMM D, YYYY'));
+                    $("#OrderDateTo").val(end.format('MMMM D, YYYY'));
+                    $('#orderDate span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+            );
+            // set NULL values to for the order date range
+            $('#orderDate').on('cancel.daterangepicker', function (ev, picker) {
+                //do something, like clearing an input
+                $("#OrderDateFrom").val('');
+                $("#OrderDateTo").val('');
+                $('#orderDate span').html("-- select order date range -- ");
+            });
+
+            // hook the event for the Shipment Date daterange
+            $('#shipmentDate').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+                        'Last 30 Days': [moment().subtract('days', 29), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                    },
+                    startDate: new Date(),
+                    endDate: new Date()
+                },
+                function (start, end) {
+                    $("#ShipmentDateFrom").val(start.format('MMMM D, YYYY'));
+                    $("#ShipmentDateTo").val(end.format('MMMM D, YYYY'));
+                    $('#shipmentDate span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+            );
+            // set NULL values to for the shipment date range
+            $('#shipmentDate').on('cancel.daterangepicker', function (ev, picker) {
+                //do something, like clearing an input
+                $("#ShipmentDateFrom").val("");
+                $("#ShipmentDateTo").val("");
+                $('#shipmentDate span').html("-- select shipment date range -- ");
+            });
+        }
+        function LoadSearchFilterDropdown()
+        {
+            $.ajax({
+                url: LOAD_SEARCHFILTER,
+                data: { },
+                success: function (result) {
+
+                    var markup = "<option value=''>-- Select Saved Filter --</option>";
+                    for (var x = 0; x < result.listItem.length; x++) {
+                        markup += "<option value=" + result.listItem[x].Value + ">" + result.listItem[x].Text + "</option>";
+                    }
+                    $("#SearchFilterId").html(markup).show();
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+        function GetFilter(_filterId)
+        {
+            if (_filterId == "")
+            {
+                $("#deletefilter").hide();
+                viewModel.resetFilters();
+
+                return false;
+            }
+
+            $.ajax({
+                url: GET_SEARCHFILTER,
+                data: { "Id": _filterId },
+                success: function (result) {
+
+                    $("#filterName").val(result.item.SavedSearchFilterName);
+                    var parentSplit = result.item.SearchString.split('&');
+
+                    var shipmentFromDate = "";
+                    var shipmentToDate ="";
+                    var orderFromDate = "";
+                    var orderToDate = "";
+                    var OrderStatus = "";
+                    var IsExported = "";
+
+                    $.each(parentSplit, function (i, v) {
+                        var pair = v.split('=');
+                        if (pair[0] == "shipmentDateFrom")
+                        {
+                            $("#ShipmentDateFrom").val(pair[1].format('MMMM D, YYYY'));
+                            shipmentFromDate =  pair[1];
+                        }
+                        else if (pair[0] == "shipmentDateTo") {
+                            $("#ShipmentDateTo").val(pair[1].format('MMMM D, YYYY'));
+                            shipmentToDate = pair[1];
+                        }
+                        else if (pair[0] == "orderDateFrom") {
+                            $("#OrderDateFrom").val(pair[1].format('MMMM D, YYYY'));
+                            orderFromDate = pair[1];
+                        }
+                        else if (pair[0] == "orderDateTo") {
+                            $("#OrderDateTo").val(pair[1].format('MMMM D, YYYY'));
+                            orderToDate = pair[1];
+                        }
+                        else if (pair[0] == "OrderStatus") {
+                            $('#' + pair[0] + '').val(pair[1]);
+                            OrderStatus = pair[1];
+                        }
+                        else if (pair[0] == "IsExported") {
+                            $('#' + pair[0] + '').val(pair[1]);
+                            IsExported = pair[1];
+                        }
+                        else {
+                            $('#' + pair[0] + '').val(pair[1]);
+                        }
+
+                    });
+                    
+                    viewModel.loadFilterModel('@ViewBag.OrderStatus',
+                    '@ViewBag.IsExported',
+                    orderFromDate, orderToDate,
+                    shipmentFromDate, shipmentToDate);
+                    $("#deletefilter").show();
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+        function DeleteSavedFilter() {
+
+            if ($("#SearchFilterId").val() == "") {
+                alert("Select saved search to delete");
+                return false;
+            }
+
+            var selectedFilter = $("#SearchFilterId").val();
+
+
+            $.ajax({
+                url: DELETE_SEARCHFILTER,
+                data: { "Id": selectedFilter },
+                success: function (result) {
+
+                    if (result.status == "error")
+                    {
+                        alert(result.message);
+                        return false;
+                    }
+
+                    LoadSearchFilterDropdown();
+                    viewModel.resetFilters();
+                    alert(result.message);
+                },
+                error: function (result) {
+
+                    alert(result.message);
+                }
+            });
+        }
+    </script>
+    <style type="text/css">
+        .invoice {
+            padding: 0 8px;
+            margin: 0 10px;
+        }
+
+        .daterangepicker {
+            z-index: 10000 !important;
+        }
+    </style>
+}

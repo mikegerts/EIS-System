@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="eshopo.vendorsconfigModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="imagefileconfigs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="ColumnNo" Type="int" Nullable="false" />
+          <Property Name="ImageType" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="productfileconfigs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="SKU" Type="int" />
+          <Property Name="Name" Type="int" />
+          <Property Name="Description" Type="int" />
+          <Property Name="ShortDescription" Type="int" />
+          <Property Name="Category" Type="int" />
+          <Property Name="UPCCode" Type="int" />
+          <Property Name="SupplierCost" Type="int" />
+        </EntityType>
+        <EntityType Name="productimages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorProductId" Type="bigint" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ImageType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="uploadstatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="StartUploadDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="EndUploadDate" Type="datetime" Precision="0" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Attempt" Type="int" />
+        </EntityType>
+        <EntityType Name="vendorproducts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="SKU" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="text" />
+          <Property Name="ShortDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="Category" Type="varchar" MaxLength="150" />
+          <Property Name="UPCCode" Type="varchar" MaxLength="50" />
+          <Property Name="SupplierCost" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="ResultDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vendors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VendorName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="FilePath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TransferPath" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="EISSKUCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UploadTime" Type="time" Precision="0" Nullable="false" />
+          <Property Name="ReadTime" Type="time" Precision="0" Nullable="false" />
+          <Property Name="RowAt" Type="int" />
+          <Property Name="FileType" Type="varchar" MaxLength="50" />
+          <Property Name="NextRunTime" Type="datetime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_ImageFileConfigs_Vendors">
+          <End Role="vendors" Type="Self.vendors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="imagefileconfigs" Type="Self.imagefileconfigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="imagefileconfigs">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFileConfigs_Vendors">
+          <End Role="vendors" Type="Self.vendors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="productfileconfigs" Type="Self.productfileconfigs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="productfileconfigs">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductImages_VendorProducts">
+          <End Role="vendorproducts" Type="Self.vendorproducts" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="productimages" Type="Self.productimages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendorproducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="productimages">
+              <PropertyRef Name="VendorProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UploadStats_Vendors">
+          <End Role="vendors" Type="Self.vendors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="uploadstatus" Type="Self.uploadstatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="uploadstatus">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorProducts_Vendors">
+          <End Role="vendors" Type="Self.vendors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="vendorproducts" Type="Self.vendorproducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="vendorproducts">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="eshopovendorsconfigModelStoreContainer">
+          <EntitySet Name="imagefileconfigs" EntityType="Self.imagefileconfigs" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <EntitySet Name="productfileconfigs" EntityType="Self.productfileconfigs" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <EntitySet Name="productimages" EntityType="Self.productimages" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <EntitySet Name="uploadstatus" EntityType="Self.uploadstatus" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <EntitySet Name="vendorproducts" EntityType="Self.vendorproducts" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <EntitySet Name="vendors" EntityType="Self.vendors" Schema="eshopo.vendorsconfig" store:Type="Tables" />
+          <AssociationSet Name="FK_ImageFileConfigs_Vendors" Association="Self.FK_ImageFileConfigs_Vendors">
+            <End Role="vendors" EntitySet="vendors" />
+            <End Role="imagefileconfigs" EntitySet="imagefileconfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFileConfigs_Vendors" Association="Self.FK_ProductFileConfigs_Vendors">
+            <End Role="vendors" EntitySet="vendors" />
+            <End Role="productfileconfigs" EntitySet="productfileconfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductImages_VendorProducts" Association="Self.FK_ProductImages_VendorProducts">
+            <End Role="vendorproducts" EntitySet="vendorproducts" />
+            <End Role="productimages" EntitySet="productimages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UploadStats_Vendors" Association="Self.FK_UploadStats_Vendors">
+            <End Role="vendors" EntitySet="vendors" />
+            <End Role="uploadstatus" EntitySet="uploadstatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorProducts_Vendors" Association="Self.FK_VendorProducts_Vendors">
+            <End Role="vendors" EntitySet="vendors" />
+            <End Role="vendorproducts" EntitySet="vendorproducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="eshopo.vendorsconfigModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="productfileconfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="SKU" Type="Int32" />
+          <Property Name="Name" Type="Int32" />
+          <Property Name="Description" Type="Int32" />
+          <Property Name="ShortDescription" Type="Int32" />
+          <Property Name="Category" Type="Int32" />
+          <Property Name="UPCCode" Type="Int32" />
+          <Property Name="SupplierCost" Type="Int32" />
+          <NavigationProperty Name="vendor" Relationship="eshopo.vendorsconfigModel.FK_ProductFileConfigs_Vendors" FromRole="productfileconfig" ToRole="vendor" />
+        </EntityType>
+        <EntityType Name="productimage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorProductId" Type="Int64" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImageType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="vendorproduct" Relationship="Self.FK_ProductImages_VendorProducts" FromRole="productimages" ToRole="vendorproducts" />
+        </EntityType>
+        <EntityType Name="uploadstatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="StartUploadDate" Type="DateTime" Nullable="false" />
+          <Property Name="EndUploadDate" Type="DateTime" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Attempt" Type="Int32" />
+          <NavigationProperty Name="vendor" Relationship="eshopo.vendorsconfigModel.FK_UploadStats_Vendors" FromRole="uploadstatu" ToRole="vendor" />
+        </EntityType>
+        <EntityType Name="vendorproduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="SKU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="UPCCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierCost" Type="Decimal" Nullable="false" />
+          <Property Name="ResultDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="productimages" Relationship="Self.FK_ProductImages_VendorProducts" FromRole="vendorproducts" ToRole="productimages" />
+          <NavigationProperty Name="vendor" Relationship="eshopo.vendorsconfigModel.FK_VendorProducts_Vendors" FromRole="vendorproduct" ToRole="vendor" />
+        </EntityType>
+        <EntityType Name="imagefileconfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="VendorId" Type="Int32" Nullable="false" />
+          <Property Name="ColumnNo" Type="Int32" Nullable="false" />
+          <Property Name="ImageType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="vendor" Relationship="eshopo.vendorsconfigModel.FK_ImageFileConfigs_Vendors" FromRole="imagefileconfig" ToRole="vendor" />
+        </EntityType>
+        <Association Name="FK_ProductImages_VendorProducts">
+          <End Role="vendorproducts" Type="Self.vendorproduct" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="productimages" Type="Self.productimage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendorproducts">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="productimages">
+              <PropertyRef Name="VendorProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VendorsConfigEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="productfileconfigs" EntityType="Self.productfileconfig" />
+          <EntitySet Name="productimages" EntityType="Self.productimage" />
+          <EntitySet Name="uploadstatus" EntityType="Self.uploadstatu" />
+          <EntitySet Name="vendorproducts" EntityType="Self.vendorproduct" />
+          <EntitySet Name="imagefileconfigs" EntityType="Self.imagefileconfig" />
+          <AssociationSet Name="FK_ProductImages_VendorProducts" Association="Self.FK_ProductImages_VendorProducts">
+            <End Role="vendorproducts" EntitySet="vendorproducts" />
+            <End Role="productimages" EntitySet="productimages" />
+          </AssociationSet>
+          <EntitySet Name="vendors" EntityType="eshopo.vendorsconfigModel.vendor" />
+          <AssociationSet Name="FK_ImageFileConfigs_Vendors" Association="eshopo.vendorsconfigModel.FK_ImageFileConfigs_Vendors">
+            <End Role="vendor" EntitySet="vendors" />
+            <End Role="imagefileconfig" EntitySet="imagefileconfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFileConfigs_Vendors" Association="eshopo.vendorsconfigModel.FK_ProductFileConfigs_Vendors">
+            <End Role="vendor" EntitySet="vendors" />
+            <End Role="productfileconfig" EntitySet="productfileconfigs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UploadStats_Vendors" Association="eshopo.vendorsconfigModel.FK_UploadStats_Vendors">
+            <End Role="vendor" EntitySet="vendors" />
+            <End Role="uploadstatu" EntitySet="uploadstatus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorProducts_Vendors" Association="eshopo.vendorsconfigModel.FK_VendorProducts_Vendors">
+            <End Role="vendor" EntitySet="vendors" />
+            <End Role="vendorproduct" EntitySet="vendorproducts" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="vendor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TransferPath" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EISSKUCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UploadTime" Type="Time" Nullable="false" />
+          <Property Name="ReadTime" Type="Time" Nullable="false" />
+          <Property Name="RowAt" Type="Int32" />
+          <Property Name="FileType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NextRunTime" Type="DateTime" />
+          <NavigationProperty Name="imagefileconfigs" Relationship="eshopo.vendorsconfigModel.FK_ImageFileConfigs_Vendors" FromRole="vendor" ToRole="imagefileconfig" />
+          <NavigationProperty Name="productfileconfigs" Relationship="eshopo.vendorsconfigModel.FK_ProductFileConfigs_Vendors" FromRole="vendor" ToRole="productfileconfig" />
+          <NavigationProperty Name="uploadstatus" Relationship="eshopo.vendorsconfigModel.FK_UploadStats_Vendors" FromRole="vendor" ToRole="uploadstatu" />
+          <NavigationProperty Name="vendorproducts" Relationship="eshopo.vendorsconfigModel.FK_VendorProducts_Vendors" FromRole="vendor" ToRole="vendorproduct" />
+        </EntityType>
+        <Association Name="FK_ImageFileConfigs_Vendors">
+          <End Type="eshopo.vendorsconfigModel.vendor" Role="vendor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="eshopo.vendorsconfigModel.imagefileconfig" Role="imagefileconfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="imagefileconfig">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFileConfigs_Vendors">
+          <End Type="eshopo.vendorsconfigModel.vendor" Role="vendor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="eshopo.vendorsconfigModel.productfileconfig" Role="productfileconfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="productfileconfig">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UploadStats_Vendors">
+          <End Type="eshopo.vendorsconfigModel.vendor" Role="vendor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="eshopo.vendorsconfigModel.uploadstatu" Role="uploadstatu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="uploadstatu">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorProducts_Vendors">
+          <End Type="eshopo.vendorsconfigModel.vendor" Role="vendor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="eshopo.vendorsconfigModel.vendorproduct" Role="vendorproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="vendorproduct">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="eshopovendorsconfigModelStoreContainer" CdmEntityContainer="VendorsConfigEntities">
+          <EntitySetMapping Name="productfileconfigs">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.productfileconfig">
+              <MappingFragment StoreEntitySet="productfileconfigs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="UPCCode" ColumnName="UPCCode" />
+                <ScalarProperty Name="SupplierCost" ColumnName="SupplierCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productimages">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.productimage">
+              <MappingFragment StoreEntitySet="productimages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorProductId" ColumnName="VendorProductId" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uploadstatus">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.uploadstatu">
+              <MappingFragment StoreEntitySet="uploadstatus">
+                <ScalarProperty Name="Attempt" ColumnName="Attempt" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="StartUploadDate" ColumnName="StartUploadDate" />
+                <ScalarProperty Name="EndUploadDate" ColumnName="EndUploadDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vendorproducts">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.vendorproduct">
+              <MappingFragment StoreEntitySet="vendorproducts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="UPCCode" ColumnName="UPCCode" />
+                <ScalarProperty Name="SupplierCost" ColumnName="SupplierCost" />
+                <ScalarProperty Name="ResultDate" ColumnName="ResultDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="imagefileconfigs">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.imagefileconfig">
+              <MappingFragment StoreEntitySet="imagefileconfigs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="ColumnNo" ColumnName="ColumnNo" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vendors">
+            <EntityTypeMapping TypeName="eshopo.vendorsconfigModel.vendor">
+              <MappingFragment StoreEntitySet="vendors">
+                <ScalarProperty Name="NextRunTime" ColumnName="NextRunTime" />
+                <ScalarProperty Name="FileType" ColumnName="FileType" />
+                <ScalarProperty Name="RowAt" ColumnName="RowAt" />
+                <ScalarProperty Name="ReadTime" ColumnName="ReadTime" />
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="EISSKUCode" ColumnName="EISSKUCode" />
+                <ScalarProperty Name="TransferPath" ColumnName="TransferPath" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

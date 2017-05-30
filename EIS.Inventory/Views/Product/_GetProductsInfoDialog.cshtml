@@ -1,0 +1,37 @@
+﻿
+
+
+<div style="display:none;" class="modal fade" id="GetProductsInfoDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: marketplaceFeed">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: modalTitle"></h4>
+            </div>
+            <form role="form" id="marketplaceFeedForm" class="form" method="post" data-bind="attr: {action: feedUrl }">
+                <div class="modal-body" id="marketplace-feed-form">
+                    <div>
+                        <div class="alertMsgStatus" data-bind="visible: $parent.message(), alert: { message: $parent.message, type: $parent.type, template: 'alertTemplate' }"></div>
+                        <input type="hidden" data-bind="value: ExcludedEisSKUs" />
+                        <input type="hidden" data-bind="value: SelectedEisSKUs" />
+                        <input type="hidden" name="IsAllProductItems" data-bind="value: IsAllProductItems" />
+                        <input type="hidden" name="VendorId" data-bind="value: VendorId" />
+                        <input type="hidden" name="SearchString" data-bind="value: SearchString" />
+                        <input type="hidden" name="QuantityFrom" data-bind="value: QuantityFrom" />
+                        <input type="hidden" name="QuantityTo" data-bind="value: QuantityTo" />
+
+                        <div class="form-group">
+                            <p class="text-light-blue" data-bind="text: modalInfoMsg"></p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button id="btnGetInfo" type="button" class="btn btn-warning" data-bind="click: submitProductInfoFeed, enable: hasRecordsSelected">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

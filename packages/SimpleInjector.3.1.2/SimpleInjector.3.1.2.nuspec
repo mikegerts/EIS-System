@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>SimpleInjector</id>
+    <version>3.1.2</version>
+    <title>Simple Injector</title>
+    <authors>Simple Injector Contributors</authors>
+    <owners>Simple Injector Contributors</owners>
+    <licenseUrl>https://simpleinjector.codeplex.com/license</licenseUrl>
+    <projectUrl>https://simpleinjector.org/</projectUrl>
+    <iconUrl>https://simpleinjector.org/simpleinjector.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple Injector is an easy, flexible and fast dependency injection library that uses best practice to guide your solutions toward the pit of success.</description>
+    <summary>Simple Injector is an easy-to-use Dependency Injection (DI) library for .NET 4+ that supports Silverlight 4+, Windows Phone 8, Windows 8 including Universal apps and Mono.</summary>
+    <releaseNotes>Fixes and improvements
+-  Memory usage of Scope instances reduced after scope is disposed. (fixes #160)
+- DNXCORE50/CoreCLR version available. (fixes #57)
+
+https://github.com/simpleinjector/SimpleInjector/releases/tag/v3.1.2</releaseNotes>
+    <copyright>Simple Injector Contributors 2010 - 2015</copyright>
+    <language>en-US</language>
+    <tags>simpleinjector architecture dependency-injection DI easy easy-to-use Inversion-of-Control IOC silverlight mono wp8 pcl</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0" />
+      <group targetFramework="WindowsPhone8.0" />
+      <group targetFramework="Windows8.0" />
+      <group targetFramework="Unsupported0.0">
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Collections.Concurrent" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Globalization" version="4.0.10" />
+        <dependency id="System.IO" version="4.0.10" />
+        <dependency id="System.Linq" version="4.0.0" />
+        <dependency id="System.Linq.Expressions" version="4.0.10" />
+        <dependency id="System.Reflection" version="4.0.10" />
+        <dependency id="System.Reflection.Extensions" version="4.0.0" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.0.0" />
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.Runtime.Extensions" version="4.0.10" />
+        <dependency id="System.Threading" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+      </group>
+      <group targetFramework="MonoTouch0.0" />
+      <group targetFramework="MonoAndroid0.0" />
+    </dependencies>
+  </metadata>
+</package>

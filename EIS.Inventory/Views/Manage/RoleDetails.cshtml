@@ -1,0 +1,36 @@
+﻿@model EIS.Inventory.Models.RoleViewModel
+
+@{
+    ViewBag.ActiveMenu = "roles";
+    ViewBag.Title = "Role Details";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Role Details</h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.RoleName)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.RoleName)</td>
+                            </tr>
+                        </table>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <p class="no-margin pull-right">
+                            <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this role" href="@Html.Raw(Url.Action("EditRole", "Account", new { id = Model.Id }))"><i class="glyphicon glyphicon-edit"></i>Edit</a> |
+                            <a class="btn btn-info btn-sm" data-toggle="tooltip" data-original-title="Back to role list" href="@Html.Raw(Url.Action("Roles", "Account"))"><i class="glyphicon glyphicon-th-list"></i>Back to Role List</a>
+                        </p>
+                    </div>
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section>
+</div>

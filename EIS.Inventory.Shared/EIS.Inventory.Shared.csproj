@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{220F7F6D-780C-407E-852E-DADDE688A243}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Inventory.Shared</RootNamespace>
+    <AssemblyName>EIS.Inventory.Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.13.2.0\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MySql.Data.6.9.6\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\CopyObject.cs" />
+    <Compile Include="Helpers\EisHelper.cs" />
+    <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
+    <Compile Include="Helpers\IFileHelper.cs" />
+    <Compile Include="Helpers\IImageHelper.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
+    <Compile Include="Helpers\IPersistenceHelper.cs" />
+    <Compile Include="Helpers\DecimalWithUnitParser.cs" />
+    <Compile Include="Helpers\NodeValueExtractor.cs" />
+    <Compile Include="Helpers\PersistenceHelper.cs" />
+    <Compile Include="Helpers\Recurrence.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Models\EnumTypes.cs" />
+    <Compile Include="Models\AmazonInfoFeed.cs" />
+    <Compile Include="Models\CarrierTypes.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\InventoryDependency.cs" />
+    <Compile Include="Models\JobStatus.cs" />
+    <Compile Include="Models\JobType.cs" />
+    <Compile Include="Models\KeyValuePair.cs" />
+    <Compile Include="Models\LogEntry.cs" />
+    <Compile Include="Models\Marketplaces\ItemFeed.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceInventoryFeed.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceOrder.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceOrderItem.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceProcessingReport.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceProduct.cs" />
+    <Compile Include="Models\Marketplaces\MarketplaceRequestReport.cs" />
+    <Compile Include="Models\Marketplaces\MarketPlaceTypes.cs" />
+    <Compile Include="Models\MediaContent.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageType.cs" />
+    <Compile Include="Models\Marketplaces\OrderPaymentStatus.cs" />
+    <Compile Include="Models\Marketplaces\OrderStatus.cs" />
+    <Compile Include="Models\Marketplaces\PaymentStatus.cs" />
+    <Compile Include="Models\Marketplaces\ProductAmazon.cs" />
+    <Compile Include="Models\OrderProductResult.cs" />
+    <Compile Include="Models\DropShipFeeType.cs" />
+    <Compile Include="Models\EnumSavedSearchFilters.cs" />
+    <Compile Include="Models\ScheduleType.cs" />
+    <Compile Include="Models\SettlementType.cs" />
+    <Compile Include="Models\ShippingMethod.cs" />
+    <Compile Include="Models\Shippings\Address.cs" />
+    <Compile Include="Models\Dimension.cs" />
+    <Compile Include="Models\Shippings\ConfirmationType.cs" />
+    <Compile Include="Models\Shippings\InsuranceType.cs" />
+    <Compile Include="Models\Shippings\MailClass.cs" />
+    <Compile Include="Models\Shippings\Package.cs" />
+    <Compile Include="Models\Shippings\PackageDetail.cs" />
+    <Compile Include="Models\Shippings\PackageType.cs" />
+    <Compile Include="Models\Shippings\PostageLabel.cs" />
+    <Compile Include="Models\Shippings\ServiceType.cs" />
+    <Compile Include="Models\Shippings\ShippingRate.cs" />
+    <Compile Include="Models\Shippings\Shipment.cs" />
+    <Compile Include="Models\SkuType.cs" />
+    <Compile Include="Models\UploadResultType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\BlacklistedSKU\BlacklistedSkuDto.cs" />
+    <Compile Include="ViewModels\Kit\KitDetailDto.cs" />
+    <Compile Include="ViewModels\Kit\KitDto.cs" />
+    <Compile Include="ViewModels\Kit\ProductSearchDto.cs" />
+    <Compile Include="ViewModels\Credential\AmazonCredentialDto.cs" />
+    <Compile Include="ViewModels\Credential\BigCommerceCredentialDto.cs" />
+    <Compile Include="ViewModels\Credential\CredentialDto.cs" />
+    <Compile Include="ViewModels\Credential\eBayCredentialDto.cs" />
+    <Compile Include="ViewModels\Credential\ShipStationCredentialDto.cs" />
+    <Compile Include="ViewModels\Order\Order.cs" />
+    <Compile Include="ViewModels\Order\OrderItem.cs" />
+    <Compile Include="ViewModels\Order\OrderProductDto.cs" />
+    <Compile Include="ViewModels\ProductTypeDto.cs" />
+    <Compile Include="ViewModels\Product\AmazonInfoFeed.cs" />
+    <Compile Include="ViewModels\Product\Product.cs" />
+    <Compile Include="ViewModels\Product\ProductBigCommerceDto.cs" />
+    <Compile Include="ViewModels\Product\ProducteBayDto.cs" />
+    <Compile Include="ViewModels\Product\Shadow.cs" />
+    <Compile Include="ViewModels\ScheduledTaskCustomer\CustomerExportedFileDto.cs" />
+    <Compile Include="ViewModels\ScheduledTaskCustomer\CustomerWholeSalePriceHistoryDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\CustomExportProductTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\CustomImportOrderTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\ExportedFileDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\CustomExportOrderTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\VendorProductFileInventoryTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\GeneratePoTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\MarketplaceInventoryTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\ScheduledTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTask\ScheduledTaskListDto.cs" />
+    <Compile Include="ViewModels\ScheduledTaskCustomer\CustomerScheduledTaskDto.cs" />
+    <Compile Include="ViewModels\ScheduledTaskCustomer\CustomerScheduledTaskListDto.cs" />
+    <Compile Include="ViewModels\SettlementReport\ItemChargeDto.cs" />
+    <Compile Include="ViewModels\SettlementReport\SettlementItemDto.cs" />
+    <Compile Include="ViewModels\SettlementReport\SettlementOrderDto.cs" />
+    <Compile Include="ViewModels\SettlementReport\SettlementRefundDto.cs" />
+    <Compile Include="ViewModels\SettlementReport\SettlementReportDto.cs" />
+    <Compile Include="ViewModels\Shipping\OrderProductListDto.cs" />
+    <Compile Include="ViewModels\Shipping\OrderProductDetailDto.cs" />
+    <Compile Include="ViewModels\Shipping\ShippingLocationDto.cs" />
+    <Compile Include="ViewModels\SystemJob\SystemJobDto.cs" />
+    <Compile Include="ViewModels\SystemJob\SystemJobListDto.cs" />
+    <Compile Include="ViewModels\VendorProduct\VendorProduct.cs" />
+    <Compile Include="ViewModels\VendorProduct\VendorProductUploadResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

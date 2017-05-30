@@ -1,0 +1,135 @@
+﻿
+<div style="display:none;" class="modal fade" id="CompanyDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-bind="with: company">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="form-horizontal">
+
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" data-bind="visible: Id() != -1">
+                                        <label class="control-label col-md-4" for="Name">Company ID</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Id, event: { change: valueChanged }" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Name">Company Name</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Name, attr: { 'readonly': $parent.isViewOnly() }, event: { change: valueChanged }" placeholder="Enter company name" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="CreditTerm">Company Address</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Address, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter company address" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="PhoneNumber">Phone Number</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Phone, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter telephone number" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Website">Website</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: Website, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter website" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="Email">Contact Email</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" type="email" data-bind="value: Email, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter contact email" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="State">State</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: State, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter state" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="City">City/Locality</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: City, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter city" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="ZipCode">Zip Code</label>
+                                        <div class="col-md-8">
+                                            <input class="form-control text-box single-line" data-bind="value: ZipCode, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter postal code" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4" for="IsDefault">Is Default</label>
+                                        <div class="col-md-8">
+                                            <select id="IsDefault" name="IsDefault" class="form-control" data-bind="options: $parent.IsDefaultList, optionsValue: 'Value', optionsText: 'Text', value: IsDefault, attr: { 'disabled': $parent.isViewOnly() }">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box box-solid" data-bind="visible: Id() != -1">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Settings</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Assigned vendors</label>
+                                    <!-- ko if: Vendors().length != 0 -->
+                                    <div style="position:relative; min-height: 100px !important; margin-top:5px;" data-bind="foreach: Vendors">
+                                        <div class="listbox" style="float:left;width:49%">
+                                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                            <label data-bind="text: Name" class="settingLabels">
+                                            </label>
+                                        </div>
+                                    </div>                                    
+                                    <!-- /ko -->
+                                    <p class="text-muted" data-bind="visible: Vendors().length == 0">No vendors assigned to this company.</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Assigned marketplaces</label>
+                                    <!-- ko if: MarketplaceCredentials().length != 0 -->
+                                    <div style="position:relative; min-height: 100px !important; margin-top:5px;" data-bind="foreach: MarketplaceCredentials">
+                                        <div class="listbox" style="float:left;width:49%">
+                                            <span class="fa fa-amazon" aria-hidden="true"></span>
+                                            <label data-bind="text: Name" class="settingLabels">
+                                            </label>
+                                            <span data-bind="text: Mode"></span>
+                                        </div>
+                                    </div>
+                                    <!-- /ko -->
+                                    <p class="text-muted" data-bind="visible: MarketplaceCredentials().length == 0">No marketplaces assigned to this company.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-warning" style="display:none" data-bind="visible: $parent.isViewOnly(), click: $parent.editCompany">Edit Company</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !$parent.isViewOnly(),click: $parent.saveCompany, text: (Id() == -1 ? 'Save Company' : 'Save Changes')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

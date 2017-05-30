@@ -1,0 +1,324 @@
+﻿@model  Webdiyer.WebControls.Mvc.PagedList<EIS.Inventory.Core.ViewModels.PurchaseOrderViewModel>
+
+@{
+    ViewBag.Title = "Billing History";
+    ViewBag.ActiveMenu = "billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Billing History<small> List of purchase orders</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a class="active">Billing History</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-5">
+                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#PurchaseOrdeDialog" data-id="-1">Create New Purchase Order</button>
+                <div class="btn-group">
+                    <button data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle" type="button" aria-expanded="true">Actions <i class="fa fa-caret-down"></i></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#deletebillings" onclick="deleteBillings()" title="Delete selected billings">Delete Billings</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#FilterDialog" title="Filter for order results" href="#filter"><i class="fa fa-filter"></i> Show Filter</a>
+            </div>
+            <div class="col-md-4">
+                <div class="alert-warning" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+            <div class="col-sm-3">
+                <div class="pull-right checkbox">
+                    <label>
+                        <input type="checkbox" id="selectAllPagesBox" class="billingCheckbox" /> Select All Pages
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=" col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body no-padding">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "billing", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize } }))
+                                        {
+                                            <input type="hidden" id="searchString" value="@ViewBag.SearchString" name="searchString" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_filter pull-right">
+                                        @using (Html.BeginForm("search", "billing", FormMethod.Get, null))
+                                        {
+                                            <label for="searchString" onclick="focusOnSearchFile()">Search:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="searchString" name="searchString" value="@ViewBag.SearchString" title="Type here." placeholder="Search..." class="form-control input-sm searchField" />
+                                                @Html.HiddenFor(m => m.PageSize)
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-info btn-sm" title="Search the entered string.">Go!</button>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="po_containter">
+                            @{ Html.RenderPartial("_LoadPagedPurchaseOrders", Model); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@{ Html.RenderPartial("_PurchaseOrderDialog"); }
+@{ Html.RenderPartial("_PurchaseOrderDetailDialog"); }
+@{ Html.RenderPartial("_FilterDialog"); }
+
+@section Scripts {
+    @{Html.RegisterMvcPagerScriptResource();}
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/css/daterangepicker-0.0.9/daterangepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/scripts/daterangepicker-0.0.9/daterangepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/billing.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    var GET_PURCHASE_ORDER_URL = "@Html.Raw(Url.Action("_getpurchaseorder"))"
+    var GET_PURCHASE_ORDER_ITEMS_URL = "@Html.Raw(Url.Action("_getpurchaseorderitems"))"
+    var UPDATE_PO_ITEMS_PAID_URL = "@Html.Raw(Url.Action("_updatepoitemspaid"))"
+    var GENERATE_PO_ID_URL = "@Html.Raw(Url.Action("_GeneratePurchaseOrderId"))"
+    var SAVE_PURCHASE_ORDER_URL = "@Html.Raw(Url.Action("_SavePurchaseOrder"))"
+    var UPDATE_PURCHASE_ORDER_URL = "@Html.Raw(Url.Action("_UpdatePurchaseOrder"))"
+    var DELETE_BILLING_URL = "@Html.Raw(Url.Action("_DeleteBillings"))"
+    var GET_PRODUCT_ITEM_URL = "@Html.Raw(Url.Action("_GetProductItem", "product"))"
+    var GET_VENDORS_URL = "@Html.Raw(Url.Action("_getvendors", "vendor"))"
+    var GET_VENDOR_URL = "@Html.Raw(Url.Action("_getvendor", "vendor"))"
+    var viewModel = new ViewModel();
+    var selectedModelIds = [];
+    var unselectedModelIds = [];
+    var recordsSelected = 0;
+    var isSelectAllPages = false;
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData('@ViewBag.FromDate', '@ViewBag.ToDate');
+
+        // uncheck all order checkbox during the first load; a reset
+        $("input.billingCheckbox").iCheck("uncheck");
+
+        // register some events when modal dialog is showing
+        $("#PurchaseOrderDetailDialog").on("shown.bs.modal", function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("id");
+            viewModel.managePurchaseOrder(modelId);
+        });
+
+        $('#PurchaseOrderDetailDialog').on('hidden.bs.modal', function () {
+            $("#btnUpdatePo").removeClass("disabled");
+            viewModel.message(null);
+        });
+
+        // register some events when modal dialog is showing
+        $("#PurchaseOrdeDialog").on("shown.bs.modal", function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("id");
+            viewModel.loadModel(modelId);
+        });
+
+        $('#PurchaseOrdeDialog').on('hidden.bs.modal', function () {
+            $("#btnUpdatePo").removeClass("disabled");
+            viewModel.message(null);
+        });
+
+        $("#btnApplyFilters").on("click", function (event) {
+            showSpinner();
+            $("#fromDate").val(viewModel.dateRange()[0].format());
+            $("#toDate").val(viewModel.dateRange()[1].format());
+            $("#filterForm").submit();
+            setTimeout("hideSpinner(); $('#FilterDialog').modal('hide');", 1400);
+        });
+
+
+        // bind the checkbox
+        bindBillingCheckbox();
+        bindiCheckBoxClicked();
+        bindCurrentPageClicked();
+        bindSelectAllPagesCheckBoxClicked();
+        doBindDateRangePickers();
+    });
+
+    function loadPagedDataComplete() {
+        // re-bind the checkbox
+        bindBillingCheckbox();
+        bindiCheckBoxClicked();
+        bindCurrentPageClicked();
+        bindSelectAllPagesCheckBoxClicked();
+        if (isSelectAllPages) {
+            $("input.modelIdCheckbox").iCheck("check");
+            $("#tblModels tbody tr").addClass("selected");
+        }
+    }
+
+    function bindBillingCheckbox() {
+        $("input.billingCheckbox").iCheck({
+            checkboxClass: 'icheckbox_minimal-blue'
+        });
+    }
+
+    function bindiCheckBoxClicked() {
+        $("input.modelIdCheckbox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            var modelId = $(event.target).data("id");
+            if (isFromChecked) {
+                removeSelectedSkuFromArr(modelId);
+                $(event.target).parent().parent().parent().removeClass("selected");
+
+                if (isSelectAllPages)
+                    unselectedModelIds.push(modelId);
+
+            } else {
+                selectedModelIds.push(modelId);
+                $(event.target).parent().parent().parent().addClass("selected");
+
+                if (isSelectAllPages)
+                    removeUnselectedSkuFromArr(modelId);
+            }
+
+            updateSelectedModelIdMsg();
+        });
+    }
+
+    function bindCurrentPageClicked() {
+        // bind the click event for the Current Page checkbox
+        $("input#selectCurrentPageBox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            selectedModelIds = [];
+            unselectedModelIds = [];
+            isSelectAllPages = false;
+
+            if (isFromChecked) { // uncheck of products' checkbox
+                $("input.modelIdCheckbox").iCheck("uncheck");
+                $("#tblModels tbody tr").removeClass("selected");
+            } else { // otherwise; check it all
+                var $inputEisSkuBoxes = $(":input.modelIdCheckbox");
+                $inputEisSkuBoxes.each(function () {
+                    selectedModelIds.push($(this).data("id"));
+                })
+
+                $("input.modelIdCheckbox").iCheck("check");
+                $("#tblModels tbody tr").addClass("selected");
+            }
+
+            $("input#selectAllPagesBox").iCheck("uncheck");
+
+            // update the message status
+            updateSelectedModelIdMsg();
+        });
+    }
+
+    function bindSelectAllPagesCheckBoxClicked() {
+        // bind the click event for the Select All Pages checkbox
+        $("input#selectAllPagesBox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            selectedModelIds = [];
+            if (isFromChecked) { // uncheck of products' checkbox
+                unselectedModelIds = [];
+                $("input.modelIdCheckbox").iCheck("uncheck");
+                $("#tblModels tbody tr").removeClass("selected");
+                isSelectAllPages = false;
+            } else {
+                $("input.modelIdCheckbox").iCheck("check");
+                $("#tblModels tbody tr").addClass("selected");
+                isSelectAllPages = true;
+            }
+
+            $("input#selectCurrentPageBox").iCheck("uncheck");
+
+            // update the message status
+            updateSelectedModelIdMsg();
+        });
+    }
+
+    function removeSelectedSkuFromArr(modelId) {
+        selectedModelIds = $.grep(selectedModelIds, function (value) {
+            return value != modelId;
+        })
+    }
+
+    function removeUnselectedSkuFromArr(modelId) {
+        unselectedModelIds = $.grep(unselectedModelIds, function (value) {
+            return value != modelId;
+        })
+    }
+
+    function updateSelectedModelIdMsg() {
+        var totalItems = $("#TotalItemCount").val();
+        recordsSelected = isSelectAllPages ? (totalItems - unselectedModelIds.length)
+            : selectedModelIds.length;
+        displayMessage("Total rows selected: " + recordsSelected, "info");
+
+        // hide the message box if there's no selected EIS SKUs
+        if (recordsSelected == 0)
+            fadeOutMessage();
+    }
+
+
+    function doBindDateRangePickers() {
+        // hook the event for the Order Date daterange
+        $('#generatedDate').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                    'Last 7 Days': [moment().subtract('days', 6), moment()],
+                    'Last 30 Days': [moment().subtract('days', 29), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                },
+                startDate: moment().subtract('days', 29),
+                endDate: moment()
+            },
+            function (start, end) {
+                $("#FromDate").val(start.format('MMMM D, YYYY'));
+                $("#ToDate").val(end.format('MMMM D, YYYY'));
+                $('#generatedDate span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+        );
+        // set NULL values to for the order date range
+        $('#generatedDate').on('cancel.daterangepicker', function (ev, picker) {
+            //do something, like clearing an input
+            $("#FromDate").val('');
+            $("#ToDate").val('');
+            $('#generatedDate span').html("-- select PO generated date range -- ");
+        });
+    }
+    </script>
+    <style>
+        .daterangepicker { z-index: 10000 !important; }
+    </style>
+}

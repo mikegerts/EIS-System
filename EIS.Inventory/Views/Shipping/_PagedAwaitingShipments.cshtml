@@ -1,0 +1,62 @@
+﻿@model StaticPagedList<EIS.Inventory.Shared.ViewModels.OrderProductListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblAwaitingShipments">
+    <thead>
+        <tr>
+            <th>EIS OrderID</th>
+            <th>Item SKU</th>
+            <th class="hidden-sm hidden-xs">Item Name</th>
+            <th>Quantity</th>
+            <th class="hidden-xs">Buyer Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="7">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr data-id="@item.OrderId" data-eisorderid="@item.EisOrderId">
+                    <td>@Html.DisplayFor(modelItem => item.EisOrderId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ItemSKU)</td>
+                    <td class="hidden-sm hidden-xs">@Html.DisplayFor(modelItem => item.ItemName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td class="hidden-xs">@Html.DisplayFor(modelItem => item.BuyerName)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+           {
+               page,
+               pageSize = Model.PageSize,
+               searchString = ViewBag.SearchString,
+           }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

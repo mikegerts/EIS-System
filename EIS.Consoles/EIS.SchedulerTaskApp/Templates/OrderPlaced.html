@@ -1,0 +1,183 @@
+﻿@model EIS.SchedulerTaskApp.Models.PurchaseOrder
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <style>            
+            #orders-items, #orders-items tbody tr {
+                border: 1px dotted #e6e6e6;
+                border-collapse: collapse;
+            }
+            #orders-items tbody tr:nth-child(even) {
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body>
+        <table style="font-family: arial,helvetica,sans-serif; font-size: 14px;" width="800">
+            <colgroup>
+                <col style="width:49%" />
+                <col style="width:49%" />
+            </colgroup>
+            <tbody>
+                
+                <tr>
+                    <td>
+                        <h1>Eshoppo LLC</h1>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>United States</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone: 3474505264</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td align="right">
+                        <h1>Purchase Order</h1>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td align="left">Date</td>
+                                    <td align="right">@DateTime.Now</td>
+                                </tr>
+                                <tr>
+                                    <td>PO #</td>
+                                    <td align="right">@Model.PurchaseOrderId</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table style="border: 1px solid #e6e6e6; margin: 5px 0; width: 100%;">
+                            <thead>
+                                <tr style="background-color: #e6e6e6">
+                                    <th>VENDOR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>@Model.VendorName</td></tr>
+                                <tr><td>@Model.ContactPerson</td></tr>
+                                <tr><td>@Model.Address</td></tr>
+                                <tr><td>Phone: @Model.PhoneNumber</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <table style="border: 1px solid #e6e6e6; width: 100%;">
+                            <thead>
+                                <tr style="background-color: #e6e6e6">
+                                    <th>SHIP TO</th>
+                                </tr>
+                            </thead>
+                            <tbody style="padding:10px;">
+                                <tr><td>@Model.ContactPerson</td></tr>
+                                <tr><td>@Model.ContactEmail</td></tr>
+                                <tr><td>@Model.Address</td></tr>
+                                <tr><td>Phone: @Model.PhoneNumber</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <table style="border: 1px solid #e6e6e6; margin: 5px 0; width: 100%;border-collapse:collapse;">
+                            <thead>
+                                <tr style="background-color: #e6e6e6">
+                                    <th>Ship Via</th>
+                                    <th>Shipping Method</th>
+                                    <th>Shipping Terms</th>
+                                    <th>Delivery Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #e6e6e6;">&nbsp;</td>
+                                    <td style="border: 1px solid #e6e6e6;"></td>
+                                    <td style="border: 1px solid #e6e6e6;"></td>
+                                    <td style="border: 1px solid #e6e6e6;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <table id="orders-items" style="border: 1px solid #e6e6e6; margin: 5px 0; width: 100%;" cellpadding="1">
+                            <thead>
+                                <tr style="background-color: #e6e6e6">
+                                    <th width="10%">EISOrderId</th>
+                                    <th width="15%">SKU</th>
+                                    <th width="50%">Product Name/ Description</th>
+                                    <th width="5%">Qty</th>
+                                    <th width="10%">Unit Price</th>
+                                    <th width="10%">Total</th>
+                                </tr>
+                            </thead>
+                            <colgroup>
+                                <col style="width:10%" />
+                                <col style="width:15%" />
+                                <col style="width:50%" />
+                                <col style="width:5%" />
+                                <col style="width:10%" />
+                                <col style="width:10%" />
+                            </colgroup>
+                            <tbody>
+
+                                @foreach(var item in Model.Items)
+                                {
+                                <tr>
+                                    <td>@item.EisOrderId</td>
+                                    <td>@item.SKU</td>
+                                    <td>@item.ItemName</td>
+                                    <td align="center">@item.Qty</td>
+                                    <td align="right">$@item.UnitPrice</td>
+                                    <td align="right">$@item.Total</td>
+                                </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="2" align="right">Subtotal</td>
+                                    <td colspan="2" align="right">$@Model.Subtotal</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="2" align="right">Discount</td>
+                                    <td colspan="2" align="right">$@Model.Discounts</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="2" align="right">Tax</td>
+                                    <td colspan="2" align="right">$@Model.Taxes</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="2" align="right"><strong>Grand Total</strong></td>
+                                    <td colspan="2" align="right">$@Model.GrandTotal</td>
+                                </tr>
+
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <p style="margin-top:10px;">Should you have any enquiries concerning this purchase order, please contact</p>
+                        <p>Mike Gerts, mikegerts@gmail.com, 3474505264</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,510 @@
+﻿@model EIS.Inventory.Core.ViewModels.ProductDto
+
+@{
+    ViewBag.Title = string.Format("Edit Product {0}", Model.Name);
+    ViewBag.ActiveMenu = "products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>@Model.Name <small>Edit product details</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="@Html.Raw(Url.Action("index"))">Products</a></li>
+            <li><a class="active">Edit</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                @Html.ActionLink("Back to List", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to products list" })
+            </div>
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                {
+                    <div id="msgStatus" class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                {
+                    <div id="msgStatus" class="alert alert-error">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                <div id="messageStatus" data-bind="visible: message(), alert: { message: message, type: type, template: 'alertTemplate' }"></div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                <div id="product_container">
+                    @{ Html.RenderPartial("_Eshopo", Model); }
+                </div>
+
+                <div class="row">
+                    <div id="product_links_container" class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title">Vendor Product Links</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>EIS Supplier SKU</th>
+                                            <th>Product Name</th>
+                                            <th>MinPack</th>
+                                            <th>Supplier Price</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- ko if: vendorProductLinks().length != 0 -->
+                                    <tbody data-bind="foreach: vendorProductLinks">
+                                        <tr>
+                                            <td data-bind="text: ($index() + 1)"></td>
+                                            <td><a data-bind="text: EisSupplierSKU, attr: { href : ('/vendorproduct/edit/' + EisSupplierSKU)}"></a></td>
+                                            <td data-bind="trimText: Name, trimTextLength: 50, attr: {title: Name}"></td>
+                                            <td data-bind="text: MinPack"></td>
+                                            <td data-bind="text: formatCurrency(SupplierPrice)"></td>
+                                            <td><span class="label" data-toggle="tooltip" data-bind="text: Status, attr: {'data-original-title': ('Total available stock: ' + Quantity)}, css: { 'bg-green': Quantity > 0, 'bg-red' : (Quantity < 1)}"></span></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Go to vendor product edit page" data-bind="attr: { href : ('/vendorproduct/edit/' + EisSupplierSKU)}"><i class="fa fa-external-link"></i></a>
+                                                <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this vendor product link" href="#product_links_container" data-bind="click: $parent.deleteVendorProductLink"><span class="fa fa-trash-o"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>                                    
+                                    <!-- /ko -->
+                                    <tbody data-bind="visible: vendorProductLinks().length == 0" style="display:none;">
+                                        <tr>
+                                            <td colspan="8">No records available.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer">
+                                <a class="btn btn-sm bg-olive" href="#product_links_container" data-target="#ProductLinkDialog" data-toggle="modal" title="Add new vendor product link"><span class="fa fa-plus"></span>Add Vendor Prouduct Link</a>
+                            </div>
+                        </div> <!-- .box -->
+                        @{Html.RenderPartial("_ProductLinkDialog");}
+                    </div> <!-- #product_links_container .col-md-12 -->
+                </div> <!-- .row -->
+
+            </div>
+            <div class="col-md-3" id="content_left_wrapper">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group margin-bottom" style="width:100%;">
+                            <div class="form-inline">
+                                <div class="input-group" style="width:100%;">
+                                    <select class="form-control" id="marketplaceAction">
+                                        <option value="">-- select action --</option>
+                                        <option value="@Url.Action("_GetProductInfo", new { marketplace = "Amazon", eisSku = Model.EisSKU })">Get info from Amazon</option>
+                                        <option value="@Url.Action("_SubmitSingleProductFeed", new { marketplace = "Amazon", eisSku = Model.EisSKU })">Post product to Amazon</option>
+                                        <option value="@Url.Action("_SubmitSingleProductReviseFeed", new { marketplace = "Amazon", eisSku = Model.EisSKU })">Revise product on Amazon</option>
+                                        <option value="@Url.Action("_SubmitSingleInventoryFeed", new { marketplace = "Amazon", eisSku = Model.EisSKU })">Update quantity on Amazon</option>
+                                        <option value="@Url.Action("_SubmitSinglePriceFeed", new { marketplace = "Amazon", eisSku = Model.EisSKU })">Update price on Amazon</option>
+                                        <option disabled="disabled">------------------------------------------</option>
+                                        <option value="@Url.Action("_SubmitSingleProductFeed", new { marketplace = "eBay", eisSku = Model.EisSKU })">Post product to eBay</option>
+                                        <option value="@Url.Action("_SubmitSingleProductReviseFeed", new { marketplace = "eBay", eisSku = Model.EisSKU })">Revise product on eBay</option>
+                                        <option value="@Url.Action("_SubmitSingleInventoryFeed", new { marketplace = "eBay", eisSku = Model.EisSKU })">Update quantity on eBay</option>
+                                        <option value="@Url.Action("_SubmitSinglePriceFeed", new { marketplace = "eBay", eisSku = Model.EisSKU })">Update price on eBay</option>
+                                        <option value="@Url.Action("_SubmitSingleEndItemFeed", new { marketplace = "eBay", eisSku = Model.EisSKU })">End listing on eBay</option>
+                                        <option disabled="disabled">------------------------------------------</option>
+                                        <option value="@Url.Action("_SubmitSingleProductFeed", new { marketplace = "BigCommerce", eisSku = Model.EisSKU })">Post product to BigCommerce</option>
+                                        <option value="@Url.Action("_SubmitSingleProductReviseFeed", new { marketplace = "BigCommerce", eisSku = Model.EisSKU })">Revise product on BigCommerce</option>
+                                        <option value="@Url.Action("_SubmitSingleInventoryFeed", new { marketplace = "BigCommerce", eisSku = Model.EisSKU })">Update quantity on BigCommerce</option>
+                                        <option value="@Url.Action("_SubmitSinglePriceFeed", new { marketplace = "BigCommerce", eisSku = Model.EisSKU })">Update price on BigCommerce</option>
+                                        <option value="@Url.Action("_SubmitBigCommerceSingleEndItemFeed", new { marketplace = "BigCommerce", eisSku = Model.EisSKU })">End listing on BigCommerce</option>
+                                        <option value="@Url.Action("_UpdateBigCommerceCategories")">Update EIS Category List from BigCommerce</option>
+                                        <option value="@Url.Action("_UpdateBigCommerceBrands")">Update EIS Brand List from BigCommerce</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button id="btnGo" class="btn btn-warning" data-bind="click: submitMarketplaceAction">Go!</button>
+                                    </span>
+                                    <span class="spinner spinner-overlay">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Properties</h3>
+                                <div class="box-tools">
+                                    <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body no-padding">
+                                <ul id="lstToolBox" class="nav nav-pills nav-stacked">
+                                    <li id="item-general" class="active" title="View Eshopo product information"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-complete="onBeginGetProductInfo('general')" data-ajax-update="#product_container" href="@string.Format("/product/edit?id={0}", Model.EisSKU)"><i class="fa fa-inbox"></i> General</a></li>
+                                    <li id="item-amazon" title="View Amazon product information"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-begin="onBeginGetProductInfo('amazon')" data-ajax-complete="onCompleteGetProductInfo()" data-ajax-update="#product_container" href="@string.Format("/product/_getproductamazon?id={0}", Model.EisSKU)"><i class="fa fa-amazon"></i> Amazon</a></li>
+                                    <li id="item-ebay" title="View eBay product information"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-begin="onBeginGetProductInfo('ebay')" data-ajax-complete="onCompleteGetProductInfo()" data-ajax-update="#product_container" href="@string.Format("/product/_getproductebay?id={0}", Model.EisSKU)"><i class="bg-image-eBay"></i> eBay</a></li>
+                                    <li id="item-bigcommerce" title="View BigCommerce product information"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-begin="onBeginGetProductInfo('bigcommerce')" data-ajax-complete="onCompleteGetProductInfo()" data-ajax-update="#product_container" href="@string.Format("/product/_getproductbigcommerce?id={0}", Model.EisSKU)"><i class="fa fa-refresh"></i> BigCommerce</a></li>
+                                    <li id="item-buycom" title="View buy.com product information"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-begin="onBeginGetProductInfo('buycom')" data-ajax-update="#product_container" data-ajax-complete="onCompleteGetProductInfo()" href="@string.Format("/product/_getproductbuycom?id={0}", Model.EisSKU)"><i class="fa fa-shopping-basket"></i> Buy.com</a></li>
+                                    <li id="item-kit" title="View kit properties"><a data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loadingDiv" data-ajax-mode="replace" data-ajax-begin="onBeginGetProductInfo('kit')" data-ajax-update="#product_container" href="@string.Format("/kit/_getkit?id={0}", Model.EisSKU)"><i class="fa fa-cube"></i> Kit Properties</a></li>
+                                </ul>
+                            </div><!-- /.box-body -->
+                        </div>        
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.SkuType == SkuType.Normal && Model.Shadows.Any())
+                        {
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Shadow Products</h3>
+                                    <div class="box-tools">
+                                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        @foreach (var shadow in Model.Shadows)
+                                        {
+                                            <li><a href='/product/edit/@shadow.ShadowSKU' title="Go to edit shadow product"><i class='fa fa-circle-o @(shadow.IsConnected ? "text-green" : "text-gray")'></i> @shadow.ShadowSKU</a></li>
+                                        }
+                                    </ul>
+                                </div><!-- /.box-body -->
+                            </div>
+                        }
+                        else if (Model.SkuType == SkuType.Shadow && !string.IsNullOrEmpty(Model.ParentProductEisSKU))
+                        {
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Parent SKU</h3>
+                                    <div class="box-tools">
+                                        <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body no-padding">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a href="/product/edit/@Model.ParentProductEisSKU" title="Go to edit parent product"><i class='fa fa-circle-o text-green'></i> @Model.ParentProductEisSKU</a></li>
+                                    </ul>
+                                </div><!-- /.box-body -->
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header  with-border">
+                                <h3 class="box-title">Image Gallery</h3>
+                                <div class="box-tools">
+                                    <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" id="product-images">
+                                <div class="row">
+                                    <div class="col-md-12 margin-bottom">
+                                        <button class="btn btn-sm bg-olive" data-toggle="modal" data-target="#UploadImageDialog" data-id="-1">Add Image</button>
+                                    </div>
+                                </div>
+
+                                <!-- ko if: images().length != 0 -->
+                                <div class="row" data-bind="foreach: images">
+                                    <div class="col-md-12 thumb">
+                                        <div class="thumbnail product-images">
+                                            <a class="fancy-images" data-bind="attr: { href: Url, title: Caption }">
+                                                <img class="img-responsive" data-bind="attr: { src: Url }" alt="">
+                                            </a>
+
+                                            <div class="image-buttons">
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#UploadImageDialog" data-bind="attr: { 'data-id': Id }">Change</button>
+                                                <button class="btn btn-danger btn-xs" data-bind="attr: { 'data-id': Id }, click: $parent.deleteImage">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <p data-bind="visible: images().length == 0" style="display:none;">
+                                    No image available.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<div style="display:none;" class="modal fade" id="UploadImageDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal_title">Upload Image</h4>
+            </div>
+            <div class="modal-body dropzone">
+                <div class="form-horizontal">
+                    <input type="hidden" id="ImageId" name="ImageId" value="-1" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="ImageCaption">Caption</label>
+                        <div class="col-xs-10">
+                            <input id="ImageCaption" name="ImageCaption" type="text" class="form-control" placeholder="Enter image caption"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2" for="txtImageUrl">Url</label>
+                        <div class="col-xs-10">
+                            <input id="txtImageUrl" name="txtImageUrl" type="text" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2"></label>
+                        <div class="col-xs-10">
+                            <img id="ImageUrl" class="img-responsive" style="max-width: 215px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <span class="btn btn-sm btn-success fileinput-button" id="fileupload">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Select image...</span>
+                                <input type="file" name="files[]" id="fileuploadField" accept="image/*">
+                            </span>
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="table no-margin" id="tblFiles">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="progress active no-margin">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                            </div>
+                            <div class="no-margin text-muted" id="uploadStatus"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnStartUpload" type="button" class="btn btn-primary">Upload Image</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{Html.RenderPartial("_eBayCategoryDialog");}
+@{Html.RenderPartial("_BigCommerceCategoryDialog");}
+
+@section Scripts{
+<link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fancyBox-2.1.5/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.lazyload.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>    
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/fancyBox-2.1.5/jquery.fancybox.pack.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/product.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    var jqXHRData = null;
+    var GET_PRODUCT_IMAGES_URL = "@Html.Raw(Url.Action("_GetProductImages"))";
+    var GET_PRODUCT_IMAGE_URL = "@Html.Raw(Url.Action("_GetProductImage"))";
+    var GET_EBAY_SUGGESTED_CATEGORIES_URL = "@Html.Raw(Url.Action("_GeteBaySuggestedCategories"))";
+    var GET_VENDDOR_PRODUCT_LINKS_URL = "@Html.Raw(Url.Action("_GetVendorProdutLinks", "vendorproduct"))";
+    var GET_BIGCOMMERCE_PRODUCTCUSTOMFIELDS_URL = "";
+    var SEARCH_VENDOR_PRODUCT_URL = "@Html.Raw(Url.Action("_SearchVendorProducts", "vendorproduct"))";
+    var ADD_VENDOR_PRODUCT_LINKS_URL = "@Html.Raw(Url.Action("_AddVendorProductLinks", "vendorproduct"))";
+    var DELETE_PRODUCT_LINK_URL = "@Html.Raw(Url.Action("_DeleteProductLink", "vendorproduct"))";
+    var DELETE_PRODUCT_IMAGE_URL = "@Html.Raw(Url.Action("_DeleteProductImage"))";
+    var GET_BIGCOMMERCE_PRODUCTCUSTOMFIELDS_URL = "@Html.Raw(Url.Action("_GetBigCommerceProductCustomFields"))";
+    var GET_BIGCOMMERCE_UPDATECUSTOMFIELDS_URL = "@Html.Raw(Url.Action("UpdateBigCommerceCustomFields"))";
+    var GET_BIGCOMMERCE_SUGGESTED_CATEGORIES_URL = "@Html.Raw(Url.Action("_GetBigCommerceSuggestedCategories"))";
+    var EXPORT_BIGCOMMERCE_SUGGESTED_CATEGORIES_URL = "@Html.Raw(Url.Action("ExportBigCommerceCategoriesReport"))";
+    var viewModel = new ViewModel();
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadDataModel('@Model.EisSKU');
+        viewModel.loadImages('@Model.EisSKU');
+
+        $("#edit-form #btn-Save").on("click", function (event) {
+            event.preventDefault();
+
+            if (!isValidateForm())
+                return false;
+
+            $("#edit-form").submit();
+        });
+
+        $(".fancy-images").fancybox();
+
+        $("#edit-form input, #edit-form select").on("change", function () {
+            $(this).parents(".form-group").removeClass("has-error");
+        });
+
+        // hide the message status when saving the changes for the product for 10sec
+        fadeOutMessage();
+
+        // set action for showing the Upload Image Dialog
+        $("#UploadImageDialog").on('show.bs.modal', function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("id");
+            if(modelId === undefined || modelId == -1) {
+                $("#ImageId").val(-1);
+                $("#modal_title").text("Upload New Product Image");
+                return true;
+            }
+
+            $("#modal_title").text("Change Product Image");
+            $.ajax({
+                url: GET_PRODUCT_IMAGE_URL,
+                data: { id: modelId },
+                success: function (result) {
+                    $("#ImageId").val(result.Id);
+                    $("#ImageCaption").val(result.Caption);
+                    $("#ImageUrl").attr("src", result.Url);
+                    $("#txtImageUrl").val(result.Url);
+                    $(".image_div").show();
+                }
+            });
+        });
+
+        // init the scripts for the Image Upload
+        $('#fileupload').fileupload({
+            url: "@Url.Action("_SaveProductImage")",
+            dataType: 'json',
+            dropZone: $(".dropzone"),
+            maxNumberOfFiles: 1,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('div.progress .progress-bar').css('width', progress + '%');
+            },
+            add: function (e, data) {
+                var acceptFileTypes = ["png", "jpg", "jpeg","bmp"];
+                var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                if (isValidFile) {
+                    $("#uploadStatus").html("");
+                    jqXHRData = data;
+                    $.each(data.files, function (index, file) {
+                        var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                        $("#tblFiles tbody").html(rowHtml);
+                    });
+                }else{
+                    $("#uploadStatus").html("<p style='color: red;'> Unsupported file extension: " + addedFileExtension.toUpperCase() + "</p>")
+                }
+            },
+            start: function (e, data) {
+                $("#uploadStatus").html("Processing file...")
+            },
+            submit: function(e, data){
+                var id = $("#ImageId").val();
+                var caption = $("#ImageCaption").val();
+                var eisSku = $("#EisSKU").val();
+                data.formData = { Id: id, Caption: caption, ParentId: eisSku, eisSKU : eisSku };
+                console.log(data.formData);
+            },
+            done: function (e, data) {
+                if (data.result.isUploaded) {
+                    $("#uploadStatus").html(data.result.message)
+                    setTimeout("$('#UploadImageDialog').modal('hide');", 1000);
+                    location.reload();
+                } else {
+                    $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                    $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                }
+            },
+            fail: function (event, data) {
+                $("#uploadStatus").html("");
+                $.each(data.messages, function (index, error) {
+                    $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                        .appendTo('#uploadStatus');
+                });
+            }
+        });
+
+        $("#btnStartUpload").on("click", function () {
+            if(jqXHRData == null || jqXHRData.files.length == 0){
+                $("#uploadStatus").html("<p style='color: red;'>Please select image to upload!</p>")
+                return false;
+            }
+
+            jqXHRData.submit();
+        });
+
+        // do some clean-ups when modal is closing
+        $('#UploadImageDialog').on('hidden.bs.modal', function () {
+            $("div.progress .progress-bar").removeClass("progress-bar-danger");
+            $('div.progress .progress-bar').css('width', '0%');
+            $("#tblFiles > tbody").html("");
+            $("#uploadStatus").html("")
+            $(".image_div").hide();
+            jqXHRData = null;
+        })
+
+        // set action for showing the eBay Suggested Dialog
+        $("#eBayCategoryDialog").on('show.bs.modal', function (event) {
+            // hide first the loading GIF
+            $("#loadingModal").hide();
+            viewModel.message(null)
+        });
+
+        // set action for showing the BigCommerce Suggested Dialog
+        $("#BigCommerceCategoryDialog").on('show.bs.modal', function (event) {
+            // hide first the loading GIF
+            $("#loadingModalBigCommerce").hide();
+            viewModel.message(null)
+        });
+    });
+
+
+    function removeAddedFile(event) {
+        $(event).parent().parent().remove();
+        jqXHRData.files = [];
+    }
+
+    function onBeginGetProductInfo(item){
+        var activeItem = $("#lstToolBox").find(".active");
+        activeItem.removeClass("active");
+
+        $("#item-"+item).addClass("active");
+    }
+
+    function onCompleteGetProductInfo(){
+        doBindiCheckBox();
+    }
+
+    function doBindiCheckBox() {
+        //iCheck for checkbox and radio inputs
+        $("input[type='checkbox']").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+    }
+
+    function loadPagedDataComplete() {
+        doBindiCheckBox();
+    }
+
+</script>
+}

@@ -1,0 +1,198 @@
+﻿@model EIS.Inventory.Core.ViewModels.ProductTypeViewModel
+
+@{
+    ViewBag.Title = "Product Type List";
+    ViewBag.ActiveMenu = "product_types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Product Types <small>List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#ProductTypeDialog" data-model-id="-1" data-template="entryProductType">Create Product Type</button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body no-padding">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="hide">Id</th>
+                                    <th>Product Type</th>
+                                    <th>Amazon Main Category</th>
+                                    <th>Amazon Sub Category</th>
+                                    <th>Ebay Main Category</th>
+                                    <th>Ebay Sub Category</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: productTypes().length != 0 -->
+                            <tbody data-bind="foreach: productTypes">
+                                <tr>
+                                    <th class="hide" data-bind="text: Id"></th>
+                                    <td data-bind="text: TypeName"></td>
+                                    <td data-bind="text: AmazonMainCategoryName"></td>
+                                    <td data-bind="text: AmazonSubCategoryName"></td>
+                                    <td data-bind="text: EbayMainCategoryCode"></td>
+                                    <td data-bind="text: EbaySubCategoryCode"></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ProductTypeDialog" data-template="entryProductType" href="#edit" data-bind="click: $parent.editProductType, attr:{ 'data-model-id': Id }"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product type" href="#delete" data-bind="click: $parent.deleteProductType"><span class="fa fa-trash-o"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: productTypes().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div style="display:none;" class="modal fade" id="ProductTypeDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: productType">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingDiv" class="loading-gif"></div>
+
+                <div class="alert alert-success alert-dismissable" id="success-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Success!</b> Product type has been successfully saved.
+                </div>
+                <div class="alert alert-danger alert-dismissable" id="error-status" style="display:none;">
+                    <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                    <b>Error!</b> Error in saving product type. Please contact web administrator!
+                </div>
+
+                <div class="row" data-bind="template: $parent.templateName">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-warning" data-bind="visible: $parent.isDetails(), click: $parent.editProductType">Edit</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !$parent.isDetails(), click: $parent.saveProductType, text: $parent.isEdit() ? 'Save Changes' : 'Save ProductType'"></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- template for Product Type entry -->
+<script type="text/html" id="entryProductType">
+    <div class="col-md-12">
+        <div class="box box-solid">
+            <div class="box-body">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="TypeName">Type Name</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="TypeName" name="TypeName" data-bind="value: TypeName, event: { change: valueChanged }" placeholder="Enter product type name" required="required" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="AmazonMainCategoryCode">Amazon Main Category</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="AmazonMainCategoryCode" name="AmazonMainCategoryCode" data-bind="options: $parent.amazonMainCategories, optionsCaption: '-- choose --', optionsValue: 'Code', optionsText: 'Name', value: AmazonMainCategoryCode, event: { change: $parent.amazonMainCategoryChanged }" required="required"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="AmazonSubCategoryCode">Amazon Sub Category</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="AmazonSubCategoryCode" name="AmazonSubCategoryCode" data-bind="options: $parent.amazonSubCategories, optionsCaption: '-- choose --', optionsValue: 'Code', optionsText: 'Name', value: AmazonSubCategoryCode"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="EbayMainCategoryCode">Ebay Main Category</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="EbayMainCategoryCode" name="EbayMainCategoryCode" data-bind="options: $parent.ebayMainCategories, optionsCaption: '-- choose --', optionsValue: 'Code', optionsText: 'Name', value: EbayMainCategoryCode"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="EbaySubCategoryCode">Ebay Sub Category</label>
+                        <div class="col-md-8">
+                            <select class="form-control text-box" id="EbaySubCategoryCode" name="EbaySubCategoryCode" data-bind="options: $parent.ebaySubCategories, optionsCaption: '-- choose --', optionsValue: 'Code', optionsText: 'Name', value: EbaySubCategoryCode"></select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- /.col-md-12 -->
+</script>
+<!-- end of Product Type entry -->
+
+
+@section Scripts {
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/producttype.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    var GET_PRODUCT_TYPES_URL = "@Html.Raw(Url.Action("_GetProductTypes"))"
+    var GET_PRODUCT_TYPE_URL = "@Html.Raw(Url.Action("_GetProductType"))?id="
+    var SAVE_PRODUCT_TYPE_URL = "@Html.Raw(Url.Action("_SaveProductType"))"
+    var DELETE_PRODUCT_TYPE_URL = "@Html.Raw(Url.Action("_DeleteProductType"))"
+    var GET_AMAZON_MAIN_CATEGORIES_URL = "@Html.Raw(Url.Action("_GetAmazonMainCategories"))"
+    var GET_AMAZON_SUB_CATEGORIES_URL = "@Html.Raw(Url.Action("_GetAmazonSubCategories"))?parentCode="
+
+    $(document).ready(function () {
+        var viewModel = new ViewModel();
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData();
+
+        // register some events when modal dialog is showing
+        $('#ProductTypeDialog').on('shown.bs.modal', function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("model-id");
+            var templateName = element.data("template");
+
+            // set the view model template
+            viewModel.templateName(templateName);
+
+            // set the model id
+            viewModel.modelId(modelId);
+            viewModel.loadModel();
+        })
+
+        $('#ProductTypeDialog').on('hide.bs.modal', function () {
+            $("#error-status").hide();
+            $("#success-status").hide();
+            viewModel.loadData();
+            viewModel.productType(createProductTypeModel());
+        })
+    });
+</script>
+
+}

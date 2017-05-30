@@ -1,0 +1,115 @@
+﻿@model X.PagedList.PagedList<EIS.Inventory.Models.UserViewModel>
+
+@{
+    ViewBag.ActiveMenu = "users";
+    ViewBag.Title = "Users List";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Users <small>List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    <a class="btn btn-info btn-sm" href="@Html.Raw(Url.Action("createuser", "manage"))" data-toggle="tooltip" data-original-title="Create new role">Create New User</a>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "manage", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize }, { "id", "showEntryForm" } }))
+                                        {
+                                            <input type="hidden" id="searchString" name="searchString" value="@ViewBag.SearchString" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_filter pull-right">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "manage", FormMethod.Get, new RouteValueDictionary { { "id", "searchForm" } }))
+                                        {
+                                            <label for="searchString" onclick="focusOnSearchFile()">Search:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="searchString" name="searchString" value="@ViewBag.SearchString" title="Type here to search." placeholder="Search..." class="form-control input-sm searchField" />
+                                                @Html.HiddenFor(m => m.PageSize)
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-info btn-sm">Go!</button>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div id="model_list_container">
+                            @{ Html.RenderPartial("_PagedUsers", Model); }
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                    </div>
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section>
+</div>
+
+@section Scripts {
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        function deleteModel(source, id, name) {
+            $.confirm({
+                title: "Delete User",
+                text: "Are you sure you want to delete user: <br/><strong> " + name + "</strong>",
+                cancel: function () {
+                    return false;
+                },
+                confirm: function () {
+                    $.post('@Html.Raw(Url.Action("_deleteuser"))', { id: id }, function (result) {
+                        if (result.Success) {
+                            $(source).parent().parent().fadeOut();
+
+                            // reload the page if there's no table records in the paged
+                            if (($("#tblUsers > tbody > tr:visible").length - 1) == 0)
+                                location.reload();
+
+                        } else {
+                            displayMessage(result.Error, "error")
+                            fadeOutMessage();
+                        }
+                    });
+                },
+                confirmButton: "Yes, I am",
+                confirmButtonClass: "btn-warning"
+            });
+
+            return false;
+        }
+
+        function loadPagedDataComplete() {
+        }
+    </script>
+}

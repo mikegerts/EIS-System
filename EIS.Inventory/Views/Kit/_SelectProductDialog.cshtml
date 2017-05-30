@@ -1,0 +1,75 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="SelectProductDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: selectProduct">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select Products</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ProductSearchFor">Search For</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="ProductSearchFor" placeholder="Search..." data-bind="value: searchStr, valueUpdate: 'keyup', event: { keyup: searchProducts }" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="ProductExcludeKits">Exclude Kits</label>
+                        <div class="col-md-9">
+                            <input type="checkbox" id="ProductExcludeKits" data-bind="iCheckBox: isExcludeKits" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div data-bind="with: pagedProducts">
+                            <table class="table table-striped" style="margin-bottom:0;">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" data-bind="iCheckBox: $parent.isSelectCurrentPage" /></th>
+                                        <th>EisSKU</th>
+                                        <th>EIS Supplier SKU</th>
+                                        <th>Product Name</th>
+                                        <th>Vendor</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <!-- ko if: Items().length != 0 -->
+                                <tbody data-bind="foreach: Items">
+                                    <tr>
+                                        <td><input type="checkbox" data-bind="iCheckBox: IsChecked" /></td>
+                                        <td data-bind="text: EisSKU"></td>
+                                        <td data-bind="text: EisSupplierSKU"></td>
+                                        <td data-bind="trimText: Name, trimTextLength: 30, attr: {title : Name}"></td>
+                                        <td data-bind="text: VendorName"></td>
+                                        <td data-bind="text: Quantity"></td>
+                                    </tr>
+                                </tbody>
+                                <!-- /ko -->
+                                <tbody data-bind="visible: Items().length == 0" style="display:none;">
+                                    <tr>
+                                        <td colspan="7">No records available.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul class="pager">
+                                <li data-bind="css: { disabled: !HasPreviousPage() }"><a href="#prev" data-bind="click: $parent.prevPagedData">&larr; Previous</a></li>
+                                <li data-bind="text: pageShowStatus"></li>
+                                <li data-bind="css: { disabled: !HasNextPage() }"><a href="#next" data-bind="click: $parent.nextPagedData">Next &rarr;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnAddSelectProducts" type="button" class="btn btn-primary" data-bind="enable: selectedProducts().length > 0, click: addSelectedProducts">Add Selected Products</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#OrderDialog -->

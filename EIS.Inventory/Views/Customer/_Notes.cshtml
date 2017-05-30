@@ -1,0 +1,42 @@
+﻿@model EIS.Inventory.Core.ViewModels.CustomerNotesModel
+
+<div class="row">
+    <div class="col-md-5" style="margin: 0 0 10px">
+        <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#NotesDialog" data-title="Add New Notes" data-id="-1" href="#NotesDialog">Create New Notes</a>
+    </div>
+</div>
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblCustomerNotes">
+    <thead>
+        <tr>
+            <th>Notes Title</th>
+            <th>Notes</th>
+            <th>Actions</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.customerNotesListDto.Any())
+        {
+            <tr>
+                <td colspan="10">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.customerNotesListDto)
+            {
+                <tr id="@Html.Raw("trnotes"+item.CustomerNotesId)">
+
+                    <td>@Html.DisplayFor(modelItem => item.NotesTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+                    <td style="width:12%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#NotesDialog" data-title="Edit notes" href="#edit" data-id="@item.CustomerNotesId"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete notes" href="#delete" onclick="return deleteCustomerNote(@string.Format("this, \'{0}\',\'{1}\'", item.CustomerNotesId,item.NotesTitle))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_NotesDialog", Model.customerNotesDto)

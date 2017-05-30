@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9C363F3A-C0FA-4064-AC88-AF4930FA0713}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>eBay.Service.SDK.Attribute</RootNamespace>
+    <AssemblyName>eBay.Service.SDK.Attribute</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.MSXML2">
+      <HintPath>..\..\..\packages\eBaySDK-955\Interop.MSXML2.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributesHelper.cs" />
+    <Compile Include="AttributesMaster.cs" />
+    <Compile Include="AttributesXmlDownloader.cs" />
+    <Compile Include="AttributesXslDownloader.cs" />
+    <Compile Include="AttrParamParser.cs" />
+    <Compile Include="IAttributesMaster.cs" />
+    <Compile Include="IAttributesXmlProvider.cs" />
+    <Compile Include="IAttributesXslProvider.cs" />
+    <Compile Include="ICategoryCSProvider.cs" />
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\AttributeSet.cs" />
+    <Compile Include="Model\Value.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleDate.cs" />
+    <Compile Include="SimpleValidator.cs" />
+    <Compile Include="Util\KeyValue.cs" />
+    <Compile Include="Util\SDKUtil.cs" />
+    <Compile Include="ValidationParams.cs" />
+    <Compile Include="ValidationRule.cs" />
+    <Compile Include="VError.cs" />
+    <Compile Include="VErrorSet.cs" />
+    <Compile Include="VResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Attributes_Style.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\eBay.Service\eBay.Service.csproj">
+      <Project>{81157dda-1fe8-4a88-9e78-5356c82d1aa8}</Project>
+      <Name>eBay.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)eBay.Service.SDK.Attribute.dll" "$(SolutionDir)extensions\eBay.Service.SDK.Attribute.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

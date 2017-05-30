@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "Scheduled Tasks List";
+    ViewBag.ActiveMenu = "scheduled_task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Scheduled Tasks <small> List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#SelectTaskDialog" href="#create">Create New Scheduled Task</a>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <div class="alert alert-info" id="msgStatus" style="display:none;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Enabled</th>
+                                    <th>Task Type</th>
+                                    <th>Recurrence</th>
+                                    <th>Last Executed On</th>
+                                    <th>Task Name</th>
+                                    <th>History</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: scheduledTasks().length != 0 -->
+                            <tbody data-bind="foreach: scheduledTasks">
+                                <tr>
+                                    <td align="center"><div class="state icheckbox_minimal-blue" data-bind="css: {checked: IsEnabled}"></div></td>
+                                    <td data-bind="text: TaskType"></td>
+                                    <td data-bind="text: Recurrence"></td>
+                                    <td data-bind="dateString: LastExecutedOn, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                    <td data-bind="text: Name"></td>
+                                    <td data-bind="text: History"></td>
+                                    <td align="right">
+                                        <a class="btn btn-sm btn-primary" data-title="Run this scheduled task immediately" data-bind="click: $parent.isRunNowScheduledTaks"><i class="fa fa-play"></i> Run Now</a>
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#TaskDialog" data-title="Edit Scheduled Task" href="#edit" data-bind="attr: { 'data-id' : Id, 'data-task-type' : TaskType }" title="Edit scheduled task info">Edit </button>
+                                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index:999;">
+                                                <li><a href="#edit" data-toggle="modal" data-target="#TaskDialog" data-bind="attr: { 'data-id' : Id, 'data-task-type' : TaskType }" title="Edit this Scheduled Task">Edit Task</a></li>
+                                                <li><a href="#viewfiles" data-toggle="modal" data-target="#ExportedFilesDialog" data-bind="attr: { 'data-id' : Id, 'data-task-name' : Name, 'data-task-type' : TaskType }" title="View exported files of this task.">View Exported Files</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#delete" data-bind="click: $parent.deleteScheduledTask" title="Delete this Scheduled Task">Delete Task</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: scheduledTasks().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div><!-- /.content-wrapper -->
+
+
+<div style="display:none;" class="modal fade" id="TaskDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-bind="with: scheduledTask">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle">Scheduled Task</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div data-bind="template: { name: $parent.selectedTaskType() }"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <div class="alert" id="ftpMsgStatus">
+
+                    </div>
+                </div>
+
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-bind="click: $parent.saveScheduledTask, text: (Id() == -1 ? 'Save Scheduled Task' : 'Save Changes')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div style="display:none;" class="modal fade" id="ExportedFilesDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: modalTitle"></h4>
+            </div>
+            <div class="modal-body" data-bind="with: pagedExportedFile">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-5">File Name</th>
+                            <th class="col-md-2">File Size</th>
+                            <th class="col-md-3"> Date Generated</th>
+                            <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <!-- ko if: Items().length != 0 -->
+                    <tbody data-bind="foreach: Items">
+                        <tr>
+                            <td><i class="fa" data-bind="css: IsCsvFile() ? 'fa-file-excel-o' : 'fa-file-o'"></i><span data-bind="text: FileName" style="margin-left:5px;"></span></td>
+                            <td data-bind="text: getFormatFileSize(FileSize())"></td>
+                            <td data-bind="dateString: Created, datePattern: 'MMM DD YYYY hh:mm A'"></td>
+                            <td>
+                                <form method="post" data-bind="attr: { id : 'form_' + Id()}" action="@Url.Action("DownloadExportedFile")">
+                                    <input type="hidden" id="fileName" name="fileName" data-bind="value: FileName" />
+                                    <input type="hidden" id="taskType" name="taskType" data-bind="value: $parent.taskType" />
+                                </form>
+                                <a class="btn btn-xs bg-navy" data-bind="click: $parent.downloadFile"><span class="fa fa-download"></span> Download</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- /ko -->
+                    <tbody data-bind="visible: Items().length == 0" style="display:none;">
+                        <tr>
+                            <td colspan="3">No records available.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li data-bind="css: { disabled: !hasPrevPage() }"><a href="#prev" data-bind="click: $parent.prevPage">&larr; Previous</a></li>
+                    <li data-bind="text: pageShowStatus"></li>
+                    <li data-bind="css: { disabled: !hasNextPage() }"><a href="#next" data-bind="click: $parent.nextPage">Next &rarr;</a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#ExportedFilesDialog -->
+
+<div style="display:none;" class="modal fade" id="SelectTaskDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select Task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-md-4" for="SelectTaskType">Select Task Type</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="SelectTaskType" name="SelectTaskType" data-bind="options: taskTypes, optionsText: 'Name', optionsValue: 'Id', value: selectedTaskType" required="required"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#TaskDialog" data-title="Add New Scheduled Task" data-id="-1">Choose</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#SelectTaskDialog -->
+
+@{ Html.RenderPartial("_CustomExportOrderDialog"); }
+@{ Html.RenderPartial("_GeneratePODialog"); }
+@{ Html.RenderPartial("_MarketplaceInventoryDialog"); }
+@{ Html.RenderPartial("_VendorProductFileInventoryDialog"); }
+@{ Html.RenderPartial("_CustomExportProductDialog"); }
+@{ Html.RenderPartial("_CustomImportOrderDialog"); }
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').focus()
+        });
+
+    });
+</script>
+
+
+
+<script type="text/html" id="Daily">
+    <div class="form-control" style="min-height: 110px !important;">
+        <p>Run on these Day(s):</p>
+        <div id="weekdays" style="position:relative;" data-bind="attr: {'data-value': Days}, foreach: weekdays" required="required">
+            <div class="checkbox no-margin" style="float:left; width:33%;">
+                <label class="no-padding">
+                    <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                    <span data-bind="text: Name" style="margin-left: 5px"></span>
+                </label>
+            </div>
+            <div data-bind="css: { 'clear' : $index() == ($parent.weekdays().length - 1)}"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="Weekly">
+    <div class="form-control" style="min-height: 115px !important;">
+        <p>Recur every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px"/> weeks on: </p>
+        <div id="weekdays" style="position:relative;" data-bind="attr: {'data-value': Days}, foreach: weekdays" required="required">
+            <div class="checkbox no-margin" style="float:left; width:33%;">
+                <label class="no-padding">
+                    <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                    <span data-bind="text: Name" style="margin-left: 5px"></span>
+                </label>
+            </div>
+            <div data-bind="css: { 'clear' : $index() == ($parent.weekdays().length - 1)}"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="Hourly">
+    <div class="form-control" style="min-height: 43px;">
+        <p>Repeat task every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px" /> hour(s) </p>
+    </div>
+</script>
+
+<script type="text/html" id="Custom">
+    <div class="form-control" style="min-height: 43px;">
+        <p>Recur every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px" /> day(s) </p>        
+    </div>
+</script>
+
+@section Scripts {
+@{Html.RegisterMvcPagerScriptResource();}
+<link href="@Url.Content("~/content/css/select2-4.0.2-rc.1/select2.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+<link href="@Url.Content("~/content/css/timepicker/bootstrap-timepicker.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/timepicker/bootstrap-timepicker.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/select2-4.0.2-rc.1/select2.full.min.js")"></script>
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/knockout-select2.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/scheduledtask.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_VENDORS_URL = "@Html.Raw(Url.Action("_getvendors", "vendor"))"
+    var GET_COMPANIES_URL = "@Html.Raw(Url.Action("_GetAllCompanies", "company"))"
+    var GET_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_getscheduledtask"))"
+    var GET_SCHEDULED_TASKS_URL = "@Html.Raw(Url.Action("_getscheduledtasks"))"
+    var SAVE_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_savescheduledtask"))"
+    var DELETE_SCHEDULED_TASK_URL = "@Html.Raw(Url.Action("_deletescheduledtask"))"
+    var GET_TASK_EXPORTED_FILES_URL = "@Html.Raw(Url.Action("_gettaskexportedfiles"))"
+    var DOWNLOAD_EXPORTED_FILE_URL = "@Html.Raw(Url.Action("downloadexportedfile"))"
+    var EXECUTE_TASK_NOW_URL = "@Html.Raw(Url.Action("executescheduledtasknow"))"
+    var GET_VENDOR_EMAIL = "@Html.Raw(Url.Action("_getvendoremailaddress", "vendor"))?vendorId="
+    var CHECK_FTP_CONNECTION = "@Html.Raw(Url.Action("_CheckFtpConnection", "home"))"
+    var CHECK_FILE_FROM_FTP = "@Html.Raw(Url.Action("_CheckFileFromFtp", "home"))"
+    var viewModel = new ViewModel();
+
+        $(document).ready(function () {
+            ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+            viewModel.loadData();
+
+            // register some events when modal dialog is showing
+            $("#TaskDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                var taskType = element.data("task-type");
+
+                // set the task typte to its parent model
+                if (modelId != -1)
+                    viewModel.selectedTaskType(taskType);
+
+                viewModel.modalTitle(element.data("title"));
+                viewModel.loadModel(modelId);
+            })
+
+            // register some events when modal dialog is showing
+            $("#ExportedFilesDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var taskId = element.data("id");
+                var taskType = element.data("task-type");
+                viewModel.modalTitle("Exported Files for " + element.data("task-name"));
+                viewModel.loadTaskExportedFiles(taskId, taskType);
+            })
+
+            $('.modal').on('hidden.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.scheduledTask(null);
+            })
+
+            $('.modal').on('hide.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.loadData();
+
+                // let's update the display attribute for laoder gif
+                showLoadingGif();
+            })
+
+            //iCheck for checkbox and radio inputs
+            $("input[type='checkbox']#is_enabled").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+            $("input[type='checkbox']#is_enabled").iCheck("uncheck");
+        });
+    </script>
+}

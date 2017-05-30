@@ -1,0 +1,170 @@
+﻿
+<div style="display:none;" class="modal fade" id="ShippingLocationDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: shippingLocation">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: (isEdit() ? ('Edit ' + Name()): 'Create Shipping Location')"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="Name">Name</label>
+                                <div class="col-md-9">
+                                    <input id="Name" name="Name" class="form-control text-box single-line" data-bind="value: Name, event: { change: valueChanged }" placeholder="Enter name" required="required" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /. col-md-6 -->
+                    <div class="col-md-6">
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="IsDefault">Default Location</label>
+                                <div class="col-md-8">
+                                    <input id="IsDefault" name="IsDefault" type="checkbox" data-bind="iCheckBox: IsDefault" />
+                                    <span class="help">
+                                        <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Is this the default shipping location?"></a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /. col-md-6 -->
+                </div><!-- /.row -->
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="page-header">
+                            Ship From Address
+                        </div>
+                        <div class="form-horizontal" data-bind="with: FromAddressDetails">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromCompanyName">Company</label>
+                                <div class="col-md-9">
+                                    <input id="FromCompanyName" name="FromCompanyName" class="form-control text-box single-line" data-bind="value: $parent.FromCompanyName, event: { change: $parent.addressChanged }" placeholder="Enter company name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromLine1">Line1</label>
+                                <div class="col-md-9">
+                                    <input id="FromLine1" name="FromLine1" class="form-control text-box single-line" data-bind="value: Line1, event: { change: $parent.addressChanged }" placeholder="Enter address line1" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromLine2">Line2</label>
+                                <div class="col-md-9">
+                                    <input id="FromLine2" name="FromLine2" class="form-control text-box single-line" data-bind="value: Line2, event: { change: $parent.addressChanged }" placeholder="Enter address line2" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromCity">City</label>
+                                <div class="col-md-9">
+                                    <input id="FromCity" name="FromCity" class="form-control text-box single-line" data-bind="value: City, event: { change: $parent.addressChanged }" placeholder="Enter city" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromStateOrRegion">State</label>
+                                <div class="col-md-9">
+                                    <select id="FromStateOrRegion" class="form-control" data-bind="options: $root.usStates, value:StateOrRegion, optionsCaption: ' -- select --', event: { change: $parent.addressChanged }" required="required"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromPostalCode">Postal Code</label>
+                                <div class="col-md-9">
+                                    <input type="number" id="FromPostalCode" class="form-control text-box single-line" data-bind="value: PostalCode, event: { change: $parent.addressChanged }" placeholder="Enter postal code" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="FromPhone">Phone</label>
+                                <div class="col-md-9">
+                                    <input id="FromPhone" name="FromPhone" class="form-control text-box single-line" data-bind="value: $parent.FromPhone, event: { change: $parent.addressChanged }" placeholder="Enter phone number" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="IsResidential">Residential</label>
+                                <div class="col-md-9">
+                                    <input id="IsResidential" name="IsResidential" type="checkbox" data-bind="iCheckBox: IsResidential" />
+                                    <span class="help">
+                                        <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Is this residential address?"></a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><div class="col-md-6">
+                        <h3 class="page-header">
+                            Return Address
+                            <small class="pull-right">
+                                <input id="IsResidential" name="IsResidential" type="checkbox" data-bind="iCheckBox: IsReturnSame" />
+                                <span class="help">
+                                    <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="" data-original-title="Is Return Address the same with Ship From Address?"></a>
+                                </span>
+                            </small>
+                        </h3>
+                        <div class="form-horizontal" data-bind="with: ReturnAddressDetails">
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnCompanyName">Company</label>
+                                <div class="col-md-9">
+                                    <input id="ReturnCompanyName" class="form-control text-box single-line" data-bind="value: $parent.ReturnCompanyName, enable: !$parent.IsReturnSame()" placeholder="Enter company name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnLine1">Line1</label>
+                                <div class="col-md-9">
+                                    <input id="ReturnLine1" class="form-control text-box single-line" data-bind="value: Line1, event: { change: valueChanged }, enable: !$parent.IsReturnSame()" placeholder="Enter address line1" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnLine2">Line2</label>
+                                <div class="col-md-9">
+                                    <input id="ReturnLine2" class="form-control text-box single-line" data-bind="value: Line2, enable: !$parent.IsReturnSame()" placeholder="Enter address line2" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnCity">City</label>
+                                <div class="col-md-9">
+                                    <input id="ReturnCity" class="form-control text-box single-line" data-bind="value: City, event: { change: valueChanged }, enable: !$parent.IsReturnSame()" placeholder="Enter city" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnStateOrRegion">State</label>
+                                <div class="col-md-9">
+                                    <select id="ReturnStateOrRegion" class="form-control" data-bind="options: $root.usStates, value: StateOrRegion, optionsCaption: ' -- select --', event: { change: valueChanged }, enable: !$parent.IsReturnSame()" required="required"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnPostalCode">Postal Code</label>
+                                <div class="col-md-9">
+                                    <input type="number" id="ReturnPostalCode" class="form-control text-box single-line" data-bind="value: PostalCode, event: { change: valueChanged }, enable: !$parent.IsReturnSame()" placeholder="Enter postal code" required="required" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="ReturnPhone">Phone</label>
+                                <div class="col-md-9">
+                                    <input id="ReturnPhone" class="form-control text-box single-line" data-bind="value: $parent.ReturnPhone, enable: !$parent.IsReturnSame()" placeholder="Enter phone number" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+
+            </div><!-- /.modal-body -->
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-bind="click: $parent.saveShippingLocation, text: (isEdit() ? 'Save Changes' : 'Create')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

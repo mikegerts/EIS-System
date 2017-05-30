@@ -1,0 +1,57 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="ImportMarketplaceOrderDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: marketplaceOrder">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Import Marketplace Orders</h4>
+            </div>
+            @using (Html.BeginForm("importmarketplaceorder", "order", FormMethod.Post, new { @role = "form", @id = "customExportForm" }))
+            {
+                <div class="modal-body">
+                    <input type="hidden" id="RequestedDate" name="RequestedDate" value="@DateTime.Now" />
+                    <div class="form-horizontal" id="import-marketplace-order-form" data-bind="visible: !isImportingOrder()">                       
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Marketplace">Marketplace</label>
+                            <div class="col-md-10">
+                                <select name="Marketplace" class="form-control" data-bind="value: marketplace">
+                                    <option value="Amazon">Amazon</option>
+                                    <option value="eBay">eBay</option>
+                                    <option value="BigCommerce">BigCommerce</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SortBy">Order IDs</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" data-bind="value: marketplaceOrderIdsStr" placeholder="Enter marketplace order IDs (maximum of 5 order ID)"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div data-bind="visible: isImportingOrder()">
+                        <h3>Importing...</h3>
+                        <div class="progress active">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 100%">
+                                <span class="sr-only">100% In-progress</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <div  data-bind="visible: !isImportingOrder()">
+                        <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                        <button type="button" id="btnImportMarketplaceOrder" class="btn btn-primary" data-bind="click: importMaketplaceOrders">Import Marketplace Orders</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+

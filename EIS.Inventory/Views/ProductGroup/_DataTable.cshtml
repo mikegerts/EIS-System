@@ -1,0 +1,37 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<EIS.Inventory.Core.ViewModels.ProductGroupListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblProductGroups">
+    <thead>
+        <tr>
+            <th>Group ID</th>
+            <th>Group Name</th>
+            <th>Description</th>
+            <th>Number of Items</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="4">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>        
+                    <td>@item.Id</td>            
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.NumOfItems</td>
+                    <td style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ProductGroupDialog" data-id="@item.Id" href="#editproductgroup"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product group" href="#delete" onclick="return deleteProductGroup(@string.Format("this, \'{0}\', \'{1}\'", item.Id, item.Name))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

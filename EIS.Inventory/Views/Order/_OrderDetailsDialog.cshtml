@@ -1,0 +1,191 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="OrderDetailsDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: order">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">View Order Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <section class="invoice">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="page-header">
+                                <a data-bind="text: (Marketplace() + ' - ' + OrderId()), css: 'bg-image-' + Marketplace(), attr: { 'href' : marketPlaceUrl}" target="_blank"></a>
+                                <span class="pull-right" data-bind="text: EisOrderId"></span>
+                            </h2>
+                        </div><!-- /.col -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th>Buyer Name:</th>
+                                        <td><strong data-bind="text: ShippingAddressName"></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Purchase Date:</th>
+                                        <td data-bind="dateString: PurchaseDate, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last Update Date:</th>
+                                        <td data-bind="dateString: LastUpdateDate, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Order Status:</th>
+                                        <td><span data-bind="text: OrderStatusStr, css: ('label bg-'+ OrderStatusStr())"></span> </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th>Address:</th>
+                                        <td><span data-bind="text: ShippingAddressLine1"></span> <span data-bind="text: ShippingAddressLine2"></span> </td>
+                                    </tr>
+                                    <tr>
+                                        <th>State Or Region:</th>
+                                        <td data-bind="text: ShippingStateOrRegion"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Postal Code:</th>
+                                        <td data-bind="text: ShippingPostalCode"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>City:</th>
+                                        <td data-bind="text: ShippingCity"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 table-responsive">
+
+                            <div class="box box-solid">
+                                <div class="box-body">
+                                    <table class="table table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Ordered</th>
+                                                <th>Unshipped</th>
+                                                <th>Item Id</th>
+                                                <th>SKU</th>
+                                                <th>Title</th>
+                                                <th align="right">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach:OrderItems">
+                                            <tr data-bind="attr: { 'title' : ConditionNote()}">
+                                                <td data-bind="text: QtyOrdered"></td>
+                                                <td align="center" data-bind="text: QtyUnshipped"></td>
+                                                <td><a data-bind="text: OrderItemId, attr: { 'href' : marketplaceItemIdUrl}" target="_blank"></a></td>
+                                                <td><a data-bind="text: SKU, attr: { 'href' : productDetailUrl}" target="_blank"></a></td>
+                                                <td data-bind="text: Title"></td>
+                                                <td align="right" data-bind="text: '$' + Price().toFixed(2)"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th>Shipping Name:</th>
+                                        <td data-bind="text: ShippingAddressName"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ship Service Level:</th>
+                                        <td data-bind="text: ShipServiceLevel"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipment Category:</th>
+                                        <td data-bind="text: ShipmentServiceCategory"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Payment Method:</th>
+                                        <td data-bind="text: PaymentMethod"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th>Tax:</th>
+                                        <td data-bind="text: '$' + orderTax()"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping:</th>
+                                        <td data-bind="text: '$' + orderShippigPrice()"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Discounts:</th>
+                                        <td data-bind="text: '$' + orderDiscount()"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Order Total:</th>
+                                        <td data-bind="text: '$' + OrderTotal()"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <th>Tracking Number:</th>
+                                        <td data-bind="text: TrackingNumber"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Carrier Code:</th>
+                                        <td data-bind="text: CarrierCode"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping Method:</th>
+                                        <td data-bind="text: ShippingMethod"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                            <div class="col-xs-6">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>Ship Date:</th>
+                                            <td data-bind="text: ShipmentDateString()"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipment Cost:</th>
+                                            <td data-bind="text: ShipmentCostString()"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#OrderDetailsDialog -->

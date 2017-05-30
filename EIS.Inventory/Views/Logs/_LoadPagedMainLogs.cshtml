@@ -1,0 +1,33 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<EIS.Inventory.Core.ViewModels.LogViewModel>
+
+@{ Html.RenderPartial("_DataTableMainLogs"); }
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.StartItemIndex to @Model.EndItemIndex of @Model.TotalItemCount entries
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="dataTables_pageInfo pull-right">
+            @Ajax.Pager(Model,
+            new PagerOptions
+            {
+                PageIndexParameterName = "page",
+                ContainerTagName = "ul",
+                NumericPagerItemCount = 5,
+                CssClass = "pagination dataTables_pagination",
+                CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>",
+                DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>",
+                PagerItemTemplate = "<li>{0}</li>"
+            },
+            new MvcAjaxOptions
+            {
+                UpdateTargetId = "logs_containter",
+                LoadingElementId = "loadingDiv",
+                //DataFormId = "searchForm"
+                OnComplete = "rebindModel"
+            })
+        </div>
+    </div>
+</div>

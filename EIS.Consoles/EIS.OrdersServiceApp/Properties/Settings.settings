@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EIS.OrdersServiceApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AwsSellerId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">A12HYFEDED6DEW</Value>
+    </Setting>
+    <Setting Name="AwsMarketplaceId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ATVPDKIKX0DER</Value>
+    </Setting>
+    <Setting Name="AwsAccessKeyId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AKIAJDQNAJIEJ2XZWVQA</Value>
+    </Setting>
+    <Setting Name="AwsSecretKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">iRJplr+w2vZ1felGmV/OuUqOSreEyAx6c7o8nF3J</Value>
+    </Setting>
+    <Setting Name="ApplicationName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">EIS MWS Orders Manager</Value>
+    </Setting>
+    <Setting Name="Version" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">2.0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

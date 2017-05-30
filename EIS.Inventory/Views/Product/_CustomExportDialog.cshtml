@@ -1,0 +1,149 @@
+﻿
+<div style="display:none;" class="modal fade" id="CustomExportDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: customExport">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Custom Export Products</h4>
+            </div>
+            @using (Html.BeginForm("customexportproducts", "product", FormMethod.Post, new { @role = "form", @id = "customExportForm" }))
+            {
+                <div class="modal-body">
+                    <input type="hidden" id="RequestedDate" name="RequestedDate" value="@DateTime.Now" />
+                    <div class="form-horizontal" id="custom-export-form">
+                        <div class="alertMsgStatus" data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                        <input type="hidden" name="ExcludedEisSKUs" data-bind="value: ExcludedEisSKUs" />
+                        <input type="hidden" id="SelectedEisSKUs" name="SelectedEisSKUs" data-bind="value: SelectedEisSKUs" />
+                        <input type="hidden" name="IsAllProductItems" data-bind="value: IsAllProductItems" />
+                        <input type="hidden" name="ProductGroupId" data-bind="value: ProductGroupId" />
+                        <input type="hidden" name="VendorId" data-bind="value: VendorId" />
+                        <input type="hidden" name="CompanyId" data-bind="value: CompanyId" />
+                        <input type="hidden" name="SearchString" data-bind="value: SearchString" />
+                        <input type="hidden" name="QuantityFrom" data-bind="value: QuantityFrom" />
+                        <input type="hidden" name="QuantityTo" data-bind="value: QuantityTo" />
+                        <input type="hidden" name="WithImages" data-bind="value:WithImages" />
+                        <input type="hidden" name="IsKit" data-bind="value: IsKit" />
+                        <input type="hidden" name="SkuType" data-bind="value: SkuType" />
+                        <input type="hidden" name="IsAmazonEnabled" data-bind="value: IsAmazonEnabled" />
+                        <input type="hidden" name="HasASIN" data-bind="value: HasASIN" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Fields from</label>
+                            <div class="col-md-10">
+                                <select class="form-control" data-bind="options: productKinds, optionsCaption: '-- all --', event:{ change: productKindChanged}"></select>
+                            </div>
+                        </div>
+                        <div class="row margin">
+                            <div class="col-sm-5">
+                                <div class="form-group ">
+                                    <label>Available Product Fields</label>
+                                    <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="options: availableProductFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToAdd"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label></label>
+                                <div class="row margin">
+                                    <button class="btn btn-default center-block" data-bind="click: addSelectedFields, enable: selectedFieldsToAdd().length > 0"><span class="fa fa-chevron-right"></span></button>
+                                </div>
+                                <div class="row margin">
+                                    <button class="btn btn-default center-block" data-bind="click: removeSelectedFields, enable: selectedFieldsToRemove().length > 0"><span class="fa fa-chevron-left"></span></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group ">
+                                    <label>Selected Product Fields</label>
+                                    <select style="min-height: 340px !important;" class="form-control" multiple="multiple" data-bind="attr: {'data-value': ProductFields }, options: selectedProductFields, optionsText: 'Name', optionsValue: 'Id', selectedOptions: selectedFieldsToRemove, event: { change: valueChanged }" required="required"></select>
+                                    <input type="hidden" name="ProductFields" data-bind="value: ProductFields" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Template name</label>
+                            <div class="col-md-10">
+                                <input name="TemplateName" class="form-control" data-bind="value: TemplateName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="FileFormat">File Format</label>
+                            <div class="col-md-10">
+                                <select name="Delimiter" class="form-control" data-bind="options: fileFormats, optionsText: 'Name', optionsValue: 'Id', value: Delimiter"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SortBy">Sort By</label>
+                            <div class="col-md-10">
+                                <select name="SortBy" class="form-control" data-bind="options: selectedProductFields, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- none --', value: SortBy"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="successAlert" style="display:none;" class="alert alert-success">
+                    <strong>Success!</strong> Template added you can also use other templates by clicking <strong>Load Templates</strong>
+                </div>
+
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button type="button" class="btn bg-orange pull-left" data-bind="click: saveTemplate, enable: (selectedProductFields != 0)">Save Template</button>
+                    <button type="button" class="btn btn-info pull-left" data-toggle="modal" data-target="#loadTemplateModal">Load Templates...</button>
+                    <button type="button" id="btnCustomExport" class="btn btn-primary" data-bind="click: downloadCustomExport, enable: (recordsSelected != 0)">Start Export</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+
+
+
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+
+<!-- LoadTemplatesModal -->
+<div id="loadTemplateModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Custom Templates</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive table-hover table-striped table-altrow" id="tblTemplates">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>File Format</th>
+                            <th>Sort Field</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: templates">
+                        <tr>
+                            <td></td>
+                            <td data-bind="text: Name"></td>
+                            <!-- ko if: FileFormat === ',' -->
+                            <td>Comma Delimited</td>
+                            <!-- /ko -->
+                            <!-- ko if: FileFormat === '|' -->
+                            <td>Bar Delimited</td>
+                            <!-- /ko -->
+                            <!-- ko if: FileFormat != ',' && FileFormat != '|' -->
+                            <td>Tab Delimited</td>
+                            <!-- /ko -->
+                            <td data-bind="text:  SortField"></td>
+                            <td><button type="button" class="btn btn-success btn-xs" data-bind="click: $parent.loadSelectedTemplate">Load Template</button></td>
+                            <td><button type="button" class="btn btn-danger btn-xs" data-bind=" click $parent.deleteSelectedTemplate">Delete</button></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

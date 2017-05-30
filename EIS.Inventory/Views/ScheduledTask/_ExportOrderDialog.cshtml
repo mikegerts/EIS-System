@@ -1,0 +1,191 @@
+﻿
+<script type="text/html" id="ExportOrder">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Enabled">Enabled</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="Enabled" name="Enabled" type="checkbox" data-bind="iCheckBox: IsEnabled" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="MarkOrderExport">Mark Order</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="MarkOrderExport" name="MarkOrderExport" type="checkbox" data-bind="iCheckBox: MarkOrderExport" />
+                            <small class="text-muted">&nbsp;Mark Orders as "Exported".</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="IsDropNoOrderFile">Drop Order File?</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="IsDropNoOrderFile" name="IsDropNoOrderFile" type="checkbox" data-bind="iCheckBox: IsDropNoOrderFile" />
+                            <small class="text-muted">&nbsp;If no orders, drop file.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="TaskName">Task Name</label>
+                    <div class="col-md-8">
+                        <input id="TaskName" name="TaskName" class="form-control text-box single-line" data-bind="value: Name, event: { change: valueChanged }" placeholder="Enter task name" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="StartDate">Start Date Time</label>
+                    <div class="col-md-4" style="padding-right:0px">
+                        <div class="input-group bootstrap-timepicker">
+                            <input class="form-control text-box" id="StartDate" name="StartDate" data-bind="datepicker: StartDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                            <label class="input-group-addon" for="StartDate">
+                                <i class="fa fa-calendar"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            <input type="text" class="form-control timepicker" id="StartTime" name="StartTime" data-bind="timeValue: StartDateTime" data-minute-step="1" />
+                            <label class="input-group-addon" for="StartTime">
+                                <i class="fa fa-clock-o"></i>
+                            </label>
+                        </div><!-- /.input group -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="VendorId" name="VendorId" data-bind="options: $parent.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- select --', value: VendorId" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileName">File Name</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FileName" name="FileName" data-bind="value: FileName, event: { change: valueChanged }" placeholder="{0:MM}-{0:dd}-{0:yyyy}-{0:HH}-{0:mm}" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileType">File Type</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="FileType" name="FileType" data-bind="options: $parent.fileTypes, optionsCaption: '-- choose --', value: FileType, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="HasHeader">Include Headers</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="HasHeader" name="HasHeader" data-bind="options: $parent.yesNos, optionsText: 'Name', optionsValue: 'Id', value: HasHeader"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="ExportMarkIn">Exports Orders In</label>
+                    <div class="col-md-4" style="padding-right:0;">
+                        <select class="form-control text-box" id="ExportMarkIn" name="ExportMarkIn" data-bind="options: $parent.exportMarks, optionsCaption: '-- all --', value: ExportMarkIn"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control text-box" id="StatusIn" name="StatusIn" data-bind="options: $parent.orderStatus, optionsCaption: '-- all --', optionsText: 'Name', optionsValue: 'Id', value: StatusIn"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="ExportTo">Export To</label>
+                    <div class="col-md-4" style="padding-right: 0;">
+                        <select class="form-control" id="ExportTo" name="ExportTo" data-bind="options: $parent.exportToOptions, value: ExportTo" required="required"></select>
+                    </div>
+                    <div class="col-md-4" data-bind="visible: isFtpDetailsVisible()">
+                        <a class="btn btn-sm btn-success" data-bind="click:$parent.checkFtpConnection" href="#checkftpconnection"><i class="fa fa-sign-in"></i> Check FTP</a>
+                    </div>
+                </div>
+
+                <div style="display:none;" data-bind="visible: isFtpDetailsVisible()">
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpServer">FTP Server</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpServer" name="FtpServer" data-bind="value: FtpServer, event: { change: valueChanged }" placeholder="Enter FTP server" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpUser">FTP User</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpUser" name="FtpUser" data-bind="value: FtpUser, event: { change: valueChanged }" placeholder="Enter FTP user" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPassword">FTP Password</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpPassword" name="FtpPassword" data-bind="value: FtpPassword, event: { change: valueChanged }" placeholder="Enter FTP password" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPort">FTP Port</label>
+                        <div class="col-md-8">
+                            <input type="number" class="form-control text-box" id="FtpPort" name="FtpPort" data-bind="value: FtpPort" placeholder="Enter FTP port" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="RemoteFolder">Remote Folder</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="RemoteFolder" name="RemoteFolder" data-bind="value: RemoteFolder" placeholder="Enter remote folder path" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /. col-md-6 -->
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select recurrence</label>
+                <div id="weekdays" class="form-control" style="position:relative; min-height:82px !important;" data-bind="attr: {'data-value': Days}, foreach: weekdays" required="required">
+                    <div class="checkbox no-margin" style="float:left; width:33%;">
+                        <label class="no-padding">
+                            <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                            <span data-bind="text: Name" style="margin-left: 5px"></span>
+                        </label>
+                    </div>
+                    <div data-bind="css: { 'clear' : $index() == ($parent.weekdays().length - 1)}"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Order Fields</label>
+                <div id="order-fields" class="form-control" style="position:relative; min-height:415px !important;" data-bind="attr: {'data-value': OrderFields}, foreach: itemFields" required="required">
+                    <div class="checkbox no-margin" style="float:left; width:49%; margin-top:2px;">
+                        <input type="text" data-bind="value: Sort, click: selectAll" style="width: 30px; height:20px; padding: 0 3px; z-index:99;" />
+                        <label class="no-padding" data-bind="click: $parent.toggleField">
+                            <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                            <span data-bind="text: Name" style="margin-left: 5px"></span>
+                        </label>
+                    </div>
+                    <div data-bind="css: { 'clear' : $index() == ($parent.itemFields().length - 1)}"></div>
+                </div>
+            </div>
+        
+            <div class="form-horizontal">
+                <h5>Confirmation Email for Order Status</h5>
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="ConfirmationEmailTos">Confirmation Email To</label>
+                    <div class="col-md-8">
+                        <textarea type="text" class="form-control text-box" name="ConfirmationEmailTos" data-bind="value: ConfirmationEmailTos" placeholder="Enter confirmation emails (comma seperated)" title="Enter emails in comma seperated"></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /. col-md-6 -->
+    </div>
+</script>
+

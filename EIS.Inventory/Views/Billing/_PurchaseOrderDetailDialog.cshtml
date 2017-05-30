@@ -1,0 +1,89 @@
+﻿
+<div style="display:none;" class="modal fade" id="PurchaseOrderDetailDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: purchaseOrderDetail">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Manage Purchase Order</h4>
+            </div>
+            <div class="modal-body">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>Billed From</th>
+                                    <td data-bind="text: VendorName"></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td data-bind="text: VendorAddress() + ', ' + VendorCity() + ', ' + VendorZipCode()"></td>
+                                </tr>
+                                <tr>
+                                    <th>Phone</th>
+                                    <td><a data-bind="text: PhoneNumber, attr: { href: 'tel:' + PhoneNumber}"></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-5">
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <th>PO Number</th>
+                                    <td data-bind="text: Id"></td>
+                                </tr>
+                                <tr>
+                                    <th>Generated</th>
+                                    <td data-bind="dateString: Created, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div data-bind="with: PagedItem">
+                    <p>
+                        <button class="btn btn-info btn-xs" data-bind="click: $parent.selectAllClicked" title="Check all items (on this page result only)">Select All</button>&nbsp;
+                        <button class="btn btn-default btn-xs" data-bind="click: $parent.resetClicked" title="Uncheck all items (on this page result only)">Reset</button>
+                    </p>
+                    <table class="table table-condensed table-responsive table-hover table-striped table-altrow">
+                        <thead>
+                            <tr>
+                                <th>Is Paid</th>
+                                <th>SKU</th>
+                                <th>Item Name</th>
+                                <th>Qty</th>
+                                <th>Supplier Price</th>
+                                <th>Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Items">
+                            <tr>
+                                <td align="center" style="width:6%" data-bind="click: $parents[1].itemIsPaidClicked, attr: { 'title' : IsPaid() ? 'This item is already paid.' : 'Mark this item as paid' }">
+                                    <input type="checkbox" data-bind="iCheckBox: IsPaid, enableTrigger: true" />
+                                </td>
+                                <td data-bind="text: SKU"></td>
+                                <td data-bind="text: ItemName"></td>
+                                <td data-bind="text: Qty"></td>
+                                <td align="right" style="width: 9%" data-bind="text: UnitPrice().toFixed(2)"></td>
+                                <td align="right" style="width: 9%" data-bind="text: Total().toFixed(2)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="pager">
+                        <li data-bind="css: { disabled: !hasPrevPage() }"><a href="#prev" data-bind="click: $parent.prevPage">&larr; Previous</a></li>
+                        <li data-bind="text: pageShowStatus"></li>
+                        <li data-bind="css: { disabled: !hasNextPage() }"><a href="#next" data-bind="click: $parent.nextPage">Next &rarr;</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnUpdatePo" type="button" class="btn btn-primary" data-bind="click: managePurchaseOrderPaid">Update PO</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#PurchaseOrderDetailDialog -->

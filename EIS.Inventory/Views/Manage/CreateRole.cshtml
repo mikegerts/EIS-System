@@ -1,0 +1,68 @@
+﻿@model EIS.Inventory.Models.RoleViewModel
+
+@{
+    ViewBag.ActiveMenu = "roles";
+    ViewBag.Title = "Create New Role";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Role Information <small>Create role</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                    </div>
+                    <!-- form start -->
+                    @using (Html.BeginForm("createrole", "manage", FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="box-body">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter role name", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter description", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter order", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10 no-padding">
+                                    <button class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save role">Save Role</button>&nbsp;
+                                    @Html.ActionLink("Back to List", "roles", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to roles list" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </section>
+</div>

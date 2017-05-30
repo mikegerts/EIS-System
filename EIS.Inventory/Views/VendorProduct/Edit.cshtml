@@ -1,0 +1,635 @@
+﻿@model EIS.Inventory.Core.ViewModels.VendorProductDto
+
+@{
+    ViewBag.Title = string.Format("Edit Vendor Product {0}", Model.Name);
+    ViewBag.ActiveMenu = "vendor_products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>@Model.Name<small>Edit vendor product</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="@Html.Raw(Url.Action("index"))">Vendor Products</a></li>
+            <li><a class="active">Edit</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                <a href="@Html.Raw(Url.Action("index"))" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+            </div>
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                @if (ViewBag.Message != null)
+                {  
+                    <div id="msgStatus" class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
+                @Html.ValidationMessage("Error", new { @class = "bg-red" })
+                <div class="alert" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title">Vendor Product Details</h3>
+                            </div>
+                            @Html.ValidationMessage("Error", new { @class = "bg-red" })
+                            @using (Html.BeginForm("save", "vendorproduct", new { id = Model.EisSupplierSKU }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+                            {
+                                <div class="box-body">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-horizontal">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.VendorId)
+
+                                        <div class="form-group">
+                                            <label for="CompanyName" class="control-label col-md-2">Company Name</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="VendorName" class="control-label col-md-2">Vendor Name</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="EisSupplierSKU" class="control-label col-md-2">EIS Supplier SKU</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.EisSupplierSKU, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter EIS Supplier SKU", @required = "required", @readonly = "readonly" } })
+                                                @Html.ValidationMessageFor(model => model.EisSupplierSKU, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SupplierSKU" class="control-label col-md-2">Supplier SKU</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.SupplierSKU, new { htmlAttributes = new { @class = "form-control" }, @placeholder = "Enter supplier SKU", @required = "required" })
+                                                @Html.ValidationMessageFor(model => model.SupplierSKU, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Name" class="control-label col-md-2">Name</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter product name" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.ShortDescription, new { maxLength = 500, @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="SupplierPrice" class="control-label col-md-2">Supplier Price</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.SupplierPrice, new { htmlAttributes = new { @class = "form-control", type = "number", @step = ".01", @placeholder = "Enter supplier price", onfocus = "rateFieldOnFocus(this)" } })
+                                                @Html.ValidationMessageFor(model => model.SupplierPrice, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Quantity" class="control-label col-md-2">Quantity</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger", @placeholder = "Enter quantity", onfocus = "rateFieldOnFocus(this)" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="MinPack" class="control-label col-md-2">MinPack</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.MinPack, new { min = 1, htmlAttributes = new { @class = "form-control", @placeholder = "Enter min pack", onfocus = "rateFieldOnFocus(this)" } })
+                                                @Html.ValidationMessageFor(model => model.MinPack, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="UPC" class="control-label col-md-2">UPC</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.UPC, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter UPC" } })
+                                                @Html.ValidationMessageFor(model => model.UPC, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Category" class="control-label col-md-2">Category</label>
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter product category" } })
+                                                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Weight" class="control-label col-md-2">Weight</label>
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-md-6 no-margin">
+                                                        <label class="sr-only" for="WeightUnit">Weight</label>
+                                                        @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter weight", title = "Weight" } })
+                                                    </div>
+                                                    <div class="col-md-3 no-margin">
+                                                        <label class="sr-only" for="AccurateWeightUnit">Mass Unit</label>
+                                                        <select class="form-control col-md-3" id="WeightUnit" name="WeightUnit">
+                                                            <option value="">-- select --</option>
+                                                            <option value="ounces" @(Model.WeightUnit == "ounces" ? "selected" : "")>ounces</option>
+                                                            <option value="pounds" @(Model.WeightUnit == "pounds" ? "selected" : "")>pounds</option>
+                                                            <option value="grams" @(Model.WeightUnit == "grams" ? "selected" : "")>grams</option>
+                                                            <option value="kilograms" @(Model.WeightUnit == "kilograms" ? "selected" : "")>kilograms</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="Shipping" class="control-label col-md-2">Shipping</label>
+                                            <div class="col-md-5">
+                                                @Html.EditorFor(model => model.Shipping, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter shipping" } })
+                                                @Html.ValidationMessageFor(model => model.Shipping, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="VendorMOQ" class="control-label col-md-2">Vendor MOQ</label>
+                                            <div class="col-md-5">
+                                                @Html.EditorFor(model => model.VendorMOQ, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter vendor MOQ" } })
+                                                @Html.ValidationMessageFor(model => model.VendorMOQ, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="VendorMOQType" class="control-label col-md-2">Vendor MOQ Type</label>
+                                            <div class="col-md-5">
+                                                @Html.EditorFor(model => model.VendorMOQType, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter vendor MOQ type" } })
+                                                @Html.ValidationMessageFor(model => model.VendorMOQType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="IsAutoLinkToEisSKU" class="control-label col-md-2">AutoLink To EisSKU</label>
+                                            <div class="col-md-10">
+                                                @Html.CheckBoxFor(model => model.IsAutoLinkToEisSKU, new { htmlAttributes = new { @class = "form-control" } })
+                                                &nbsp;
+                                                <span class="help">
+                                                    <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Create EIS proudct links by matching its UPC code."></a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="IsCreateEisSKUAndLink" class="control-label col-md-2">Create EisSKU & Link</label>
+                                            <div class="col-md-10">
+                                                @Html.CheckBoxFor(model => model.IsCreateEisSKUAndLink, new { htmlAttributes = new { @class = "form-control" } })
+                                                &nbsp;
+                                                <span class="help">
+                                                    <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Add link to EIS products with UPC code. If it doesn't exist create new EIS product."></a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="box-footer">
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10 no-padding">
+                                            <button id="btn-Save" class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save changes">Save Changes</button>&nbsp;
+                                            <a href="@Html.Raw(Url.Action("index"))" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div><!-- /.box -->
+                    </div>
+                </div> <!-- .row -->
+                <div class="row">
+                    <div id="product_links_container" class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header">
+                                <h3 class="box-title">EIS Product Links</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>EIS SKU</th>
+                                            <th>Product Name</th>
+                                            <th>Selling Price</th>
+                                            <th>SKU Type</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- ko if: eisProductLinks().length != 0 -->
+                                    <tbody data-bind="foreach: eisProductLinks">
+                                        <tr>
+                                            <td data-bind="text: ($index() + 1)"></td>
+                                            <td><a data-bind="text: EisSKU, attr: { href : ('/product/edit/' + EisSKU)}"></a></td>
+                                            <td data-bind="trimText: Name, trimTextLength: 50, attr: {title: Name}"></td>
+                                            <td data-bind="text: formatCurrency(SellingPrice)"></td>
+                                            <td data-bind="text: SkuType"></td>
+                                            <td>
+                                                <a class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Go to product edit page" data-bind="attr: { href : ('/product/edit/' + EisSKU)}"><i class="fa fa-external-link"></i></a>
+                                                <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this product link" href="#product_links_container" data-bind="click: $parent.deleteEisProductLink"><span class="fa fa-trash-o"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <!-- /ko -->
+                                    <tbody data-bind="visible: eisProductLinks().length == 0" style="display:none;">
+                                        <tr>
+                                            <td colspan="8">No records available.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer">
+                                <a class="btn btn-info btn-sm" href="#product_links_container" data-target="#ProductLinkDialog" data-toggle="modal" title="Add new product link"><span class="fa fa-plus"></span>Add Prouduct Link</a>
+                            </div>
+                        </div> <!-- .box -->
+
+                        @{Html.RenderPartial("_ProductLinkDialog");}
+
+                    </div> <!-- #product_links_container .col-md-12 -->
+                </div> <!-- .row -->
+                
+            </div>
+            <div class="col-md-3">
+
+                <div class="row">
+                    <div class="col-md-12" id="actions_container">
+                        <div class="input-group margin-bottom" style="width:100%;">
+                            <div class="form-inline">
+                                <div class="input-group" style="width:100%;">
+                                    <select class="form-control" id="vendorProductAction">
+                                        <option value="">-- select action --</option>
+                                        <option value="@Url.Action("_UpdateVendorProductLinks", new { eisSupplierSKU = Model.EisSupplierSKU })">Update vendor product links</option>
+                                        <option value="@Url.Action("_CreateEisSKUAndUpdateLinks", new { eisSupplierSKU = Model.EisSupplierSKU })">Create EisSKU and update links</option>
+                                        <option disabled="disabled">------------------------------------------</option>
+                                        <option value="@Url.Action("_DeleteVendorProductLinks", new { eisSupplierSKU = Model.EisSupplierSKU })">Delete vendor product links</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button id="btnGo" class="btn btn-warning" data-bind="click: submitAction">Go!</button>
+                                    </span>
+                                    <span class="spinner spinner-overlay">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="box box-warning" id="pending_orders_container">
+                            <div class="box-header">
+                                <h3 class="box-title">Pending Orders</h3>
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">                                
+                                <!-- ko if: pendingOrders().length != 0 -->                                
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th>EISOrderID</th>
+                                                <th>Marketplace</th>
+                                                <th style="width:10%">Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: pendingOrders">
+                                            <tr>
+                                                <td><a data-bind="text: EisOrderId, attr: { href : ('/order/orderdetails/' + OrderId)}"></a></td>
+                                                <td data-bind="text: Marketplace"></td>
+                                                <td data-bind="text: Quantity"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /ko -->
+                                <p data-bind="visible: pendingOrders().length == 0" style="display:none;">
+                                    No pending orders for this item.
+                                </p>
+                            </div>
+                            <div class="overlay" data-bind="visible: isLoading">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header  with-border">
+                                <h3 class="box-title">Image Gallery</h3>
+                                <div class="box-tools">
+                                    <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" id="product-images">
+                                <div class="row">
+                                    <div class="col-md-12 margin-bottom">
+                                        <button class="btn btn-sm bg-olive" data-toggle="modal" data-target="#UploadImageDialog" data-id="-1">Add Image</button>
+                                    </div>
+                                </div>
+
+                                <!-- ko if: images().length != 0 -->
+                                <div class="row" data-bind="foreach: images">
+                                    <div class="col-md-12 thumb">
+                                        <div class="thumbnail product-images">
+                                            <a class="fancy-images" data-bind="attr: { href: Url, title: Caption }">
+                                                <img class="img-responsive" data-bind="attr: { src: Url }" alt="">
+                                            </a>
+
+                                            <div class="image-buttons">
+                                                <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#UploadImageDialog" data-bind="attr: { 'data-id': Id }">Change</button>
+                                                <button class="btn btn-danger btn-xs" data-bind="attr: { 'data-id': Id }, click: $parent.deleteImage">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <p data-bind="visible: images().length == 0" style="display:none;">
+                                    No image available.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .row -->
+    </section>
+</div>
+
+<div style="display:none;" class="modal fade" id="UploadImageDialog" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modal_title">Upload Image</h4>
+            </div>
+            <div class="modal-body dropzone">
+                <div class="form-horizontal">
+                    <input type="hidden" id="ImageId" name="ImageId" value="-1" />
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" for="ImageCaption">Caption</label>
+                        <div class="col-xs-10">
+                            <input id="ImageCaption" name="ImageCaption" type="text" class="form-control" placeholder="Enter image caption" />
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2" for="txtImageUrl">Url</label>
+                        <div class="col-xs-10">
+                            <input id="txtImageUrl" name="txtImageUrl" type="text" class="form-control" readonly="readonly" />
+                        </div>
+                    </div>
+
+                    <div class="form-group image_div" style="display:none;">
+                        <label class="control-label col-xs-2"></label>
+                        <div class="col-xs-10">
+                            <img id="ImageUrl" class="img-responsive" style="max-width: 215px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <span class="btn btn-sm btn-success fileinput-button" id="fileupload">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Select image...</span>
+                                <input type="file" name="files[]" id="fileuploadField" accept="image/*">
+                            </span>
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="table no-margin" id="tblFiles">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="progress active no-margin">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                            </div>
+                            <div class="no-margin text-muted" id="uploadStatus"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnStartUpload" type="button" class="btn btn-primary">Upload Image</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fancyBox-2.1.5/jquery.fancybox.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.lazyload.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/fancyBox-2.1.5/jquery.fancybox.pack.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/vendorproduct.js")" type="text/javascript"></script>
+    <script  type="text/javascript">
+        var jqXHRData = null;
+        var GET_PRODUCT_IMAGES_URL = "@Html.Raw(Url.Action("_GetVendorProductImages"))";
+        var GET_PRODUCT_IMAGE_URL = "@Html.Raw(Url.Action("_GetVendorProductImage"))";
+        var GET_EIS_PRODUCT_LINKS_URL = "@Html.Raw(Url.Action("_GetEisProducLinks"))";
+        var GET_PENDING_ORDERS_URL = "@Html.Raw(Url.Action("_GetPendingOrders", "order"))";
+        var SEARCH_EIS_PRODUCT_URL = "@Html.Raw(Url.Action("_SearchEisProducts"))";
+        var ADD_EIS_PRODUCT_LINKS_URL = "@Html.Raw(Url.Action("_AddEisProductLinks"))";
+        var DELETE_PRODUCT_LINK_URL = "@Html.Raw(Url.Action("_DeleteProductLink", "vendorproduct"))";
+        var DELETE_PRODUCT_IMAGE_URL = "@Html.Raw(Url.Action("_DeleteVendorProductImage"))";
+        var eisSupplierSKU = '@Model.EisSupplierSKU';
+        var productLinkViewModel = new ProductLinkViewModel();
+        var actionsViewModel = new ActionsViewModel();
+        var pendingOrderViewModel = new PendingOrderViewModel();
+        var viewModel = new ViewModel();
+
+        $(document).ready(function () {
+            ko.applyBindings(productLinkViewModel, document.getElementById("product_links_container"));
+
+            productLinkViewModel.loadData(eisSupplierSKU);
+
+            ko.applyBindings(actionsViewModel, document.getElementById("actions_container"));
+
+            ko.applyBindings(pendingOrderViewModel, document.getElementById("pending_orders_container"));
+            pendingOrderViewModel.loadData(eisSupplierSKU);
+
+            ko.applyBindings(viewModel, document.getElementById("product-images"));
+            
+            viewModel.loadImages('@Model.EisSupplierSKU');
+
+            //iCheck for checkbox and radio inputs
+            $("input[type='checkbox']").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+
+            $(".fancy-images").fancybox();
+
+            // hide message if there's any
+            fadeOutMessage();
+
+            // set action for showing the Upload Image Dialog
+            $("#UploadImageDialog").on('show.bs.modal', function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var modelId = element.data("id");
+                if (modelId === undefined || modelId == -1) {
+                    $("#ImageId").val(-1);
+                    $("#modal_title").text("Upload New Product Image");
+                    return true;
+                }
+
+                $("#modal_title").text("Change Product Image");
+                $.ajax({
+                    url: GET_PRODUCT_IMAGE_URL,
+                    data: { id: modelId },
+                    success: function (result) {
+                        $("#ImageId").val(result.Id);
+                        $("#ImageCaption").val(result.Caption);
+                        $("#ImageUrl").attr("src", result.Url);
+                        $("#txtImageUrl").val(result.Url);
+                        $(".image_div").show();
+                    }
+                });
+            });
+
+            // init the scripts for the Image Upload
+            $('#fileupload').fileupload({
+                url: "@Url.Action("_SaveVendorProductImage")",
+                dataType: 'json',
+                dropZone: $(".dropzone"),
+                maxNumberOfFiles: 1,
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('div.progress .progress-bar').css('width', progress + '%');
+                },
+                add: function (e, data) {
+                    var acceptFileTypes = ["png", "jpg", "jpeg", "bmp"];
+                    var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                    var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                    if (isValidFile) {
+                        $("#uploadStatus").html("");
+                        jqXHRData = data;
+                        $.each(data.files, function (index, file) {
+                            var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                            $("#tblFiles tbody").html(rowHtml);
+                        });
+                    } else {
+                        $("#uploadStatus").html("<p style='color: red;'> Unsupported file extension: " + addedFileExtension.toUpperCase() + "</p>")
+                    }
+                },
+                start: function (e, data) {
+                    $("#uploadStatus").html("Processing file...")
+                },
+                submit: function (e, data) {
+                    var id = $("#ImageId").val();
+                    var caption = $("#ImageCaption").val();
+                    var eisSku = $("#EisSupplierSKU").val();
+                    data.formData = { Id: id, Caption: caption, ParentId: eisSku, eisSKU: eisSku };
+                    console.log(data.formData);
+                },
+                done: function (e, data) {
+                    if (data.result.isUploaded) {
+                        $("#uploadStatus").html(data.result.message)
+                        setTimeout("$('#UploadImageDialog').modal('hide');", 1000);
+                        location.reload();
+                    } else {
+                        $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                        $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                    }
+                },
+                fail: function (event, data) {
+                    $("#uploadStatus").html("");
+                    $.each(data.messages, function (index, error) {
+                        $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                            .appendTo('#uploadStatus');
+                    });
+                }
+            });
+
+            $("#btnStartUpload").on("click", function () {
+                
+                if (jqXHRData == null || jqXHRData.files.length == 0) {
+                    $("#uploadStatus").html("<p style='color: red;'>Please select image to upload!</p>")
+                    return false;
+                }
+
+                jqXHRData.submit();
+            });
+
+            // do some clean-ups when modal is closing
+            $('#UploadImageDialog').on('hidden.bs.modal', function () {
+                $("div.progress .progress-bar").removeClass("progress-bar-danger");
+                $('div.progress .progress-bar').css('width', '0%');
+                $("#tblFiles > tbody").html("");
+                $("#uploadStatus").html("")
+                $(".image_div").hide();
+                jqXHRData = null;
+            })
+
+        });
+
+    function removeAddedFile(event) {
+        $(event).parent().parent().remove();
+        jqXHRData.files = [];
+    }
+
+    function onBeginGetProductInfo(item){
+        var activeItem = $("#lstToolBox").find(".active");
+        activeItem.removeClass("active");
+
+        $("#item-"+item).addClass("active");
+    }
+
+    function onCompleteGetProductInfo(){
+        doBindiCheckBox();
+    }
+
+    function doBindiCheckBox() {
+        //iCheck for checkbox and radio inputs
+        $("input[type='checkbox']").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+    }
+
+    function loadPagedDataComplete() {
+        doBindiCheckBox();
+    }
+    </script>
+}

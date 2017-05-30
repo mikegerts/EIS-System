@@ -1,0 +1,252 @@
+﻿
+<script type="text/html" id="VendorProductFileInventory">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Enabled">Enabled</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="Enabled" name="Enabled" type="checkbox" data-bind="iCheckBox: IsEnabled" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="IsDeleteFile">Delete File?</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="IsDeleteFile" name="IsDeleteFile" type="checkbox" data-bind="iCheckBox: IsDeleteFile" />
+                            <small class="text-muted">&nbsp;Delete the vendor's file after update.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="TaskName">Task Name</label>
+                    <div class="col-md-8">
+                        <input id="TaskName" name="TaskName" class="form-control text-box single-line" data-bind="value: Name, event: { change: valueChanged }" placeholder="Enter task name" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="StartDate">Start Date Time</label>
+                    <div class="col-md-4" style="padding-right:0px">
+                        <div class="input-group bootstrap-timepicker">
+                            <input class="form-control text-box" id="StartDate" name="StartDate" data-bind="datepicker: StartDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                            <label class="input-group-addon" for="StartDate">
+                                <i class="fa fa-calendar"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            <input type="text" class="form-control timepicker" id="StartTimeDate" name="StartTimeDate" data-bind="timeValue: StartTimeDate" data-minute-step="1" />
+                            <label class="input-group-addon" for="StartTimeDate">
+                                <i class="fa fa-clock-o"></i>
+                            </label>
+                        </div><!-- /.input group -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="VendorId" name="VendorId" data-bind="options: $parent.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- select --', value: VendorId, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileName">File Name</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FileName" name="FileName" data-bind="value: FileName, event: { change: valueChanged }" placeholder="{0:MM}-{0:dd}-{0:yyyy}-{0:HH}-{0:mm}" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileType">File Type</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="FileType" name="FileType" data-bind="options: $parent.fileTypes, optionsCaption: '-- choose --', value: FileType, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="HasHeader">Has Header</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" name="HasHeader" data-bind="options: $parent.yesNos, optionsText: 'Name', optionsValue: 'Id', value: HasHeader"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FtpServer">FTP Server</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FtpServer" name="FtpServer" data-bind="value: FtpServer, event: { change: valueChanged }" placeholder="Enter FTP server" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FtpUser">FTP User</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FtpUser" name="FtpUser" data-bind="value: FtpUser, event: { change: valueChanged }" placeholder="Enter FTP user" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FtpPassword">FTP Password</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="FtpPassword" name="FtpPassword" data-bind="value: FtpPassword, event: { change: valueChanged }" placeholder="Enter FTP password" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FtpPort">FTP Port</label>
+                    <div class="col-md-8">
+                        <input type="number" class="form-control text-box" id="FtpPort" name="FtpPort" data-bind="value: FtpPort" placeholder="Enter FTP port" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="RemoteFolder">Remote Folder</label>
+                    <div class="col-md-8">
+                        <input class="form-control text-box" id="RemoteFolder" name="RemoteFolder" data-bind="value: RemoteFolder" placeholder="Enter remote folder path" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <a class="btn btn-sm btn-success" data-bind="click:$parent.checkFtpConnection" href="#checkftpconnection"><i class="fa fa-sign-in"></i> Check FTP</a>
+                        <a class="btn btn-sm btn-success" data-bind="click:$parent.checkFileFromFtp" href="#checkfile"><i class="fa fa-sign-in"></i> Check File</a>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /. col-md-6 -->
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select recurrence</label>
+                <div data-bind="foreach: recurrences" class="checkbox">
+                    <label style="width:24%; z-index:1001" data-bind="click: $parent.toggleRecurrence">
+                        <input type="radio" name="RecurrenceRadio" data-bind="iRadio: IsChecked, value: Id, enableTrigger: true" />
+                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                    </label>
+                </div>
+                <div data-bind="template: recurrenceTemplate"></div>
+            </div>
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="IsZeroOutQty">Zero-out Quantity</label>
+                    <div class="col-md-7">
+                        <div class="checkbox">
+                            <input id="IsZeroOutQty" name="IsZeroOutQty" type="checkbox" data-bind="iCheckBox: IsZeroOutQty" />
+                            &nbsp;
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Zero-out quantity that is not present in vendor product file inventory."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="IsAddNewItem">Create New Item</label>
+                    <div class="col-md-7">
+                        <div class="checkbox">
+                            <input id="IsAddNewItem" name="IsAddNewItem" type="checkbox" data-bind="iCheckBox: IsAddNewItem" />
+                            &nbsp;
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Create new vendor product when it doesn't exist."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="IsLinkEisSKU">Link to EisSKU</label>
+                    <div class="col-md-7">
+                        <div class="checkbox">
+                            <input id="IsLinkEisSKU" name="IsLinkEisSKU" type="checkbox" data-bind="iCheckBox: IsLinkEisSKU" />          
+                            &nbsp;
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Add link to EIS products with UPC code."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="IsCreateEisSKUAndLink">Create EisSKU & Link</label>
+                    <div class="col-md-7">
+                        <div class="checkbox">
+                            <input id="IsCreateEisSKUAndLink" name="IsCreateEisSKUAndLink" type="checkbox" data-bind="iCheckBox: IsCreateEisSKUAndLink" />
+                            &nbsp;
+                            <span class="help">
+                                <a class="fa fa-question-circle text-muted" data-toggle="tooltip" title="Add link to EIS products with UPC code. If it doesn't exist create new EIS product."></a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="SKU">Supplier SKU</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="SKU" data-bind="value: SKU, event: { change: valueChanged }" placeholder="Index for supplier's' SKU" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="Quantity">Quantity</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="Quantity" data-bind="value: Quantity" placeholder="Index for quantity" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="SupplierPrice">Supplier Price</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="SupplierPrice" data-bind="value: SupplierPrice" placeholder="Index for supplier's price" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="ProductName">Product Name</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="ProductName" data-bind="value: ProductName" placeholder="Index for product name" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="Description">Description</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="Description" data-bind="value: Description" placeholder="Index for description" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="Category">Category</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="Category" data-bind="value: Category" placeholder="Index for category" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="UPC">UPC Code</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="UPC" data-bind="value: UPC" placeholder="Index for UPC code" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-5" for="MinPack">Min Pack</label>
+                    <div class="col-md-7">
+                        <input class="form-control" type="number" name="MinPack" data-bind="value: MinPack" placeholder="Index for Min Pack" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div><!-- /. col-md-6 -->
+    </div>
+</script>

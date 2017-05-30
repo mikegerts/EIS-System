@@ -1,0 +1,85 @@
+﻿
+
+
+<div style="display:none;" class="modal fade" id="ProductGroupDetailDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" data-bind="with: productGroupDetail">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: (isCreate() ? 'Create Product Group' : 'Edit Product Group')">Create Product Group</h4>
+            </div>
+            <div class="modal-body" id="productgroupdialog-edit-form">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" for="Name">Group Name</label>
+                                <div class="col-xs-8">
+                                    <input class="form-control input-sm" id="Name" name="Name" data-bind="value: Name, event: { change: valueChanged }" required="required" placeholder="Enter group name" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" for="Description">Description</label>
+                                <div class="col-xs-8">
+                                    <input id="ContactPerson" name="Description" class="form-control input-sm" data-bind="value: Description" placeholder="Enter description" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div data-bind="with: pagedModel">
+                            <table class="table no-margin" style="margin-bottom:0;">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-4">EIS SKU</th>
+                                        <th class="col-md-7">Product Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <!-- ko if: Items().length != 0 -->
+                                <tbody data-bind="foreach: Items">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group no-margin">
+                                                <input class="form-control input-sm" type="text" data-bind="value: EisSKU, event: { change: $parent.skuValueChanged}, attr: { tabindex: ($index() +1 ) * 10 }" placeholder="EIS SKU" required="required" />
+                                            </div>
+                                        </td>
+                                        <td><input class="form-control input-sm" type="text" data-bind="value: Name, attr: { 'title': Name }" readonly="readonly" placeholder="Product name" /> </td>
+                                        <th>
+                                            <a class="btn btn-xs btn-danger" href="#deleteitem" title="Delete this item" data-bind="click: $parent.deleteProductItem"><i class=" fa fa-trash-o"></i></a>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                                <!-- /ko -->
+                                <tbody data-bind="visible: Items().length == 0" style="display:none;">
+                                    <tr>
+                                        <td colspan="5">No product items added yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="margin:2px 8px"><a class="btn btn-xs btn-success" title="Add new item" data-bind="click: addProductItem">
+                                <i class=" fa fa-plus"></i> Add new item</a>
+                            </p>
+                            <ul class="pager">
+                                <li data-bind="css: { disabled: !HasPreviousPage() }"><a href="#prev" data-bind="click: $parent.prevPagedData">&larr; Previous</a></li>
+                                <li data-bind="text: pageShowStatus"></li>
+                                <li data-bind="css: { disabled: !HasNextPage() }"><a href="#next" data-bind="click: $parent.nextPagedData">Next &rarr;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-bind="click: saveProductGroup, text: (isCreate() ? 'Create Product Group' : 'Save Changes')"> Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#ProductGroupDialog -->

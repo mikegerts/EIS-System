@@ -1,0 +1,153 @@
+﻿@model EIS.Inventory.Shared.ViewModels.KitDto
+
+
+<div id="content_kit_wrapper">
+    <div data-bind="with: kit">
+        <div class="row">
+            <div id="" class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Kit Properties</h3>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <div class="box-body">
+
+                            <input type="hidden" id="EisSKU" name="EisSKU" value="@ViewBag.EisSKU" />
+                            <input type="hidden" data-bind="value: ParentKitSKU" />
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="IsKit">Kit Enabled</label>
+                                <div class="col-md-9">
+                                    <input type="checkbox" id="IsKit" data-bind="iCheckBox: IsKit" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Parent Kit SKU</label>
+                                <div class="col-md-9">
+                                    <p class="form-control no-border" data-bind="text: ParentKitSKU"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="InventoryDependencyOn">Inventory Dependency</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" id="InventoryDependencyOn" name="InventoryDependencyOn" data-bind="options: $parent.inventoryDependencies, optionsText: 'Name', optionsValue: 'Id', value: InventoryDependencyOn"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Kit Inventory Qty.</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" type="text" readonly data-bind="value: KitInventoryQty" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Total Supplier Price</label>
+                                <div class="col-md-9">
+                                    <p class="form-control no-border" data-bind="text: TotalSupplierPrice"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Total Seller Price</label>
+                                <div class="col-md-9">
+                                    <p class="form-control no-border" data-bind="text: TotalSellerPrice"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Component Count</label>
+                                <div class="col-md-9">
+                                    <p class="form-control no-border" data-bind="text: ComponentCount"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button data-original-title="Save changes" data-toggle="tooltip" type="submit" class="btn btn-primary btn-sm" data-bind="click: $parent.saveKit">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Kit Components</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>IsMain</th>
+                                    <th>Child Kit SKU</th>
+                                    <th>Product Name</th>
+                                    <th>SupplierPrice</th>
+                                    <th>SellerPrice</th>
+                                    <th>Quantity</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: KitDetails().length != 0 -->
+                            <tbody data-bind="foreach: KitDetails">
+                                <tr>
+                                    <td align="center"><div data-bind="css: {checked: IsMain}" class="state icheckbox_minimal-blue checked"></div></td>
+                                    <td data-bind="text: ChildKitSKU"></td>
+                                    <td data-bind="trimText: ProductName, attr: {title: ProductName}"></td>
+                                    <td data-bind="text: ProductSupplierPrice"></td>
+                                    <td data-bind="text: ProductSellerPrice"></td>
+                                    <td data-bind="text: ProductQuantity"></td>
+                                    <td>
+                                        <a href="#editkit" data-target="#EditKitComponentDialog" data-toggle="modal" class="btn btn-sm btn-warning" data-bind="attr: { 'data-parent': ParentKitSKU, 'data-child': ChildKitSKU}"><i class="fa fa-edit"></i></a>
+                                        <a href="#deletekit" data-original-title="Delete this Kit component" data-toggle="tooltip" class="btn btn-sm btn-danger" data-bind="click: $root.deleteKitDetail"><span class="fa fa-trash-o"></span></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: KitDetails().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-sm bg-olive" data-target="#SelectProductDialog" data-toggle="modal">Add Product to Kit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @{Html.RenderPartial("_SelectProductDialog");}
+    @{Html.RenderPartial("_EditKitComponentDialog");}
+</div> <!-- #kit_content_wrapper -->
+
+<script src="@Url.Content("~/scripts/models/kit.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    var SEARCH_PAGED_PRODUCTS_URL = "@Html.Raw(Url.Action("_searchproducts", "kit"))"
+    var GET_KIT_DETAIL_URL = "@Html.Raw(Url.Action("_GetKitDetail", "kit"))"
+    var GET_KIT_DETAILS_BY_PARENTKITSKU_URL = "@Html.Raw(Url.Action("_GetKitDetailsByParentKitSku", "kit"))"
+    var SAVE_KIT_URL = "@Html.Raw(Url.Action("_UpdateKit", "kit"))"
+    var SAVE_KIT_DETAIL_URL = "@Html.Raw(Url.Action("_UpdateKitDetail", "kit"))"
+    var ADD_KITDETAILS_URL = "@Html.Raw(Url.Action("_AddKitDetails", "kit"))"
+    var UPDATE_KITDETAIL_URL = "@Html.Raw(Url.Action("_UpdateKitDetail", "kit"))"
+    var DELETE_KITDETAIL_URL = "@Html.Raw(Url.Action("_DeleteKitDetail", "kit"))"
+    var kitViewModel = new KitViewModel();
+    $(document).ready(function () {
+        ko.applyBindings(kitViewModel, document.getElementById("content_kit_wrapper"));
+        kitViewModel.loadData(@Html.Raw(Json.Encode(Model)));
+
+        // register some events when modal dialog is showing
+        $("#EditKitComponentDialog").on("shown.bs.modal", function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var parentKitSku = element.data("parent");
+            var childKitSku = element.data("child");
+            kitViewModel.loadModel(parentKitSku, childKitSku);
+        })
+    })
+</script>
+
+

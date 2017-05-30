@@ -1,0 +1,65 @@
+﻿
+<div style="display:none;" class="modal fade" id="ShippingRateDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-bind="with: shippingrate">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle"></h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div class="form-horizontal">
+
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" data-bind="visible: Id() != -1">
+                                        <label class="control-label col-md-3" for="Name">Shipping Rate ID</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control text-box single-line" data-bind="value: Id, event: { change: valueChanged }" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3" for="WeightFrom">Weight From</label>
+                                        <div class="col-md-3">
+                                            <input id="WeightFrom" class="form-control text-box single-line" type="number" data-bind="value: WeightFrom, attr: { 'readonly': $parent.isViewOnly() }, event: { change: valueChanged }" placeholder="Enter weight from" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3" for="WeightTo">Weight To</label>
+                                        <div class="col-md-3">
+                                            <input id="WeightTo" class="form-control text-box single-line" type="number" data-bind="value: WeightTo, attr: { 'readonly': $parent.isViewOnly() }, event: { change: valueChanged }" placeholder="Enter weight to (optional)" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3" for="Unit">Unit</label>
+                                        <div class="col-md-7">
+                                            <select id="Unit" name="Unit" class="form-control" data-bind="options: $parent.UnitList, optionsValue: 'Value', optionsText: 'Text', value: Unit, attr: { 'disabled': $parent.isViewOnly() }"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3" for="Rate">Rate</label>
+                                        <div class="col-md-7">
+                                            <input class="form-control text-box single-line" type="number" data-bind="value: Rate, attr: { 'readonly': $parent.isViewOnly() }" placeholder="Enter rate" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-warning" style="display:none" data-bind="visible: $parent.isViewOnly(), click: $parent.editShippingRate">Edit Shipping Rate</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !$parent.isViewOnly(),click: $parent.saveShippingRate, text: (Id() == -1 ? 'Save Shipping Rate' : 'Save Changes')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,53 @@
+﻿
+<div style="display:none;" class="modal fade" id="FileUploadDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog dropzone">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Upload EIS Order Id's to Order Group</h4>
+            </div>
+            <div class="modal-body" dropzone"" id="edit-form" style="height:185px;">
+                <div class="form-group">
+                    <div class="alert alert-warning">
+                        Upload and replace the existing EIS Order I's of the order group with the new from the file.</br>
+                        The file should contains only the list of EIS Order Id's with no header.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="VendorId">Group</label>
+                    <div class="col-xs-10">
+                        <select class="form-control text-box" id="VendorId" name="VendorId" data-bind="options: orderGroups, optionsValue: 'Id', optionsText: 'Name', value: selectedOrderGroup, optionsCaption: '-- select --', event: { change: valueChanged }" required="required"></select>                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 no-padding" style="padding: 15px 0px 0px 5px ! important;">
+                        <span class="btn btn-sm btn-success fileinput-button" id="fileupload">
+                            <i class="icon-plus icon-white"></i>
+                            <span>Select file...</span>
+                            <input type="file" name="files[]" id="fileuploadField" accept=".csv">
+                        </span>
+                    </div>
+                    <div class="col-xs-10" style="padding-top: 11px;">
+                        <table class="table no-margin" id="tblFiles">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group margin">
+                    <div class="col-xs-12 no-padding">
+                        <div class="progress active no-margin">
+                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                        </div>
+                        <div class="no-margin text-muted" id="uploadStatus"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="btnStartUpload" type="button" class="btn btn-primary">Start Upload</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

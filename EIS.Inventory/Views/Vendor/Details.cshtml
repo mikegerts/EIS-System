@@ -1,0 +1,118 @@
+﻿@model EIS.Inventory.Core.ViewModels.VendorDto
+
+@{
+    ViewBag.Title = "Vendor Detail";
+    ViewBag.ActiveMenu = "vendors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Vendor Information <small>Edit vendor</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.SKUCodeStart)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.SKUCodeStart)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.AccountNumber)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.AccountNumber)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.CreditTerm)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.CreditTerm)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Address)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.Address)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.FirstName)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.MiddleInitial)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.MiddleInitial)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.LastName)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.LastName)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.CompanyName)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.CompanyName)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.City)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.City)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.ZipCode)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.ZipCode)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.CompanyOrders)</th>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.CompanyOrders)</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="box-footer">
+                        <p>
+                            <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this vendor" href="@Html.Raw(Url.Action("Edit", "Vendor", new { id = Model.Id }))"><i class="glyphicon glyphicon-edit"></i>Edit</a>
+                            @Html.ActionLink("Cancel", "Index", new { page = 1, pageSize = 10 }, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to vendor list" })
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

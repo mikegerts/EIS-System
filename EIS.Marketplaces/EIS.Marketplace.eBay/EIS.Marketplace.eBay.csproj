@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3E95D543-A09F-4444-9C5C-99CC61DC3ABA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Marketplace.eBay</RootNamespace>
+    <AssemblyName>EIS.Marketplace.eBay</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="eBayMarketplaceInventoryProvider.cs" />
+    <Compile Include="eBayMarketplaceOrdersProvider.cs" />
+    <Compile Include="eBayProductProvider.cs" />
+    <Compile Include="Helpers\eBayConstants.cs" />
+    <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EIS.Inventory.Core\EIS.Inventory.Core.csproj">
+      <Project>{5ed5699d-e3cb-4949-b7a2-7baf822c5ec1}</Project>
+      <Name>EIS.Inventory.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EIS.Inventory.Shared\EIS.Inventory.Shared.csproj">
+      <Project>{220f7f6d-780c-407e-852e-dadde688a243}</Project>
+      <Name>EIS.Inventory.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eBayClientLibraries\eBay.Service.SDK.Attribute\eBay.Service.SDK.Attribute.csproj">
+      <Project>{9c363f3a-c0fa-4064-ac88-af4930fa0713}</Project>
+      <Name>eBay.Service.SDK.Attribute</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eBayClientLibraries\eBay.Service\eBay.Service.csproj">
+      <Project>{81157dda-1fe8-4a88-9e78-5356c82d1aa8}</Project>
+      <Name>eBay.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)EIS.Marketplace.eBay.dll" "$(SolutionDir)extensions\EIS.Marketplace.eBay.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

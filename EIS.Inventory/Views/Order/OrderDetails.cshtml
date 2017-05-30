@@ -1,0 +1,561 @@
+﻿@model EIS.Inventory.Core.ViewModels.OrderViewModel
+
+@{
+ViewBag.Title = "Order Details";
+ViewBag.ActiveMenu = "orders";
+Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateOrder", "order", null, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+{
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.OrderId)
+    
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1 class="modal-title">Order Details</h1>
+        <div class="row">
+            <div class="col-sm-6" style="margin: 0 0 10px">
+                <a href ="@Html.Raw(Url.Content("~/order"))" title="Back to previous list">Back to List</a>
+            </div>
+        </div>
+        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+    </section><!--Section Header-->
+        
+    <section class="content">
+
+        <div id="messageStatus" data-bind="visible: message(), alert: { message: message, type: type, template: 'alertTemplate' }"></div>
+
+        <div class="row"><!-- Box 1-->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Buyer Details</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                            <section class="invoice">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h2 class="page-header">
+                                            <a href="@Model.MarketPlaceUrl" class="@string.Format("bg-image-{0}", Model.Marketplace)" target="_blank">@Model.Marketplace - @Model.OrderId</a>
+                                            <span class="pull-right">@Model.EisOrderId</span>
+                                        </h2>
+                                    </div><!-- /.col -->
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed">
+                                                <tr>
+                                                    <th>Buyer Name:</th>
+                                                    <td><strong>@Model.ShippingAddressName</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Purchase Date:</th>
+                                                    <td>@Model.PurchaseDate</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Last Update Date:</th>
+                                                    <td>@Model.LastUpdateDate</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Order Status:</th>
+                                                    <td><span id="status_@(Model.OrderId)" class="@string.Format("label bg-{0}", Model.OrderStatusStr)">@Model.OrderStatus</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment Status:</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        <td>
+                                                            <select class="form-control col-md-3" id="PaymentStatus" name="PaymentStatus">
+                                                                <option value="">-- select --</option>
+                                                                <option value="0" @(Model.PaymentStatus == 0 ? "selected" : "")>No Payment</option>
+                                                                <option value="1" @(Model.PaymentStatus == 1 ? "selected" : "")>Authorized</option>
+                                                                <option value="2" @(Model.PaymentStatus == 2 ? "selected" : "")>UnCleared</option>
+                                                                <option value="3" @(Model.PaymentStatus == 3 ? "selected" : "")>Charged</option>
+                                                                <option value="4" @(Model.PaymentStatus == 4 ? "selected" : "")>Partial Payment</option>
+                                                                <option value="5" @(Model.PaymentStatus == 5 ? "selected" : "")>Partial Refund</option>
+                                                                <option value="6" @(Model.PaymentStatus == 6 ? "selected" : "")>Full Refund</option>
+                                                                <option value="7" @(Model.PaymentStatus == 7 ? "selected" : "")>Payment Error</option>
+                                                            </select>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td>@Model.PaymentStatusStr</td>
+                                                    }
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed">
+                                                <tr>
+                                                    <th>Address:</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        @:<td>@Html.TextBoxFor(model => model.ShippingAddressLine1, new { @class = "form-control", @required = "required" })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td><span>@Model.ShippingAddressLine1</span> <span>@Model.ShippingAddressLine2</span> </td>
+                                                    }
+                                                
+                                                </tr>
+                                                <tr>
+                                                    <th>State Or Region:</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        @:<td>@Html.TextBoxFor(model => model.ShippingStateOrRegion, new { @class = "form-control", @required = "required" })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td><span>@Model.ShippingStateOrRegion</span> 
+                                                    }
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <th>Postal Code:</th>
+                                                       @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        @:<td>@Html.TextBoxFor(model => model.ShippingPostalCode, new { @class = "form-control", @required = "required" })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td><span>@Model.ShippingPostalCode</span> 
+                                                    }
+                                                   
+                                                </tr>
+                                                <tr>
+                                                    <th>City:</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        @:<td>@Html.TextBoxFor(model => model.ShippingCity, new { @class = "form-control", @required = "required" })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td><span>@Model.ShippingCity</span> 
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Company Name:</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                        @:<td>@Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control" })</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        @:<td><span>@Model.CompanyName</span> 
+                                                    }
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div><!-- Box 1-->
+                    </div>
+                </div>
+            </div>
+                <!-- ToolBox-->
+                <div class="col-md-3">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Toolbox</h3>
+                            <div class="box-tools">
+                                <button data-widget="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul id="lstToolBox" class="nav nav-pills nav-stacked">
+                                <!-- display the Get Lasted option-->
+                                <!-- display the Get Lasted option-->
+                                @if (Model.Marketplace != "Eshopo")
+                                {
+                                    <li><a href="#getlatestdata" title="Get latest data for this order" onclick="@string.Format("return getLatestMarketplaceOrderData('{0}', '{1}', '{2}')", Model.Marketplace, Model.OrderId, Model.EisOrderId)"><i class="fa fa-download"></i>Get Latest Data</a></li>
+                                }
+
+                                <!-- display the Confirm Shipment option -->
+                                @if (Model.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#" data-toggle="modal" data-target="#OrderDialog" data-id="@Model.OrderId" title="Edit Order details"><i class="fa fa-edit"></i>Edit Order Items</a></li>
+                                }
+                                @if (Model.OrderStatus != OrderStatus.Shipped && !Model.OrderStatus.Equals("Canceled") && !Model.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#" data-toggle="modal" data-target="#ConfirmShipmentDialog" data-id="@Model.OrderId" data-marketplace="@Model.Marketplace" data-backdrop="static" title="Confirm the Order shipment."><i class="fa fa-truck"></i>Confirm Shipment</a></li>
+                                }
+                                @if (Model.OrderStatus != OrderStatus.Shipped && Model.OrderStatus != OrderStatus.Canceled && Model.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#cancelorder" data-id="@Model.OrderId" data-marketplace="@Model.Marketplace" title="Cancel this Order" onclick="return cancelOrder(@string.Format("this, \'{0}\', \'{1}\'", Model.OrderId, Model.Marketplace))"><i class="fa fa-remove"></i>Cancel Order</a></li>
+                                }
+                                @if (Model.OrderStatus == OrderStatus.Shipped && Model.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#unshippedorder" title="Unshipped this Order" onclick="return unshippedOrder(@string.Format("this, \'{0}\', \'{1}\'", Model.OrderId, Model.Marketplace))"><i class="fa fa-remove"></i>Unshipped Order</a></li>
+                                }
+                                @if (Model.OrderStatus == OrderStatus.Unshipped)
+                                {
+                                    <li><a href="#shipmentlabel" title="Create Shipment Label" onclick="return createShipmentLabel(@string.Format("this, \'{0}\'", Model.OrderId))"><i class="fa fa-barcode"></i>Create Shipment Label</a></li>
+                                    <li><a href="#postshipstation" title="Post to ShipStation" onclick="return postShipStation(@string.Format("this, \'{0}\'", Model.OrderId))"><i class="fa fa-upload"></i>Post to ShipStation</a></li>
+                                }
+                                @if (!Model.HasOrderProducts && Model.OrderStatus == OrderStatus.Unshipped)
+                                {
+                                    <li><a href="#orderproduct" title="Update order products for this order item" onclick="return updateOrderProducts(@string.Format("this, \'{0}\'", Model.OrderId))"><i class="fa fa-cloud-download"></i>Update Order Products</a></li>
+                                }
+                            </ul>
+                        </div><!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- ToolBox-->
+        </div> <!-- Box 1-->
+
+        <div class="row"><!-- Box 2-->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Order Items and Shipping Details</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+
+                                <div class="box box-solid">
+                                    <div class="box-body">
+                                        <table class="table table-condensed table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ordered</th>
+                                                    <th>Unshipped</th>
+                                                    <th>MarketPlace</th>
+                                                    <th>SKU</th>
+                                                    <th>Title</th>
+                                                    <th align="right">Price</th>
+                                                    @if (Model.Marketplace.Equals("Eshopo"))
+                                                    {
+                                                    <th align="right">Actions</th>
+                                                    }
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var orderitem in Model.OrderItems)
+                                                {
+                                                    <tr title="@orderitem.ConditionNote">
+                                                        <td>@orderitem.QtyOrdered</td>
+                                                        <td align="center">@orderitem.QtyUnshipped</td>
+                                                        <td><a href="@orderitem.MarketPlaceUrl" target="_blank">@orderitem.Marketplace</a></td>
+                                                        <td><a href="@Html.Raw(Url.Action("edit", "product", new { id = @orderitem.SKU }))" data-id="@orderitem.SKU" title="View Product details" target="_blank">@orderitem.SKU</a></td>
+                                                        <td>@orderitem.Title</td>
+                                                        <td align="right">@orderitem.Price</td>
+                                                        @if (Model.Marketplace.Equals("Eshopo"))
+                                                        {
+                                                        <td align="right"><a href="#orderitem" data-toggle="modal" data-target="#OrderItemDialog" disable>Edit</a></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>Shipping Name:</th>
+                                            <td>@Model.ShippingAddressName</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ship Service Level:</th>
+                                            <td>@Model.ShipServiceLevel</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipment Category:</th>
+                                            <td>@Model.ShipmentServiceCategory</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Payment Method:</th>
+                                            <td>@Model.PaymentMethod</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>Tax:</th>
+                                            <td>$@Model.OrderTax</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping:</th>
+                                            <td>$@Model.OrderShippingPrice</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discounts:</th>
+                                            <td>$@Model.OrderDiscount</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Order Total:</th>
+                                            <td>@Model.OrderTotal</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>Tracking Number:</th>
+                                            <td>@Model.TrackingNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Carrier Code:</th>
+                                            <td>@Model.CarrierCode</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping Method:</th>
+                                            <td>@Model.ShippingMethod</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed">
+                                        <tr>
+                                            <th>Ship Date:</th>
+                                            <td>@Model.ShipmentDate</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipment Cost:</th>
+                                            <td>@Model.ShipmentCost</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Box 2-->
+
+        <div class="row">
+            <!-- Box 2-->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Order Export Details</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Order Item Id</th>
+                                    <th>EIS Supplier SKU</th>
+                                    <th>Qty</th>
+                                    <th>Pack</th>
+                                    <th>Exported</th>
+                                    <th>Exported Date</th>
+                                    <th>PO Generated</th>
+                                    <th>PoGenerated Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(Model.HasOrderProducts)
+                                {
+                                    foreach (var orderitem in Model.OrderItems)
+                                    {
+                                        foreach (var op in orderitem.OrderProducts)
+                                        {
+                                            <tr title="@op.EisSupplierSKU">
+                                                <td>@op.OrderItemId</td>
+                                                <td>@Html.ActionLink(op.EisSupplierSKU, "edit", "vendorproduct", new { id = op.EisSupplierSKU }, new { @target = "_blank" })</td>
+                                                <td>@op.Quantity</td>
+                                                <td>@op.Pack</td>
+                                                <td align="center">@op.IsExported</td>
+                                                <td>@op.ExportedDate</td>
+                                                <td align="center">@op.IsPoGenerated</td>
+                                                <td>@op.PoGeneratedDate</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8">No order products available.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border"></div>
+                </div>
+            </div>
+        </div> <!-- Box 3-->
+
+        <div class="row"> 
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header">
+                                <h3 class="box-title">Order Note</h3>
+                            </div>
+                            <div class="box-body">
+                                @Html.TextAreaFor(model => model.OrderNote,  new { @class = "form-control", @placeholder = "Enter Order Notes", @cols = 20, @rows = 5,@maxlength=500 } )
+                                <small>Max character (500)</small>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 margin-bottom">
+                                        <button class="btn btn-info btn-sm" id="btnAddImage" data-id="-1">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Box 4-->
+
+        </section><!--Content -->
+
+</div><!--Content Wrapper-->
+}
+@{ Html.RenderPartial("_OrderItemDialog"); }
+@{ Html.RenderPartial("_OrderDetailsDialog"); }
+@{ Html.RenderPartial("_ConfirmShipmentDialog"); }
+@{ Html.RenderPartial("_OrderDialog"); }
+@{ Html.RenderPartial("_MarkOrderDialog"); }
+
+@section Scripts {
+    @{Html.RegisterMvcPagerScriptResource();}
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/content/css/datepicker/datepicker.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/css/daterangepicker-0.0.9/daterangepicker.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/scripts/daterangepicker-0.0.9/daterangepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/datepicker/bootstrap-datepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/order.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var GET_ORDER_URL = "@Html.Raw(Url.Action("_getorder"))"
+        var GET_UNSHIPPED_ORDERITEMS_URL = "@Html.Raw(Url.Action("_GetUnshippedOrderItems"))"
+        var GET_SHIPPING_CARRIERS_URL = "@Html.Raw(Url.Action("_GetShippingCarriers"))"
+        var POST_ORDER_SHIPMENT_URL = "@Html.Raw(Url.Action("_PostOrderShipmentDetails"))"
+        var GET_PRODUCT_ITEM_URL = "@Html.Raw(Url.Action("_GetProductItem", "product"))"
+        var GET_MAX_EIS_ORDERID_URL = "@Html.Raw(Url.Action("_GetNextEisOrderId"))"
+        var SAVE_MANUAL_ORDER_URL = "@Html.Raw(Url.Action("_SaveManualOrder"))"
+        var UPDATE_MANUAL_ORDER_URL = "@Html.Raw(Url.Action("_UpdateManualOrder"))"
+        var UPDATE_ORDER_PRODUCTS = "@Html.Raw(Url.Action("_UpdateOrderProducts"))"
+        var CANCEL_ORDER_URL = "@Html.Raw(Url.Action("_CancelOrder"))"
+        var UNSHIPPED_ORDER_URL = "@Html.Raw(Url.Action("_UnshippedOrder"))"
+        var GET_LATEST_MARKETPLACE_ORDER_URL = "@Html.Raw(Url.Action("_GetLatestMarketplaceOrderData"))";
+        var CREATE_SHIPMENT_LABEL = "@Html.Raw(Url.Action("_CreateShipmentLabel"))"
+        var POST_SHIPSTATION = "@Html.Raw(Url.Action("_PostShipStation"))"
+        var viewModel = new ViewModel();
+
+        $(document).ready(function () {
+            ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+
+            // register some events when modal dialog is showing
+            $("#OrderDetailsDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                viewModel.loadModel(orderId);
+            })
+
+            $('#OrderDetailsDialog').on('hidden.bs.modal', function () {
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+            // register some events when modal shipment detail dialog is showing
+            $("#ConfirmShipmentDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                var marketplace = element.data("marketplace");
+                viewModel.loadUnshippedOrderItems(orderId);
+                viewModel.loadMarketplaceCarriers(marketplace);
+            })
+
+            // register some events when modal dialog is showing
+            $("#OrderDialog").on("shown.bs.modal", function (event) {
+                var element = $(event.relatedTarget) // element that triggered the modal
+                var orderId = element.data("id");
+                viewModel.manualOrderId(orderId);
+
+                if (orderId == -1) {
+                    $.getJSON(GET_MAX_EIS_ORDERID_URL, function (result) {
+                        viewModel.manualOrder().OrderId(result);
+                    })
+                } else {
+                    viewModel.loadManualOrder(orderId);
+                }
+            })
+
+            $('#OrderDialog').on('hidden.bs.modal', function () {
+                $("#btnCreateOrder").removeClass("disabled");
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+            $('#ConfirmShipmentDialog').on('hidden.bs.modal', function () {
+                $("#btnConfirmShipment").removeClass("disabled");
+                viewModel.message(null);
+                viewModel.manualOrder(createManualOrder());
+            })
+
+        });
+
+        function doBindDateRangePickers() {
+            // hook the event for the Shipment Date daterange
+            $('#shipmentDate').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+                        'Last 7 Days': [moment().subtract('days', 6), moment()],
+                        'Last 30 Days': [moment().subtract('days', 29), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+                    },
+                    startDate: new Date(),
+                    endDate: new Date()
+                },
+                function (start, end) {
+                    $("#ShipmentDateFrom").val(start.format('MMMM D, YYYY'));
+                    $("#ShipmentDateTo").val(end.format('MMMM D, YYYY'));
+                    $('#shipmentDate span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                }
+            );
+            // set NULL values to for the shipment date range
+            $('#shipmentDate').on('cancel.daterangepicker', function (ev, picker) {
+                //do something, like clearing an input
+                $("#ShipmentDateFrom").val("");
+                $("#ShipmentDateTo").val("");
+                $('#shipmentDate span').html("-- select shipment date range -- ");
+            });
+        }
+
+    </script>
+    <style type="text/css">
+        .invoice {
+            padding: 0 8px;
+            margin: 0 10px;
+        }
+
+        .daterangepicker {
+            z-index: 10000 !important;
+        }
+    </style>
+}

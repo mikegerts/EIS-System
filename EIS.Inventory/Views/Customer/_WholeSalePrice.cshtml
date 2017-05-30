@@ -1,0 +1,485 @@
+﻿@model EIS.Inventory.Core.ViewModels.CustomerWholeSaleModel
+
+<div id="tabwholeSale">
+    <ul class="ui-tab" role="tablist">
+        <li role="tab">
+            <a href="#wholeSaleTab1" data-bind="click: showWholeSaleBlock, css: { 'active': wholeSaleSelected() == 'wholeSaleTab1' || wholeSaleInit() == 1 }">
+                Search
+            </a>
+        </li>
+        <li role="tab">
+            <a href="#wholeSaleTab2" data-bind="click: showWholeSaleBlock, css: { 'active': wholeSaleSelected() == 'wholeSaleTab2' }">
+                Schedule
+            </a>
+        </li>
+    </ul>
+    <div class="ui-tabpanel" role="tabpanel" data-bind="visible: wholeSaleSelected() == 'wholeSaleTab1' || wholeSaleInit() == 1">
+        <div class="row">
+            <div class="col-md-12" style="margin: 0 0 10px">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="WholeSaleSearchSku">Search Sku:</label>
+                    <div class="col-md-3">
+                        <input id="WholeSaleSearchSku" class="form-control text-box single-line" type="text" data-bind="value: WholeSaleSearchSku" placeholder="Enter Sku" required="required" />
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" data-bind="click: searchWholeSaleSku">Search</button>
+
+                        <button type="button" class="btn btn-default" data-bind="click: clearSearch">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>Calculated Price</th>
+                                    <th>Created</th>
+
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: scheduledTasks().length != 0 -->
+                            <tbody data-bind="foreach: WholeSalePriceHistories">
+                                <tr>
+                                    
+                                    <td data-bind="text: SkuCalculatedPrice"></td>
+                                    <td data-bind="dateString: Created, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: WholeSalePriceHistories().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ui-tabpanel" role="tabpanel" data-bind="visible: wholeSaleSelected() == 'wholeSaleTab2'">
+        <p>
+            <a data-id="-1" class="btn btn-sm btn-info" data-toggle="modal" data-target="#TaskDialog" href="#create">Create New Scheduled Task</a>
+        </p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-responsive table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Enabled</th>
+                                    <th>Task Type</th>
+                                    <th>Recurrence</th>
+                                    <th>Last Executed On</th>
+                                    <th>Task Name</th>
+                                    
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: scheduledTasks().length != 0 -->
+                            <tbody data-bind="foreach: scheduledTasks">
+                                <tr>
+                                    <td align="center"><div class="state icheckbox_minimal-blue" data-bind="css: {checked: IsEnabled}"></div></td>
+                                    <td data-bind="text: TaskType"></td>
+                                    <td data-bind="text: Recurrence"></td>
+                                    <td data-bind="dateString: LastExecutedOn, datePattern: 'MM/DD/YYYY hh:mm A'"></td>
+                                    <td data-bind="text: Name"></td>
+                                    
+                                    <td align="right">
+                                        <a class="btn btn-sm btn-primary" data-title="Run this scheduled task immediately" data-bind="click: $parent.isRunNowScheduledTaks"><i class="fa fa-play"></i> Run Now</a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#TaskDialog" data-title="Edit Scheduled Task" href="#edit" data-bind="attr: { 'data-id' : Id, 'data-task-type' : TaskType }" title="Edit scheduled task info">Edit </button>
+                                            <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" style="z-index:999;">
+                                                <li><a href="#edit" data-toggle="modal" data-target="#TaskDialog" data-bind="attr: { 'data-id' : Id, 'data-task-type' : TaskType }" title="Edit this Scheduled Task">Edit Task</a></li>
+                                                <li><a href="#viewfiles" data-toggle="modal" data-target="#ExportedFilesDialog" data-bind="attr: { 'data-id' : Id, 'data-task-name' : Name, 'data-task-type' : TaskType }" title="View exported files of this task.">View Exported Files</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#delete" data-bind="click: $parent.deleteScheduledTask" title="Delete this Scheduled Task">Delete Task</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: scheduledTasks().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="6">No records available.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div style="display:none;" class="modal fade" id="TaskDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" data-bind="with: scheduledTask">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: $parent.modalTitle">Scheduled Task</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+
+                <div data-bind="template: { name: $parent.selectedTaskType() }">
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left">
+                    <div class="alert" id="ftpMsgStatus">
+
+                    </div>
+                </div>
+
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button type="button" class="btn btn-primary" data-bind="click: $parent.saveScheduledTask, text: (Id() == -1 ? 'Save Scheduled Task' : 'Save Changes')">Save Changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/html" id="CustomerExportSku">
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Enabled">Enabled</label>
+                    <div class="col-md-8">
+                        <div class="checkbox">
+                            <input id="Enabled" name="Enabled" type="checkbox" data-bind="iCheckBox: IsEnabled" />
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <label class="control-label col-md-4" for="IsDropNoOrderFile">Drop Order File?</label>
+                        <div class="col-md-8">
+                            <div class="checkbox">
+                                <input id="IsDropNoOrderFile" name="IsDropNoOrderFile" type="checkbox" data-bind="iCheckBox: IsDropNoOrderFile" />
+                                <small class="text-muted">&nbsp;Drop a file.</small>
+                            </div>
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="TaskName">Task Name</label>
+                    <div class="col-md-8">
+                        <input id="TaskName" name="TaskName" class="form-control text-box single-line" data-bind="value: Name, event: { change: valueChanged }" placeholder="Enter task name" required="required" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="StartDate">Start Date Time</label>
+                    <div class="col-md-4" style="padding-right:0px">
+                        <div class="input-group bootstrap-timepicker">
+                            <input class="form-control text-box" id="StartDate" name="StartDate" data-bind="datepicker: StartDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                            <label class="input-group-addon" for="StartDate">
+                                <i class="fa fa-calendar"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group bootstrap-timepicker">
+                            <input type="text" class="form-control timepicker" id="StartTimeDate" name="StartTimeDate" data-bind="timeValue: StartTimeDate" data-minute-step="1" />
+                            <label class="input-group-addon" for="StartTimeDate">
+                                <i class="fa fa-clock-o"></i>
+                            </label>
+                        </div><!-- /.input group -->
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+            <label class="control-label col-md-4" for="VendorId">Vendor</label>
+            <div class="col-md-8">
+                <select class="form-control" id="VendorId" name="VendorId" data-bind="options: $parent.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- select --', value: VendorId, event: { change: valueChanged }" required="required"></select>
+            </div>
+        </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-4" for="FileName">File Name</label>
+        <div class="col-md-8">
+            <input class="form-control text-box" id="FileName" name="FileName" data-bind="value: FileName, event: { change: valueChanged }" placeholder="Enter filename you want to import" />
+        </div>
+    </div>*@
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="FileType">File Type</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="FileType" name="FileType" data-bind="options: $parent.fileTypes, optionsCaption: '-- choose --', value: FileType, event: { change: valueChanged }" required="required"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="HasHeader">Include Headers</label>
+                    <div class="col-md-8">
+                        <select class="form-control text-box" id="HasHeader" name="HasHeader" data-bind="options: $parent.yesNos, optionsText: 'Name', optionsValue: 'Id', value: HasHeader"></select>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <label class="control-label col-md-4" for="ExportMarkIn">Exports Orders In</label>
+                        <div class="col-md-4" style="padding-right:0;">
+                            <select class="form-control text-box" id="ExportMarkIn" name="ExportMarkIn" data-bind="options: $parent.exportMarks, optionsCaption: '-- all --', value: ExportMarkIn"></select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control text-box" id="StatusIn" name="StatusIn" data-bind="options: $parent.orderStatus, optionsCaption: '-- all --', optionsText: 'Name', optionsValue: 'Id', value: StatusIn"></select>
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        <label class="control-label col-md-4" for="ExportTo">Export To</label>
+                        <div class="col-md-4" style="padding-right: 0;">
+                            <select class="form-control" id="ExportTo" name="ExportTo" data-bind="options: $parent.exportToOptions, value: ExportTo" required="required"></select>
+                        </div>
+                        <div class="col-md-4" data-bind="visible: isFtpDetailsVisible()">
+                            <a class="btn btn-sm btn-success" data-bind="click:$parent.checkFtpConnection" href="#checkftpconnection"><i class="fa fa-sign-in"></i> Check FTP</a>
+                        </div>
+                    </div>*@
+
+                <div @*data-bind="visible: isFtpDetailsVisible()"*@>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpServer">FTP Server</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpServer" name="FtpServer" data-bind="value: FtpServer, event: { change: valueChanged }" placeholder="Enter FTP server" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpUser">FTP User</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpUser" name="FtpUser" data-bind="value: FtpUser, event: { change: valueChanged }" placeholder="Enter FTP user" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPassword">FTP Password</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="FtpPassword" name="FtpPassword" data-bind="value: FtpPassword, event: { change: valueChanged }" placeholder="Enter FTP password" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="FtpPort">FTP Port</label>
+                        <div class="col-md-8">
+                            <input type="number" class="form-control text-box" id="FtpPort" name="FtpPort" data-bind="value: FtpPort" placeholder="Enter FTP port" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="RemoteFolder">Remote Folder</label>
+                        <div class="col-md-8">
+                            <input class="form-control text-box" id="RemoteFolder" name="RemoteFolder" data-bind="value: RemoteFolder" placeholder="Enter remote folder path" />
+                        </div>
+                    </div>
+                    <div class="form-group" id="divDownloadTemplate">
+                        <label class="control-label col-md-4"></label>
+                        <div class="col-md-8">
+                            <button class="btn btn-info btn-xs" onclick="downloadUploadFileTemplate()">Download Template</button>
+                        </div>
+                    </div>
+                    <div class="form-group" id="taskFileUpload">
+                        <label class="control-label col-md-4" for="fileuploadtaskField">Select file</label>
+                        <div class="col-md-8">
+                            <input type="file" name="files[]" id="fileuploadtaskField">
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="table no-margin" id="tblTaskFiles">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /. col-md-6 -->
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label>Select recurrence</label>
+                <div data-bind="foreach: recurrences" class="checkbox">
+                    <label style="width:24%; z-index:1001" data-bind="click: $parent.toggleRecurrence">
+                        <input type="radio" name="RecurrenceRadio" data-bind="iRadio: IsChecked, value: Id, enableTrigger: true" />
+                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                    </label>
+                </div>
+                <div data-bind="template: recurrenceTemplate"></div>
+            </div>
+           
+            <div class="form-group">
+                    <label class="control-label" for="ConfirmationEmailTos">Confirmation Email To</label>
+                    <div>
+                        <textarea type="text" class="form-control text-box" name="ConfirmationEmailTos" data-bind="value: ConfirmationEmailTos" placeholder="Enter confirmation emails (comma seperated)" title="Enter emails in comma seperated"></textarea>
+                    </div>
+                </div>
+                <br />
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-condensed" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-5">Custom File Headers</th>
+                                    <th class="col-md-5">Order Fields</th>
+                                    <th class="col-md-1"></th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: customFields">
+                                <tr>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input type="text" class="form-control input-sm" data-bind="value: FileHeader" required="required" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input type="text" class="form-control input-sm custom-arrow" data-bind="value: CustomField, attr: { id : ('customFieldInput_' + $index()), list : ('customFieldList' + $index()),disabled: $index() < 1 }" />
+                                            <datalist data-bind="foreach: $root.customFieldOptions, attr: { id : ('customFieldList' + $index()) }">
+                                                <option data-bind="value: $data"></option>
+                                            </datalist>
+                                        </div>
+                                    </td>
+                                    <td data-bind="visible: $parent.customFields().length > 1 &&  $index() > 0">
+                                        <a class="btn btn-xs btn-danger" href="#deleteitem" title="Remove this item" data-bind="click: $parent.removeCustomFieldRow"><i class=" fa fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin:2px 8px"><a class="btn btn-xs btn-success" href="#additem" title="Add new item" data-bind="click: addCustomFieldRow"><i class=" fa fa-plus"></i> Add new item</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /. col-md-6 -->
+    </div>
+</script>
+
+
+
+
+<script type="text/html" id="Daily">
+    <div class="form-control" style="min-height: 110px !important;">
+        <p>Run on these Day(s):</p>
+        <div id="weekdays" style="position:relative;" data-bind="attr: {'data-value': Days}, foreach: weekdays" required="required">
+            <div class="checkbox no-margin" style="float:left; width:33%;">
+                <label class="no-padding">
+                    <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                    <span data-bind="text: Name" style="margin-left: 5px"></span>
+                </label>
+            </div>
+            <div data-bind="css: { 'clear' : $index() == ($parent.weekdays().length - 1)}"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="Weekly">
+    <div class="form-control" style="min-height: 115px !important;">
+        <p>Recur every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px" /> weeks on: </p>
+        <div id="weekdays" style="position:relative;" data-bind="attr: {'data-value': Days}, foreach: weekdays" required="required">
+            <div class="checkbox no-margin" style="float:left; width:33%;">
+                <label class="no-padding">
+                    <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                    <span data-bind="text: Name" style="margin-left: 5px"></span>
+                </label>
+            </div>
+            <div data-bind="css: { 'clear' : $index() == ($parent.weekdays().length - 1)}"></div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="Hourly">
+    <div class="form-control" style="min-height: 43px;">
+        <p>Repeat task every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px" /> hour(s) </p>
+    </div>
+</script>
+
+<script type="text/html" id="Custom">
+    <div class="form-control" style="min-height: 43px;">
+        <p>Recur every: <input type="number" data-bind="value: OccurrAt" style="width: 50px; margin: 0 4px" /> day(s) </p>
+    </div>
+</script>
+
+
+
+<div style="display:none;" class="modal fade" id="ExportedFilesDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: modalTitle"></h4>
+            </div>
+            <div class="modal-body" data-bind="with: pagedExportedFile">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-md-5">File Name</th>
+                            <th class="col-md-2">File Size</th>
+                            <th class="col-md-3"> Date Generated</th>
+                            <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <!-- ko if: Items().length != 0 -->
+                    <tbody data-bind="foreach: Items">
+                        <tr>
+                            <td><i class="fa" data-bind="css: IsCsvFile() ? 'fa-file-excel-o' : 'fa-file-o'"></i><span data-bind="text: FileName" style="margin-left:5px;"></span></td>
+                            <td data-bind="text: getFormatFileSize(FileSize())"></td>
+                            <td data-bind="dateString: Created, datePattern: 'MMM DD YYYY hh:mm A'"></td>
+                            <td>
+                                <form method="post" data-bind="attr: { id : 'form_' + Id()}" action="@Url.Action("DownloadExportedFile")">
+                                    <input type="hidden" id="fileName" name="fileName" data-bind="value: FileName" />
+                                    <input type="hidden" id="taskType" name="taskType" data-bind="value: $parent.taskType" />
+                                </form>
+                                <a class="btn btn-xs bg-navy" data-bind="click: $parent.downloadFile"><span class="fa fa-download"></span> Download</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- /ko -->
+                    <tbody data-bind="visible: Items().length == 0" style="display:none;">
+                        <tr>
+                            <td colspan="3">No records available.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li data-bind="css: { disabled: !hasPrevPage() }"><a href="#prev" data-bind="click: $parent.prevPage">&larr; Previous</a></li>
+                    <li data-bind="text: pageShowStatus"></li>
+                    <li data-bind="css: { disabled: !hasNextPage() }"><a href="#next" data-bind="click: $parent.nextPage">Next &rarr;</a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#ExportedFilesDialog -->

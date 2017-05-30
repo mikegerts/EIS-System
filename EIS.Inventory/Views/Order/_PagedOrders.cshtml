@@ -1,0 +1,146 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.OrderListViewModel>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblOrders">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="selectCurrentPageBox" class="customExportBox" /></th>
+            <th></th>
+            <th>Marketplace OrderId</th>
+            <th>Address Name</th>
+            <th>Shipping Address</th>
+            <th>Order Total</th>
+            <th>Purchase Date</th>
+            <th>Status</th>
+            <th style="width:98px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="9">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="customExportBox eisOrderIdBox" data-id="@item.EisOrderId" /></td>
+                    <td style="padding-right:0px;">
+                        @if (item.IsExported)
+                        {
+                            <div class="state iradio_minimal-blue checked" title="This order is already been exported."></div>
+                        }
+                        else
+                        {
+                            <div class="state iradio_minimal-blue" title="This order is not yet exported."></div>
+                        }
+                    </td>
+                    <td title="@string.Format("{0} - {1}", item.Marketplace, item.EisOrderId)">
+                        @Html.DisplayFor(modelItem => item.OrderId)
+                    </td>
+                    <td id="@string.Format("tdBuyerName_{0}", item.EisOrderId)">
+                        @Html.DisplayFor(modelItem => item.ShippingAddressName)
+                    </td>
+                    <td id="@string.Format("tdShippingAddressLine1_{0}", item.EisOrderId)">
+                        @Html.DisplayFor(modelItem => item.ShippingAddressLine1)
+                    </td>
+                    <td id="@string.Format("tdOrderTotal_{0}", item.EisOrderId)">
+                        @string.Format("${0}", item.OrderTotal)
+                    </td>
+                    <td id="@string.Format("tdPurchaseDate_{0}", item.EisOrderId)">
+                        @Html.Raw(String.Format("{0:MM/dd/yyyy hh:mm tt}", item.PurchaseDate))
+                    </td>
+                    <td id="@string.Format("tdOrderStatus_{0}", item.EisOrderId)">
+                        <span id="@string.Format("status_{0}", @item.OrderId)" class="@string.Format("label bg-{0}", item.OrderStatus)"> @item.OrderStatus </span>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm" onclick="location.href='@Url.Action("orderdetails", "order", new { id = item.OrderId })'" data-id="@item.OrderId" title="View Order details"><i class="fa fa-gear"></i></button>
+                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li><a href="@Html.Raw(Url.Action("orderdetails", "order", new { id = item.OrderId }))" data-id="@item.OrderId" title="View Order details">Details</a></li>
+
+                                <!-- display the Get Lasted option-->
+                                @if (item.Marketplace != "Eshopo")
+                                {
+                                    <li><a href="#getlatestdata" title="Get latest data for this order" onclick="@string.Format("return getLatestMarketplaceOrderData('{0}', '{1}', '{2}')", item.Marketplace, item.OrderId, item.EisOrderId)">Get Latest Data</a></li>
+                                }
+
+                                <!-- display the Confirm Shipment option -->
+                                @if (item.OrderStatus != OrderStatus.Shipped && item.OrderStatus != OrderStatus.Canceled && item.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#" data-toggle="modal" data-target="#OrderDialog" data-id="@item.OrderId" title="Edit Order details">Edit Order</a></li>
+                                }
+                                @if (item.OrderStatus != OrderStatus.Shipped && !item.OrderStatus.Equals("Canceled") && !item.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#" data-toggle="modal" data-target="#ConfirmShipmentDialog" data-id="@item.OrderId" data-marketplace="@item.Marketplace" data-backdrop="static" title="Confirm the Order shipment.">Confirm Shipment</a></li>
+                                }
+                                @if (item.OrderStatus != OrderStatus.Shipped && item.OrderStatus != OrderStatus.Canceled && item.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#cancelorder" data-id="@item.OrderId" data-marketplace="@item.Marketplace" title="Cancel this Order" onclick="return cancelOrder(@string.Format("this, \'{0}\', \'{1}\'", item.OrderId, item.Marketplace))">Cancel Order</a></li>
+                                }
+                                @if (item.OrderStatus == OrderStatus.Shipped && item.Marketplace.Equals("Eshopo"))
+                                {
+                                    <li><a href="#unshippedorder" title="Unshipped this Order" onclick="return unshippedOrder(@string.Format("this, \'{0}\', \'{1}\'", item.OrderId, item.Marketplace))">Unshipped Order</a></li>
+                                }
+                                @if (item.OrderStatus == OrderStatus.Unshipped)
+                                {
+                                    <li><a href="#shipmentlabel" title="Create Shipment Label" onclick="return createShipmentLabel(@string.Format("this, \'{0}\'", item.OrderId))">Create Shipment Label</a></li>
+
+                                    <li><a href="#shipmentlabel" title="Post to ShipStation" onclick="return postShipStation(@string.Format("this, \'{0}\'", item.OrderId))">Post to ShipStation</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize,
+           searchString = ViewBag.SearchString,
+           shippingAddress = ViewBag.ShippingAddress,
+           shippingCity = ViewBag.ShippingCity,
+           shippingCountry = ViewBag.ShippingCountry,
+           orderDateFrom = ViewBag.OrderDateFrom,
+           orderDateTo = ViewBag.orderDateTo,
+           shipmentDateFrom = ViewBag.ShipmentDateFrom,
+           shipmentDateTo = ViewBag.ShipmentDateTo,
+           orderStatus = ViewBag.OrderStatus,
+           vendorId = ViewBag.VendorId,
+           isExported = ViewBag.IsExported,
+           marketPlace = ViewBag.MarketPlace,
+           paymentStatus = ViewBag.PaymentStatus,
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+    <!-- download link for shipment label -->
+    <a id='dwnldLnk' download='shipmentlabel.pdf' style="display:none;"></a>
+</div>

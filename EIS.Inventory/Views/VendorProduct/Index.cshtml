@@ -1,0 +1,560 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.VendorProductListDto>
+
+@{
+    ViewBag.Title = "Vendor Products List";
+    ViewBag.ActiveMenu = "vendor_products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Vendor Products <small>List</small></h1>
+        <ol class="breadcrumb">
+            <li><a href="@Html.Raw(Url.Action("index", "home"))"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#vendor_products">Vendor Products</a></li>
+            <li><a class="active">List</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-5">
+                <div style="margin: 0 0 10px">
+                    @Html.ActionLink("Create New Vendor Product", "create", null, new { @class = "btn btn-info btn-sm", @data_toggle = "tooltip", @data_original_title = "Create new vendor product" })
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle" type="button" aria-expanded="true">Actions <i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu">
+                                <a class="test" tabindex="-1" href="#">Import <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#uploadvendorproduct" data-toggle="modal" data-file-type="Product" data-target="#FileUploadDialog" data-backdrop="static" title="Upload file for product update or inventory">Import Products</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#FileUploadDialog" data-file-type="Inventory" title="Upload file for Import vendor product ">Inventory</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu">
+                                <a class="test" tabindex="-1" href="#">Export <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#exportvendorproduct" data-toggle="modal" data-target="#CustomExportDialog" title="Custom export for selected products">Custom Export Products</a></li>
+                                </ul>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="#deletevendorproducts" onclick="deleteBulkVendorProducts()" title="Delete selected vendor products">Delete Products</a></li>
+                            
+                        </ul>
+                    </div>
+                    <a class="btn btn-sm btn-default" data-toggle="modal" data-target="#FilterDialog" title="Filter for product results" href="#filter"><i class="fa fa-filter"></i> Show Filter</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert-warning" id="msgStatus" style="display:none;padding: 5px; border-radius: 5px"></div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right checkbox">
+                    <label>
+                        <input type="checkbox" id="selectAllPagesBox" class="customExportBox" /> Select All Pages
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_entries">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "vendorproduct", FormMethod.Get, new RouteValueDictionary { { "pageSize", Model.PageSize }, { "id", "showEntryForm" } }))
+                                        {
+                                            <input type="hidden" id="vendorId" name="vendorId" value="@ViewBag.VendorId" />
+                                            <input type="hidden" id="companyId" name="companyId" value="@ViewBag.CompanyId" />
+                                            <input type="hidden" id="withEisSKULink" name="withEisSKULink" value="@ViewBag.WithEisSKULink" />
+                                            <input type="hidden" id="SearchString" name="SearchString" value="@ViewBag.SearchString" />
+                                            <input type="hidden" id="inventoryQtyFrom" name="inventoryQtyFrom" value="@(ViewBag.InventoryQtyFrom == -1 ? "" : ViewBag.InventoryQtyFrom)" />
+                                            <input type="hidden" id="inventoryQtyTo" name="inventoryQtyTo" value="@(ViewBag.InventoryQtyTo == -1 ? "" : ViewBag.InventoryQtyTo)" />
+                                            <label>
+                                                Show
+                                                <select id="pageSize" name="pageSize" class="form-control input-sm" onchange="return this.form.submit()">
+                                                    <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+                                                    <option value="50" @(Model.PageSize == 50 ? "selected" : "")>50</option>
+                                                    <option value="75" @(Model.PageSize == 75 ? "selected" : "")>75</option>
+                                                    <option value="100" @(Model.PageSize == 100 ? "selected" : "")>100</option>
+                                                </select>
+                                                entries
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-inline">
+                                    <div class="dataTables_filter pull-right">
+                                        @using (Html.BeginForm(ViewContext.RouteData.Values["action"].ToString(), "vendorproduct", FormMethod.Get, new RouteValueDictionary { { "id", "searchForm" } }))
+                                        {
+                                            <label for="searchString" onclick="focusOnSearchFile()">Search:</label>
+                                            <div class="input-group">
+                                                <input type="text" id="searchString" name="searchString" value="@ViewBag.SearchString" title="Type here to search." placeholder="Search..." class="form-control input-sm searchField" />
+                                                @Html.HiddenFor(m => m.PageSize)
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-info btn-sm">Go!</button>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div id="model_list_container">
+                            @{ Html.RenderPartial("_PagedVendorProducts", Model); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><!-- /.content-wrapper -->
+
+<iframe id="download_frame" style="display:none"></iframe>
+@{Html.RenderPartial("_FileUploadDialog");}
+@{Html.RenderPartial("_CustomExportDialog");}
+@{Html.RenderPartial("_FilterDialog");}
+
+<style>
+    .dropdown-submenu {
+        position: relative;
+    }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+</style>
+
+@section Scripts {
+    @{Html.RegisterMvcPagerScriptResource();}
+    <link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/vendorproduct.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_COMPANIES_URL = "@Html.Raw(Url.Action("_GetAllCompanies", "company"))"
+    var GET_VENDORS_URL = "@Html.Raw(Url.Action("_getvendors", "vendor"))"
+    var DELETE_VENDOR_PRODUCT_URL = "@Html.Raw(Url.Action("_deletevendorproduct"))"
+    var DELETE_BULK_VENDOR_PRODUCTS_URL = "@Html.Raw(Url.Action("_deletebulkvendorproducts"))"
+    var GET_FILE_TEMPLATE_URL = "@Html.Raw(Url.Action("GetFileTemplate", "home"))"
+    var MANAGE_SEARCHFILTER = "@Html.Raw(Url.Action("_ManageSearchFilter"))"
+    var DELETE_SEARCHFILTER = "@Html.Raw(Url.Action("_DeleteSearchFilter"))"
+    var LOAD_SEARCHFILTER = "@Html.Raw(Url.Action("_LoadSearchFilter"))"
+    var GET_SEARCHFILTER = "@Html.Raw(Url.Action("_GetSearchFilterValues"))"
+    var viewModel = new ViewModel();
+    var isCreateProductChecked = false;
+    var isAutoLinkChecked = false;
+    var isCreateEisSKUChecked = false;
+    var isInventoryZeroChecked = false;
+    var isDoneBinding = false;
+    var jqXHRData = null;
+    var selectedProductEisSKUs = [];
+    var unselectedProductEisSKUs = [];
+    var recordsSelected = 0;
+    var isSelectAllPages = false;
+
+    $(document).ready(function () {
+        // bind the checkbox
+        bindProductiCheckBox();
+        bindiCheckBoxClicked();
+
+        ko.options.deferUpdates = true;
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData();
+
+        $('.dropdown-submenu a.test').on("click", function (e) {
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+
+        $("#FilterDialog").on('show.bs.modal', function (event) {
+            viewModel.selectedVendor(@ViewBag.VendorId);
+            viewModel.selectedCompany(@ViewBag.CompanyId);
+        });
+
+        $('#CustomExportDialog').on('show.bs.modal', function () {
+            viewModel.loadCustomExportProduct(recordsSelected);
+        })
+
+        $("#FileUploadDialog").on('show.bs.modal', function (event) {
+            var fileType = $(event.relatedTarget).data("file-type");
+            setFileUploadDialogTexts(fileType);
+        });
+        // do some clean-ups when modal is closing
+        $('#FileUploadDialog').on('hidden.bs.modal', function () {
+            $("div.progress .progress-bar").removeClass("progress-bar-danger");
+            $('div.progress .progress-bar').css('width', '0%');
+            $("#tblFiles > tbody").html("");
+            $("#uploadStatus").html("")
+            jqXHRData = null;
+        })
+
+        $('#fileupload').fileupload({
+            url: "@Url.Action("UploadFileAsync", "home")",
+            dataType: 'json',
+            dropZone: $(".dropzone"),
+            maxNumberOfFiles: 1,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('div.progress .progress-bar').css('width', progress + '%');
+            },
+            add: function (e, data) {
+                var acceptFileTypes = ["csv"];
+                var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                if (isValidFile) {
+                    jqXHRData = data;
+                    $.each(data.files, function (index, file) {
+                        var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                        $("#tblFiles tbody").html(rowHtml);
+                    });
+                }
+            },
+            start: function (e, data) {
+                $("#uploadStatus").html("Processing file...")
+            },
+            submit: function (e, data) {
+                var jobType = $("#jobTypeUpload").val();
+
+                var isCreateChecked = isCreateProductChecked;
+                var vendorId = viewModel.selectedFileVendor();
+
+                var supportiveParameters = "";
+
+                if ($('#divInventory').css('display') != 'none') {
+                    isCreateChecked = isInventoryZeroChecked;
+                    
+                    if (vendorId == "" || vendorId == undefined)
+                    {
+                        $('<p style="color: red;">Please select vendor</p>')
+                        .appendTo('#uploadStatus');
+                        return;
+                    }
+                    supportiveParameters = "inventoryZero=" + isInventoryZeroChecked + "&selectedVendor=" + vendorId;
+
+                }
+
+                data.formData = { jobType: jobType, isCreate: isCreateChecked, isAutoLink: isAutoLinkChecked, isCreateEisSKU: isCreateEisSKUChecked, hasHeaderFile: true, supportiveParameters: supportiveParameters };
+            },
+            done: function (e, data) {
+                if (data.result.isUploaded) {
+                    $("#uploadStatus").html(data.result.message)
+                    setTimeout("$('#FileUploadDialog').modal('hide');", 1200);
+                    //location.reload();
+                } else {
+                    $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                    $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                }
+            },
+            fail: function (event, data) {
+                $("#uploadStatus").html("");
+                $.each(data.messages, function (index, error) {
+                    $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                        .appendTo('#uploadStatus');
+                });
+            }
+        });
+
+        $("#btnStartUpload").on("click", function () {
+            jqXHRData.submit();
+        });
+
+        //iCheck for checkbox and radio inputs
+        $("input[type='checkbox'].file-upload-checkbox").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+        $("input[type='checkbox'].file-upload-checkbox").iCheck("uncheck");
+        $("input#is_create_product").on("ifToggled", function (event) {
+            isCreateProductChecked = !isCreateProductChecked;
+        });
+        $("input#is_auto_link").on("ifToggled", function (event) {
+            isAutoLinkChecked = !isAutoLinkChecked;
+        });
+        $("input#is_create_eissku").on("ifToggled", function (event) {
+            isCreateEisSKUChecked = !isCreateEisSKUChecked;
+        });
+        $("input#is_inventory_zero").on("ifToggled", function (event) {
+            isInventoryZeroChecked = !isInventoryZeroChecked;
+        });
+
+        bindCurrentPageClicked();
+        bindSelectAllPagesCheckBoxClicked();
+
+        // uncheck all product checkbox during the first load; a reset
+        $("input.customExportBox").iCheck("uncheck");
+        $("input[type='radio']").iCheck({ radioClass: 'iradio_minimal-blue' });
+    });
+
+    function removeAddedFile(event) {
+        $(event).parent().parent().remove();
+        jqXHRData.files = [];
+    }
+
+    function loadPagedDataComplete() {
+        // re-bind the checkbox
+        bindProductiCheckBox();
+        bindiCheckBoxClicked();
+        bindCurrentPageClicked();
+        bindSelectAllPagesCheckBoxClicked();
+
+        if (isSelectAllPages) {
+            $("input.productEisSkuBox").iCheck("check");
+            $("#tblProducts tbody tr").addClass("selected");
+        }
+    }
+
+    function bindProductiCheckBox() {
+        $("input.customExportBox").iCheck({
+            checkboxClass: 'icheckbox_minimal-blue'
+        });
+    }
+
+    function bindiCheckBoxClicked() {
+        $("input.productEisSkuBox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            var eisSKU = $(event.target).data("id");
+            if (isFromChecked) {
+                removeSelectedSkuFromArr(eisSKU);
+                $(event.target).parent().parent().parent().removeClass("selected");
+
+                if (isSelectAllPages)
+                    unselectedProductEisSKUs.push(eisSKU);
+
+            } else {
+                selectedProductEisSKUs.push(eisSKU);
+                $(event.target).parent().parent().parent().addClass("selected");
+
+                if (isSelectAllPages)
+                    removeUnselectedSkuFromArr(eisSKU);
+            }
+
+            updateSelectedSkuMessage();
+        });
+    }
+
+    function bindCurrentPageClicked() {
+        // bind the click event for the Current Page checkbox
+        $("input#selectCurrentPageBox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            selectedProductEisSKUs = [];
+            unselectedProductEisSKUs = [];
+            isSelectAllPages = false;
+
+            if (isFromChecked) { // uncheck of products' checkbox
+                $("input.productEisSkuBox").iCheck("uncheck");
+                $("#tblProducts tbody tr").removeClass("selected");
+            } else { // otherwise; check it all
+                var $inputEisSkuBoxes = $(":input.productEisSkuBox");
+                $inputEisSkuBoxes.each(function () {
+                    selectedProductEisSKUs.push($(this).data("id"));
+                })
+
+                $("input.productEisSkuBox").iCheck("check");
+                $("#tblProducts tbody tr").addClass("selected");
+            }
+
+            $("input#selectAllPagesBox").iCheck("uncheck");
+
+            // update the message status
+            updateSelectedSkuMessage();
+        });
+    }
+
+    function bindSelectAllPagesCheckBoxClicked() {
+        // bind the click event for the Select All Pages checkbox
+        $("input#selectAllPagesBox").on("ifClicked", function (event) {
+            var isFromChecked = $(event.target).is(":checked");
+            selectedProductEisSKUs = [];
+
+            if (isFromChecked) { // uncheck of products' checkbox
+                unselectedProductEisSKUs = [];
+                $("input.productEisSkuBox").iCheck("uncheck");
+                $("#tblProducts tbody tr").removeClass("selected");
+                isSelectAllPages = false;
+            } else {
+                $("input.productEisSkuBox").iCheck("check");
+                $("#tblProducts tbody tr").addClass("selected");
+                isSelectAllPages = true;
+            }
+
+            $("input#selectCurrentPageBox").iCheck("uncheck");
+
+            // update the message status
+            updateSelectedSkuMessage();
+        });
+    }
+
+    function removeSelectedSkuFromArr(sku) {
+        selectedProductEisSKUs = $.grep(selectedProductEisSKUs, function (value) {
+            return value != sku;
+        })
+    }
+
+    function removeUnselectedSkuFromArr(sku) {
+        unselectedProductEisSKUs = $.grep(unselectedProductEisSKUs, function (value) {
+            return value != sku;
+        })
+    }
+
+    function updateSelectedSkuMessage() {
+        var totalProducts = $("#TotalItemCount").val();
+        recordsSelected = isSelectAllPages ? (totalProducts - unselectedProductEisSKUs.length)
+            : selectedProductEisSKUs.length;
+        displayMessage("Total rows selected: " + recordsSelected, "info");
+
+        // hide the message box if there's no selected EIS SKUs
+        if (recordsSelected == 0)
+            fadeOutMessage();
+    }
+    $("#btnSaveFilter").click(function (event) {
+
+        showSpinner();
+        var filterName = $("#filterName").val();
+        if (filterName == "") {
+            alert("Enter filter name");
+            hideSpinner();
+            return false;
+        }
+        var filterString = "SearchString=" + $("#filterForm #SearchString").val() +
+        "&CompanyId=" + $("#CompanyId").val() +
+        "&VendorId=" + $("#VendorId").val() +
+        "&withImages=" + $("#withImages").val() +
+        "&withEisSKULink=" + $("#filterForm #withEisSKULink").val() +
+        "&inventoryQtyFrom=" + $("#filterForm #inventoryQtyFrom").val() +
+        "&inventoryQtyTo=" + $("#filterForm #inventoryQtyTo").val();
+        var selectedFilter = "0";
+        if ($("#SearchFilterId").val() != "") {
+            selectedFilter = $("#SearchFilterId").val();
+        }
+
+        $.ajax({
+            url: MANAGE_SEARCHFILTER,
+            data: { "selectedSearchFilter": selectedFilter, "filterName": filterName, "searchString": filterString },
+            success: function (result) {
+
+                if (result.status == "error") {
+                    alert(result.message);
+                    hideSpinner();
+                    return false;
+                }
+                LoadSearchFilterDropdown();
+                viewModel.resetFilters();
+                alert(result.message);
+            },
+            error: function (result) {
+
+                alert(result.message);
+            }
+        });
+
+        hideSpinner();
+    });
+    function LoadSearchFilterDropdown() {
+        $.ajax({
+            url: LOAD_SEARCHFILTER,
+            data: {},
+            success: function (result) {
+
+                var markup = "<option value=''>-- Select Saved Filter --</option>";
+                for (var x = 0; x < result.listItem.length; x++) {
+                    markup += "<option value=" + result.listItem[x].Value + ">" + result.listItem[x].Text + "</option>";
+                }
+                $("#SearchFilterId").html(markup).show();
+            },
+            error: function (result) {
+
+                alert(result.message);
+            }
+        });
+    }
+    function GetFilter(_filterId) {
+        if (_filterId == "") {
+            $("#deletefilter").hide();
+            viewModel.resetFilters();
+
+            return false;
+        }
+
+        $.ajax({
+            url: GET_SEARCHFILTER,
+            data: { "Id": _filterId },
+            success: function (result) {
+                $("#filterName").val(result.item.SavedSearchFilterName);
+                var parentSplit = result.item.SearchString.split('&');
+
+                $.each(parentSplit, function (i, v) {
+                    var pair = v.split('=');
+                    if (pair[0] == "withEisSKULink")
+                    {
+                        $('#filterForm #withEisSKULink').val(pair[1]);
+                    }
+                    else if (pair[0] == "inventoryQtyFrom") {
+                        $('#filterForm #inventoryQtyFrom').val(pair[1]);
+                    }
+                    else if (pair[0] == "inventoryQtyTo") {
+                        $('#filterForm #inventoryQtyTo').val(pair[1]);
+                    }
+                    else if (pair[0] == "SearchString") {
+                        $('#filterForm #SearchString').val(pair[1]);
+                    }
+                    else {
+                        $('#' + pair[0] + '').val(pair[1]);
+                    }
+                });
+                
+                $("#deletefilter").show();
+            },
+            error: function (result) {
+
+                alert(result.message);
+            }
+        });
+    }
+    function DeleteSavedFilter() {
+
+        if ($("#SearchFilterId").val() == "") {
+            alert("Select saved search to delete");
+            return false;
+        }
+
+        var selectedFilter = $("#SearchFilterId").val();
+
+
+        $.ajax({
+            url: DELETE_SEARCHFILTER,
+            data: { "Id": selectedFilter },
+            success: function (result) {
+
+                if (result.status == "error") {
+                    alert(result.message);
+                    return false;
+                }
+
+                LoadSearchFilterDropdown();
+                viewModel.resetFilters();
+                alert(result.message);
+            },
+            error: function (result) {
+
+                alert(result.message);
+            }
+        });
+    }
+    </script>
+}

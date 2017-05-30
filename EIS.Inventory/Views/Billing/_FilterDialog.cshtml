@@ -1,0 +1,49 @@
+﻿
+<div style="display:none;" class="modal fade" id="FilterDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Filter Billings</h4>
+            </div>
+            @using (Html.BeginForm("index", "billing", FormMethod.Get, new { @class = "form-horizontal", @role = "form", @id = "filterForm" }))
+            {
+                <div class="modal-body" id="edit-form">
+                    <input type="hidden" id="pageSize" name="pageSize" value="@Model.PageSize" />
+                    <input type="hidden" id="fromDate" name="fromDate" value="@ViewBag.FromDate" />
+                    <input type="hidden" id="toDate" name="toDate" value="@ViewBag.ToDate" />
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="VendorId" name="VendorId" data-bind="options: vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- all --', value: selectedVendor"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="PaymentStatus">Payment Status</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="OrderStatus" name="PaymentStatus" value="@ViewBag.PaymentStatus">
+                                <option value="-1" @(ViewBag.OrderStatus == PaymentStatus.All ? "selected" : "")>-- all --</option>
+                                <option value="0" @(ViewBag.OrderStatus == PaymentStatus.NotPaid ? "selected" : "")>Not Paid</option>
+                                <option value="1" @(ViewBag.OrderStatus == PaymentStatus.Paid ? "selected" : "")>Paid</option>
+                                <option value="2" @(ViewBag.PaymentStatus == PaymentStatus.PartiallyPaid ? "selected" : "")>Partially Paid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Generated Date</label>
+                        <div class="col-md-8">
+                            <input id="generatedDateRange" type="text" class="form-control" data-bind="daterangepicker: dateRange, daterangepickerOptions: { minDate: minDate, maxDate: moment(), ranges: ranges }" placeholder="Select PO generated date range"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <a class="btn btn-warning" href="#reset" data-bind="click: resetFilters">Reset</a>
+                    <button id="btnApplyFilters" type="button" class="btn btn-primary">Apply Filter</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

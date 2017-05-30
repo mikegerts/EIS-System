@@ -1,0 +1,332 @@
+﻿.tabs-below > .nav-tabs,
+.tabs-right > .nav-tabs,
+.tabs-left > .nav-tabs {
+  border-bottom: 0;
+}
+
+.tab-content > .tab-pane,
+.pill-content > .pill-pane {
+  display: none;
+}
+
+.tab-content > .active,
+.pill-content > .active {
+  display: block;
+}
+
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+
+.tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+}
+
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+
+.tabs-below > .nav-tabs > .active > a,
+.tabs-below > .nav-tabs > .active > a:hover,
+.tabs-below > .nav-tabs > .active > a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+
+.tabs-left > .nav-tabs > li,
+.tabs-right > .nav-tabs > li {
+  float: none;
+}
+
+.tabs-left > .nav-tabs > li > a,
+.tabs-right > .nav-tabs > li > a {
+  min-width: 74px;
+  width: 101%;
+  margin-right: 0;
+  margin-bottom: 3px;
+}
+
+.tabs-left > .nav-tabs {
+  float: left;
+  padding-right: 0px;
+  border-right: 1px solid #ddd;
+}
+
+.tabs-left > .nav-tabs > li > a {
+  margin-right: -1px;
+  -webkit-border-radius: 4px 0 0 4px;
+     -moz-border-radius: 4px 0 0 4px;
+          border-radius: 4px 0 0 4px;
+}
+
+.tabs-left > .nav-tabs > li > a:hover,
+.tabs-left > .nav-tabs > li > a:focus {
+  border-color: #eeeeee #dddddd #eeeeee #eeeeee;
+}
+
+.tabs-left > .nav-tabs .active > a,
+.tabs-left > .nav-tabs .active > a:hover,
+.tabs-left > .nav-tabs .active > a:focus {
+  border-color: #ddd transparent #ddd #ddd;
+  *border-right-color: #ffffff;
+}
+
+.tabs-right > .nav-tabs {
+  float: right;
+  margin-left: 19px;
+  border-left: 1px solid #ddd;
+}
+
+.tabs-right > .nav-tabs > li > a {
+  margin-left: -1px;
+  -webkit-border-radius: 0 4px 4px 0;
+     -moz-border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0;
+}
+
+.tabs-right > .nav-tabs > li > a:hover,
+.tabs-right > .nav-tabs > li > a:focus {
+  border-color: #eeeeee #eeeeee #eeeeee #dddddd;
+}
+
+.tabs-right > .nav-tabs .active > a,
+.tabs-right > .nav-tabs .active > a:hover,
+.tabs-right > .nav-tabs .active > a:focus {
+  border-color: #ddd #ddd #ddd transparent;
+  *border-left-color: #ffffff;
+}
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.input-sm-padding{
+    padding-left: 4px !important;
+    padding-right:4px !important;
+}
+.input-addon-helper{
+    font-size: x-small;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+.loading-gif{
+    position:absolute;
+    top:0;
+    left:0;
+    background: #fff url('../img/ajax-loader_blue.gif') no-repeat center center;
+    height:100%;
+    width:100%;
+    opacity: 0.6;
+    z-index: 1000;
+}
+
+/** fixes for datpicker which is not showing in chrome! **/
+.datepicker{z-index:1200 !important;}
+
+/*.table-altrow tbody tr:nth-child(odd){
+    background-color: #e7e7e7;
+}*/
+.spinner {
+    position:relative;
+    display:none;
+}
+.spinner .fa{
+    position: absolute;
+    right: 10px;
+    top: 0;
+    font-size:23px;
+}
+
+.spinner-overlay{
+    margin-top: -12px;
+    width: 34px;
+    z-index:99;
+}
+
+.hover-btns {
+    display:none;
+}
+
+.li-row:hover .hover-btns{
+    display: block;
+}
+
+.li-row:hover{
+    background: #EDEDED !important;
+}
+
+.dataTables_entries, .dataTables_filter, .dataTables_pageInfo{
+    margin: 0 8px;
+}
+
+.dataTables_entries label, .dataTables_filter label{
+    font-weight: normal;
+}
+
+.dataTables_pagination{
+    margin: 2px 0;
+}
+.pagination{
+    margin: 10px 0 !important;
+}
+.input-group-addon, tr.clickable{
+    cursor: pointer;
+}
+tr.clickable:hover{
+    background-color:#e5e5e5 !important;
+}
+tr.selected{
+     background-color:#e5e5e5 !important;
+}
+.bg-Shipped, .bg-Paid, .bg-Completed{
+    background-color: #00a65a;
+    border-color: #008d4c;
+}
+
+.bg-PartiallyShipped, .bg-PartiallyPaid{
+    background-color: #3d9970 !important;
+}
+
+.bg-Unshipped, .bg-NotPaid, .bg-Failed{
+    background-color: #dd4b39;
+    border-color: #d73925;
+}
+
+.bg-Pending{
+    background-color: #f39c12;
+    border-color: #e08e0b;
+}
+
+.bg-PendingAvailability, .bg-Inprogress{    
+    background-color: #f39c12;
+    border-color: #e08e0b;
+}
+
+.bg-InvoiceUnconfirmed{
+    background-color: #d81b60 !important;
+}
+
+.bg-Canceled{
+    box-shadow: none;
+    opacity: 0.65;
+    background-color: #dd4b39;
+    border-color: #d73925;
+}
+
+.bg-Unfulfillable{
+    background-color: #001f3f !important;
+}
+.bg-image-Amazon{
+    background: transparent url('../img/marketplace/amazon.png') no-repeat left center;
+    padding-left: 23px;
+}
+.bg-image-eBay{
+    background: transparent url('../img/marketplace/ebay-20.png') no-repeat -1px 0;
+    padding-left: 23px;
+}
+.bg-image-Eshopo{
+    background: transparent url('../img/marketplace/eshopo.png') no-repeat left center;
+    padding-left: 23px;
+}
+.label-normal{
+    font-weight: normal;
+}
+.searchField{
+    height: 30px;
+    width: 200px;   
+    margin-left: 5px;
+}
+.listview {
+    position: relative;
+    list-style-type: none;
+    padding: 0 0 15px;
+}
+.listview figure {
+    border: 1px solid #e7e7e7;
+    border-radius: 3px;
+    padding: 5px;
+    margin-top: 15px;
+}
+
+figure h4 {
+    font-size: 1.15em;
+}
+
+figure{
+    text-align: center;
+    min-height: 80px;
+}
+
+.product-images {
+    min-height: 215px;
+}
+.state{
+    cursor: default !important;
+}
+.image-buttons{
+    bottom: 30px;
+    margin: 0 auto;
+    position: absolute;
+    text-align: center;
+    width: 84%;
+}
+.modal-content {
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+}
+.kigwa-daterangepicker{
+      background: #fff; 
+      cursor: pointer; 
+      padding: 5px 10px; 
+      border: 1px solid #ccc; 
+      width: 100%;
+}
+
+.companyLabel {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+.settingLabels {
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+#labelProductBlacklist {
+    font-size: 16px;
+    float: right;
+    margin-top: -40px;
+} 
+
+.departmentHeaders .control-label {
+    text-align: left !important;
+}
+
+.departmentLabels .control-label {
+    text-align: left !important;
+    font-weight: normal;
+}
+
+.departmentRow {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: inline-block;
+    width: 100%;
+}

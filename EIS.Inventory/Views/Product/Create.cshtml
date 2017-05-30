@@ -1,0 +1,253 @@
+﻿@model EIS.Inventory.Core.ViewModels.ProductDto
+
+@{
+    ViewBag.Title = "Create Product";
+    ViewBag.ActiveMenu = "products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Product Information <small>Create new product</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Create new product</h3>
+                    </div>
+                    @using (Html.BeginForm("save", "product", new { id = Model.EisSKU }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="box-body">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(m => m.EisSKU)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("CompanyId", (IEnumerable<SelectListItem>)ViewBag.CompanyList, "-- Select company --", new { @class = "form-control", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter product name" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter category" } })
+                                        @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UPC, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.UPC, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter UPC code" } })
+                                        @Html.ValidationMessageFor(model => model.UPC, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SellerPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.SellerPrice, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter site cost", type = "number" } })
+                                        @Html.ValidationMessageFor(model => model.SellerPrice, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="PkgLength">PackageDimension</label>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="PkgLength">Length</label>
+                                                @Html.EditorFor(model => model.PkgLength, new { htmlAttributes = new { @class = "form-control", @placeholder = "Length", type = "number", title = "Package's length" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="PkgWidth">Width</label>
+                                                @Html.EditorFor(model => model.PkgWidth, new { htmlAttributes = new { @class = "form-control", @placeholder = "Width", type = "number", title = "Package's width" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="PkgHeight">Height</label>
+                                                @Html.EditorFor(model => model.PkgHeight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Height", type = "number", title = "Package's height" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="PkgLenghtUnit">Unit of Length</label>
+                                                <select class="form-control" id="PkgLenghtUnit" name="PkgLenghtUnit">
+                                                    <option value="">-- select --</option>
+                                                    <option value="inches" @(Model.PkgLenghtUnit == "inches" ? "selected" : "")>inches</option>
+                                                    <option value="feet" @(Model.PkgLenghtUnit == "feet" ? "selected" : "")>feet</option>
+                                                    <option value="millimeters" @(Model.PkgLenghtUnit == "millimeters" ? "selected" : "")>millimeters</option>
+                                                    <option value="centimeters" @(Model.PkgLenghtUnit == "centimeters" ? "selected" : "")>centimeters</option>
+                                                    <option value="decimeters" @(Model.PkgLenghtUnit == "decimeters" ? "selected" : "")>decimeters</option>
+                                                    <option value="meters" @(Model.PkgLenghtUnit == "meters" ? "selected" : "")>meters</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="ItemLength">ItemDimension</label>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="ItemLength">Length</label>
+                                                @Html.EditorFor(model => model.ItemLength, new { htmlAttributes = new { @class = "form-control", @placeholder = "Item's length", type = "number", title = "Item's length" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="ItemWidth">Width</label>
+                                                @Html.EditorFor(model => model.ItemWidth, new { htmlAttributes = new { @class = "form-control", @placeholder = "Item's width", type = "number", title = "Item's width" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="ItemHeight">Height</label>
+                                                @Html.EditorFor(model => model.ItemHeight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Item height", type = "number", title = "Item's height" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="ItemLenghtUnit">Unit of Length</label>
+                                                <select class="form-control" id="ItemLenghtUnit" name="ItemLenghtUnit">
+                                                    <option value="">-- select --</option>
+                                                    <option value="inches" @(Model.ItemLenghtUnit == "inches" ? "selected" : "")>inches</option>
+                                                    <option value="feet" @(Model.ItemLenghtUnit == "feet" ? "selected" : "")>feet</option>
+                                                    <option value="millimeters" @(Model.ItemLenghtUnit == "millimeters" ? "selected" : "")>millimeters</option>
+                                                    <option value="centimeters" @(Model.ItemLenghtUnit == "centimeters" ? "selected" : "")>centimeters</option>
+                                                    <option value="decimeters" @(Model.ItemLenghtUnit == "decimeters" ? "selected" : "")>decimeters</option>
+                                                    <option value="meters" @(Model.ItemLenghtUnit == "meters" ? "selected" : "")>meters</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="AccurateWeight">Accurate Weight</label>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="AccurateWeight">Accurate Weight</label>
+                                                @Html.EditorFor(model => model.AccurateWeight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Accurate Weight", title = "Accurate Weight" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="AccurateWeightUnit">Mass Unit</label>
+                                                <select class="form-control col-md-3" id="AccurateWeightUnit" name="AccurateWeightUnit">
+                                                    <option value="">-- select --</option>
+                                                    <option value="ounces" @(Model.AccurateWeightUnit == "ounces" ? "selected" : "")>ounces</option>
+                                                    <option value="pounds" @(Model.AccurateWeightUnit == "pounds" ? "selected" : "")>pounds</option>
+                                                    <option value="grams" @(Model.AccurateWeightUnit == "grams" ? "selected" : "")>grams</option>
+                                                    <option value="kilograms" @(Model.AccurateWeightUnit == "kilograms" ? "selected" : "")>kilograms</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="GuessedWeight">Guessed Weight</label>
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="GuessedWeight">Guessed Weight</label>
+                                                @Html.EditorFor(model => model.GuessedWeight, new { htmlAttributes = new { @class = "form-control", @placeholder = "Guessed Weight", title = "Accurate Weight" } })
+                                            </div>
+                                            <div class="col-md-3 no-margin">
+                                                <label class="sr-only" for="GuessedWeightUnit">Mass Unit</label>
+                                                <select class="form-control col-md-3" id="GuessedWeightUnit" name="GuessedWeightUnit">
+                                                    <option value="">-- select --</option>
+                                                    <option value="ounces" @(Model.GuessedWeightUnit == "ounces" ? "selected" : "")>ounces</option>
+                                                    <option value="pounds" @(Model.GuessedWeightUnit == "pounds" ? "selected" : "")>pounds</option>
+                                                    <option value="grams" @(Model.GuessedWeightUnit == "grams" ? "selected" : "")>grams</option>
+                                                    <option value="kilograms" @(Model.GuessedWeightUnit == "kilograms" ? "selected" : "")>kilograms</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="GuessedShipping">Guessed Shipping</label>
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.GuessedShipping, new { @class = "form-control", @placeholder = "Guessed Shipping" })
+                                        @Html.ValidationMessageFor(model => model.GuessedShipping, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="AccurateShipping">Accurate Shipping</label>
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.AccurateShipping, new { @class = "form-control", @placeholder = "Accurate Shipping" })
+                                        @Html.ValidationMessageFor(model => model.AccurateShipping, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2" for="IsBlacklisted">Is Blacklisted</label>
+                                    <div class="col-md-10">
+                                        @Html.CheckBoxFor(model => model.IsBlacklisted)
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="margin">
+                                <button id="btn-Save" class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save product">Save Product</button>&nbsp;
+                                @Html.ActionLink("Cancel", "index", null, new { @class = "btn btn-default btn-sm", @data_toggle = "tooltip", @data_original_title = "Back to products list" })
+                            </div>
+                        </div>
+                    }
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts{
+<link href="@Url.Content("~/content/css/iCheck/all.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/plugins/icheck/icheck.min.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#edit-form #btn-Save").on("click", function (event) {
+                event.preventDefault();
+
+                if (!isValidateForm())
+                    return false;
+
+                $("#edit-form").submit();
+            });
+
+            $("#edit-form input, #edit-form select").on("change", function () {
+                $(this).parents(".form-group").removeClass("has-error");
+            });
+
+            //iCheck for checkbox and radio inputs
+            $("#IsBlacklisted").iCheck({ checkboxClass: 'icheckbox_minimal-blue' });
+        });
+    </script>
+}

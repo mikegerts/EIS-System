@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DECEF2D2-0F8A-4519-8A51-0BF297E38CB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Inventory.DAL</RootNamespace>
+    <AssemblyName>EIS.Inventory.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Database\addressdetail.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\amazoncategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\amazoncredential.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\amazonmwssetting.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\amazonsubcategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\applicationgroup.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\aspnetrole.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\aspnetuser.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\aspnetuserclaim.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\aspnetuserlogin.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\bigcommercebrand.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\bigcommercecategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\bigcommercecredential.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\bigcommercecustomfield.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\company.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\country.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\credential.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customer.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customerexportedfile.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customerimage.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customersaddress.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customerscheduledtask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customersnote.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customerwholesalepricehistory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customexportordertask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customexportproducttask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\customimportordertask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\department.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ebaycategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ebaycredential.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ebaystructuredcategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ebaysubcategory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EisInventory.Context.cs">
+      <DependentUpon>EisInventory.Context.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Database\EisInventory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Database\EisInventory.Designer.cs">
+      <DependentUpon>EisInventory.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Database\exportedfile.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\generatepotask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\inventoryvendorproduct.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\kit.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\kitdetail.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\log.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\marketplaceinventorytask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\messagetemplate.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\order.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ordergroupdetail.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\orderitem.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\orderproduct.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ordershipment.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ordershipmenthistory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\orderupdatehistory.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\postingfee.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\processingreport.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\processingreportresult.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\product.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\productamazon.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\productbigcommerce.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\productebay.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\productgroupdetail.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\productimage.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\producttype.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\producttypecategorymapping.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\purchaseorder.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\purchaseorderitem.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\region.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\reporttemplate.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\requestreport.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\savedsearchfilter.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\scheduledtask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\scheduletaskimportfile.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementorder.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementorderitem.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementorderitemfee.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementorderitemprice.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementrefund.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementrefunditem.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementrefunditemfee.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\settlementrefunditemprice.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\shadow.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\shippinglocation.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\shippingrate.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\shippingstationtracking.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\shipstationcredential.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\systememail.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\systemjob.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendor.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendordepartment.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendorproduct.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendorproductfileinventorytask.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendorproductimage.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\vendorproductlink.cs">
+      <DependentUpon>EisInventory.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\customexportproducttask.cs" />
+    <Compile Include="Entities\customimportordertask.cs" />
+    <Compile Include="Entities\ebaycredential.cs" />
+    <Compile Include="Entities\EisInventoryContext.cs" />
+    <Compile Include="Entities\customexportordertask.cs" />
+    <Compile Include="Entities\ordergroupdetail.cs" />
+    <Compile Include="Entities\orderitem.cs" />
+    <Compile Include="Entities\orderproduct.cs" />
+    <Compile Include="Entities\vendor.cs" />
+    <Compile Include="Entities\vendorproductfileinventorytask.cs" />
+    <Compile Include="Entities\kit.cs" />
+    <Compile Include="Entities\marketplaceinventorytask.cs" />
+    <Compile Include="Entities\order.cs" />
+    <Compile Include="Entities\product.cs" />
+    <Compile Include="Entities\productamazon.cs" />
+    <Compile Include="Entities\productebay.cs" />
+    <Compile Include="Entities\productgroupdetail.cs" />
+    <Compile Include="Entities\scheduledtask.cs" />
+    <Compile Include="Entities\vendorproduct.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Database\EisInventory.Context.tt">
+      <DependentUpon>EisInventory.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EisInventory.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Database\EisInventory.edmx.diagram">
+      <DependentUpon>EisInventory.edmx</DependentUpon>
+    </None>
+    <None Include="Database\EisInventory.tt">
+      <DependentUpon>EisInventory.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EisInventory.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Database\EisInventory.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EisInventory.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EIS.Inventory.Shared\EIS.Inventory.Shared.csproj">
+      <Project>{220f7f6d-780c-407e-852e-dadde688a243}</Project>
+      <Name>EIS.Inventory.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

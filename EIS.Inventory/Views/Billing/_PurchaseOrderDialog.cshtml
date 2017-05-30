@@ -1,0 +1,127 @@
+﻿
+<div style="display:none;" class="modal fade" id="PurchaseOrdeDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: purchaseOrder">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: isCreate() ? 'Create Purchase Order': 'Edit Purchase Order: ' + Id()">Create Purchase Order</h4>
+            </div>
+            <div class="modal-body" id="edit-form">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+                            <input type="hidden" data-bind="value: IsManual" />
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="VendorId">Billed To</label>
+                                <div class="col-xs-8">
+                                    <select class="form-control" id="VendorId" name="VendorId" data-bind="options: $root.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- choose --', value: VendorId, event: { change: vendorChanged }" required="required"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ContactPerson">Contact Person</label>
+                                <div class="col-xs-8">
+                                    <input id="ContactPerson" name="ContactPerson" class="form-control" data-bind="value: ContactPerson" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="VendorAddress">Address</label>
+                                <div class="col-xs-8">
+                                    <input id="VendorAddress" name="VendorAddress" type="text" class="form-control" data-bind="value: VendorAddress" placeholder="Addresss" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="Phone">Phone</label>
+                                <div class="col-xs-8">
+                                    <input id="Phone" name="Phone" type="text" class="form-control" data-bind="value: PhoneNumber" placeholder="Phone" readonly />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="Id">P.O. ID</label>
+                                <div class="col-xs-8">
+                                    <input id="Id" name="Id" type="text" class="form-control" placeholder="Enter Purchase Order ID" data-bind="value: Id, attr: { 'readonly' : !isCreate() }" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="OrderTotal">Order Total</label>
+                                <div class="col-xs-8">
+                                    <input id="OrderTotal" name="OrderTotal" type="number" class="form-control" data-bind="value: poTotalPaid" placeholder="Order total" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ShippingPaid">Shipping Paid</label>
+                                <div class="col-xs-8">
+                                    <input id="ShippingPaid" name="ShippingPaid" type="number" class="form-control" data-bind="value: ShippingPaid" placeholder="Enter shipping paid" onfocus="rateFieldOnFocus(this)" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="TaxPaid">Taxes Paid</label>
+                                <div class="col-xs-8">
+                                    <input id="TaxPaid" name="TaxPaid" type="number" class="form-control" data-bind="value: TaxPaid" placeholder="Enter tax paid" onfocus="rateFieldOnFocus(this)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-3">EIS SKU</th>
+                                    <th class="col-md-4">Product Name</th>
+                                    <th>Quantity</th>
+                                    <th class="col-md-2">Supplier Price</th>
+                                    <th class="col-md-2">Total Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: Items().length != 0 -->
+                            <tbody data-bind="foreach: Items">
+                                <tr>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input class="form-control" type="text" data-bind="value: SKU, event: { change: $parent.skuValueChanged}, attr: { tabindex: ($index() +1 ) * 10 }" placeholder="EIS SKU" required="required" />
+                                        </div>
+                                    </td>
+                                    <td><input class="form-control" type="text" data-bind="value: ItemName" readonly="readonly" placeholder="Product name" /> </td>
+                                    <td><input class="form-control" type="number" data-bind="value: Qty, attr: { tabindex: ($index() +1 ) * 11 }" placeholder="Quantity" onfocus="rateFieldOnFocus(this)" /> </td>
+                                    <td><input class="form-control" type="text" data-bind="value: UnitPrice().toFixed(2), attr: { tabindex: ($index() +1 ) * 12 }" placeholder="Supplier Price" readonly="readonly" /> </td>
+                                    <td><input class="form-control" type="text" data-bind="value: TotalPrice" placeholder="Total Price" readonly="readonly" /> </td>
+                                    <th>
+                                        <a class="btn btn-xs btn-danger" href="#deleteitem" title="Delete this item" data-bind="click: $parent.deleteOrderItem"><i class=" fa fa-trash-o"></i></a>
+                                    </th>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: Items().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="5">No purchase order items added yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin:2px 8px"><a class="btn btn-xs btn-success" href="#additem" title="Add new item" data-bind="click: addOrderItem"><i class=" fa fa-plus"></i> Add new item</a></p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnCreateOrder" type="button" class="btn btn-primary" data-bind="click: $root.savePurchaseOrder, text: (isCreate() ? 'Create Purchase Order' : 'Save Changes')">Create Purchase Order</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#PurchaseOrdeDialog -->

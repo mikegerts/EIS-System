@@ -1,0 +1,64 @@
+﻿
+<div style="display:none;" class="modal fade" id="ExportDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" data-bind="with: exportProduct">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Export Product Report</h4>
+            </div>
+            @using (Html.BeginForm("exportproducts", "product", FormMethod.Post, new { @role = "form", @id = "exportForm" }))
+            {
+                <div class="modal-body" id="export-dialog-form">
+                    <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                    <input type="hidden" id="ProductFields" name="ProductFields" data-bind="value: ProductFields" />
+                    <input type="hidden" name="ProductGroupId" data-bind="value: ProductGroupId" />
+                    <input type="hidden" id="VendorId" name="VendorId" data-bind="value: VendorId" />
+                    <input type="hidden" id="RequestedDate" name="RequestedDate" value="@DateTime.Now" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="VendorId">Vendor</label>
+                            <div class="col-md-9">
+                                <select class="form-control" data-bind="options: $parent.vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- all --', value: VendorId"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="QuantityFrom">Inventory Quantity</label>
+                            <div class="col-md-10">
+                                <div class="form-inline">
+                                    <div class="form-group no-margin">
+                                        <label class="sr-only" for="QuantityFrom">From</label>
+                                        <input type="number" class="form-control" id="QuantityFrom" name="QuantityFrom" placeholder="From" data-bind="value: QuantityFrom" />
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <label class="sr-only" for="QuantityTo">To</label>
+                                        <input type="number" class="form-control" id="QuantityTo" name="QuantityTo" placeholder="To" data-bind="value: QuantityTo" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-12">Select Product Fields</label>
+                            <div id="product-fields" class="col-md-12 form-control" style="position:relative; margin: 0 15px; min-height:325px !important; width:95%" data-bind="attr: {'data-value': ProductFields}, foreach: productFields, event: { change: valueChanged }" required="required">
+                                <div class="checkbox no-margin" style="float:left; width:33%; margin-top:2px;">
+                                    <input type="text" data-bind="value: Sort, click: selectAll" style="width: 30px; height:20px; padding: 0 3px; z-index:99;" />
+                                    <label class="no-padding" data-bind="click: $parent.toggleField">
+                                        <input type="checkbox" data-bind="iCheckBox: IsChecked, value: Id" />
+                                        <span data-bind="text: Name" style="margin-left: 5px"></span>
+                                    </label>
+                                </div>
+                                <div data-bind="css: { 'clear' : $index() == ($parent.productFields().length - 1)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button type="button" id="btnExport" class="btn btn-primary" data-bind="click: downloadProducts">Download</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

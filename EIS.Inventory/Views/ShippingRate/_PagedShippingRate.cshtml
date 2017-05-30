@@ -1,0 +1,59 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.ShippingRateDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblShippingRates">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th class="text-center">Weight From</th>
+            <th class="text-center">Weight To</th>
+            <th>Unit</th>
+            <th>Rate</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td class="text-center">@item.WeightFrom</td>
+                    <td class="text-center">@item.WeightTo</td>
+                    <td>@item.Unit</td>
+                    <td>@string.Format("{0:0#.#0}", item.Rate)</td>
+                    <td align="right">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ShippingRateDialog" data-title="Edit this shipping rate details" href="#edit" data-id="@item.Id"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#ShippingRateDialog" data-title="View shipping rate details" href="#view" data-id="@item.Id" data-view-only="true"><i class="fa fa-external-link"></i></a>
+                        <a class="btn btn-sm btn-danger" data-title="Delete this shipping rate" href="#delete"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+        @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+        {
+            page,
+            pageSize = Model.PageSize
+        }))
+        </div>
+    </div>
+</div>

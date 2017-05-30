@@ -1,0 +1,89 @@
+﻿
+<div style="display:none;" class="modal fade" id="FilterDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Filter Vendor Products</h4>
+            </div>
+            @using (Html.BeginForm("index", "vendorproduct", FormMethod.Get, new { @class = "form-horizontal", @role = "form", @id = "filterForm" }))
+            {
+                <div class="modal-body" id="edit-form">
+                    <input type="hidden" id="pageSize" name="pageSize" value="@Model.PageSize" />
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="ProductGroupId">Saved Search Filters</label>
+                        <div class="col-md-4">
+                            @Html.DropDownList("SearchFilterId", (IEnumerable<SelectListItem>)ViewBag.SavedSearchFiltersList, "-- Select Saved Filter --", new { @class = "form-control", @onchange = "javascript:GetFilter(this.value);" })
+                            <a id="deletefilter" href="#" onclick="DeleteSavedFilter()" style="display:none;">Delete Filter</a>
+                        </div>
+                        <div class="col-md-4">
+                            <input id="filterName" type="text" class="form-control" placeholder="Enter filter name for save" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="SearchString">Keyword</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="SearchString" name="SearchString" value="@ViewBag.SearchString" placeholder="Enter keyword" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="CompanyId">Company</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="CompanyId" name="CompanyId" data-bind="options: companies, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- all --', value: selectedCompany"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="VendorId">Vendor</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="VendorId" name="VendorId" data-bind="options: vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- all --', value: selectedVendor"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="withImages">With Images</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="withImages" name="withImages">
+                                <option value="-1">-- all --</option>
+                                <option value="1" @(ViewBag.WithImages == 1 ? "selected" : "")>Yes</option>
+                                <option value="0" @(ViewBag.WithImages == 0 ? "selected" : "")>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="withEisSKULink">Has EisSKU Link</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="withEisSKULink" name="withEisSKULink">
+                                <option value="-1">-- all --</option>
+                                <option value="1" @(ViewBag.WithEisSKULink == 1 ? "selected" : "")>Yes</option>
+                                <option value="0" @(ViewBag.WithEisSKULink == 0 ? "selected" : "")>No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="inventoryQtyFrom">Inventory Quantity</label>
+                        <div class="col-md-8">
+                            <div class="form-inline">
+                                <div class="form-group no-margin">
+                                    <label class="sr-only" for="inventoryQtyFrom">From</label>
+                                    <input type="number" class="form-control" id="inventoryQtyFrom" name="inventoryQtyFrom" placeholder="From" value="@(ViewBag.InventoryQtyFrom == -1 ? "" : ViewBag.InventoryQtyFrom)" />
+                                </div>
+                                <div class="form-group no-margin">
+                                    <label class="sr-only" for="inventoryQtyTo">To</label>
+                                    <input type="number" class="form-control" id="inventoryQtyTo" name="inventoryQtyTo" placeholder="To" value="@(ViewBag.InventoryQtyTo == -1 ? "" : ViewBag.InventoryQtyTo)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                    <button id="btnSaveFilter" type="button" class="btn btn-default">Save Filter</button>
+                    <a class="btn btn-warning" href="#reset" data-bind="click: resetFilters">Reset</a>
+                    <button type="button" class="btn btn-primary" data-bind="click: applyFilters">Apply Filter</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

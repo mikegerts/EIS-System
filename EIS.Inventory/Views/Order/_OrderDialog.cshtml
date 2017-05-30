@@ -1,0 +1,170 @@
+﻿
+<div style="display:none;" class="modal fade" id="OrderDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" data-bind="text: (manualOrderId() == -1 ? 'Create Manual Order' : 'Edit Manual Order')">Create Manual Order</h4>
+            </div>
+            <div class="modal-body" id="edit-form" data-bind="with: manualOrder">
+                <div id="loadingModal" style="display:none" class="loading-gif"></div>
+                <div data-bind="visible: $root.message(), alert: { message: $root.message, type: $root.type, template: 'alertTemplate' }"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="BuyerName">Recipient</label>
+                                <div class="col-xs-8">
+                                    <input id="BuyerName" name="BuyerName" type="text" class="form-control" placeholder="Enter recipient name" data-bind="value: BuyerName, event: { change: valueChanged }" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="CompanyName">Company Name</label>
+                                <div class="col-xs-8">
+                                    <input id="CompanyName" name="CompanyName" type="text" class="form-control" placeholder="Enter company name" data-bind="value: CompanyName, event: { change: valueChanged }" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ShippingAddressLine1">Address</label>
+                                <div class="col-xs-8">
+                                    <input id="ShippingAddressLine1" name="ShippingAddressLine1" type="text" class="form-control" placeholder="Enter address line 1" data-bind="value: ShippingAddressLine1, event: { change: valueChanged }" required="required" />
+                                    <input id="ShippingAddressLine2" name="ShippingAddressLine2" type="text" class="form-control" style="margin-top: 10px" placeholder="Enter address line 2" data-bind="value: ShippingAddressLine2" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ShippingCity">City/State Zip</label>
+                                <div class="col-xs-3" style="padding-right: 0">
+                                    <input id="ShippingCity" name="ShippingCity" type="text" class="form-control" placeholder="City" data-bind="value: ShippingCity" />
+                                </div>
+                                <div class="col-xs-2" style="padding-right: 0">
+                                    <input id="ShippingStateOrRegion" name="ShippingStateOrRegion" type="text" class="form-control" placeholder="State/Region" data-bind="value: ShippingStateOrRegion" />
+                                </div>
+                                <div class="col-xs-3">
+                                    <input id="ShippingPostalCode" name="ShippingPostalCode" type="text" class="form-control" placeholder="Zip" data-bind="value: ShippingPostalCode" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ShippingAddressPhone">Phone</label>
+                                <div class="col-xs-8">
+                                    <input id="ShippingAddressPhone" name="ShippingAddressPhone" type="text" class="form-control" placeholder="Enter phone number" data-bind="value: ShippingAddressPhone" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="BuyerEmail">Email</label>
+                                <div class="col-xs-8">
+                                    <input id="BuyerEmail" name="BuyerEmail" type="email" class="form-control" placeholder="Enter email address" data-bind="value: BuyerEmail, event: { change: valueChanged }" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="OrderId">Order ID</label>
+                                <div class="col-xs-8">
+                                    <input id="OrderId" name="OrderId" type="text" class="form-control" placeholder="Enter Order ID" data-bind="value: OrderId, event: { change: valueChanged }" required="required" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="PurchaseDate">Order Date</label>
+                                <div class="col-xs-8">
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input class="form-control text-box" id="PurchaseDate" name="PurchaseDate" data-bind="datepicker: PurchaseDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                                        <label class="input-group-addon" for="PurchaseDate">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="LastUpdateDate">Paid Date</label>
+                                <div class="col-xs-8">
+                                    <div class="input-group bootstrap-timepicker">
+                                        <input class="form-control text-box" id="LastUpdateDate" name="LastUpdateDate" data-bind="datepicker: LastUpdateDate, datepickerOptions: { 'format': 'M dd yyyy', autoclose: true }" />
+                                        <label class="input-group-addon" for="LastUpdateDate">
+                                            <i class="fa fa-calendar"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="OrderTotal">Order Total</label>
+                                <div class="col-xs-8">
+                                    <input id="OrderTotal" name="OrderTotal" type="number" class="form-control" placeholder="Order total" data-bind="value: OrderTotalPaid().toFixed(2)" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="ShippingPaid">Shipping Paid</label>
+                                <div class="col-xs-8">
+                                    <input id="ShippingPaid" name="ShippingPaid" type="number" class="form-control" placeholder="Enter shipping paid" data-bind="value: ShippingPaid" onfocus="rateFieldOnFocus(this)" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" for="TaxPaid">Tax Paid</label>
+                                <div class="col-xs-8">
+                                    <input id="TaxPaid" name="TaxPaid" type="number" class="form-control" placeholder="Enter tax paid" data-bind="value: TaxPaid" onfocus="rateFieldOnFocus(this)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table" style="margin-bottom:0;">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-3">SKU</th>
+                                    <th class="col-md-4">Product Name</th>
+                                    <th>Quantity</th>
+                                    <th class="col-md-2">Selling Price</th>
+                                    <th class="col-md-2">Total Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <!-- ko if: OrderItems().length != 0 -->
+                            <tbody data-bind="foreach: OrderItems">
+                                <tr>
+                                    <td>
+                                        <div class="form-group no-margin">
+                                            <input class="form-control" type="text" data-bind="value: SKU, event: { change: $parent.skuValueChanged}, attr: { tabindex: ($index() +1 ) * 10 }" placeholder="EIS SKU" required="required" />
+                                        </div>
+                                    </td>
+                                    <td><input class="form-control" type="text" data-bind="value: Title, attr: { 'title': Description }" readonly="readonly" placeholder="Product name" /> </td>
+                                    <td><input class="form-control" type="number" data-bind="value: QtyOrdered, attr: { tabindex: ($index() +1 ) * 11 }" placeholder="Quantity" onfocus="rateFieldOnFocus(this)" /> </td>
+                                    <td><input class="form-control" type="number" data-bind="value: UnitPrice, attr: { tabindex: ($index() +1 ) * 12 }" placeholder="Selling Price" step="any" /> </td>
+                                    <td><input class="form-control" type="text" data-bind="value: TotalPrice" placeholder="Total Price" readonly="readonly" /> </td>
+                                    <th>
+                                        <a class="btn btn-xs btn-danger" href="#deleteitem" title="Delete this item" data-bind="click: $parent.deleteOrderItem"><i class=" fa fa-trash-o"></i></a>
+                                    </th>
+                                </tr>
+                            </tbody>
+                            <!-- /ko -->
+                            <tbody data-bind="visible: OrderItems().length == 0" style="display:none;">
+                                <tr>
+                                    <td colspan="5">No order items added yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="margin:2px 8px"><a class="btn btn-xs btn-success" href="#additem" title="Add new item" data-bind="click: addOrderItem"><i class=" fa fa-plus"></i> Add new item</a></p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <span class="spinner"><i class="fa fa-refresh fa-spin"></i></span>
+                <button id="btnCreateOrder" type="button" class="btn btn-primary" data-bind="click: saveManualOrder, text: (manualOrderId() == -1 ? 'Create Order' : 'Save Changes')">Create Order</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /#OrderDialog -->

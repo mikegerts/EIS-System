@@ -1,0 +1,68 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.CustomerListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblCustomers">
+    <thead>
+        <tr>
+            <th>EmailAddress</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>CustomerNumber</th>
+            <th>CompanyName</th>
+            <th>Actions</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="10">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td>@Html.DisplayFor(modelItem => item.EmailAddress)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CustomerNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CompanyName)</td>
+                    <td style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit customer" href="@Html.Raw(Url.Action("edit", "customer", new { id = item.CustomerId }))"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete customer" href="#delete" onclick="return deleteCustomer(@string.Format("this, \'{0}\',\'{1}\'", item.CustomerId,item.EmailAddress))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new
+       {
+           page,
+           pageSize = Model.PageSize
+       }),
+            new PagedListRenderOptions
+            {
+                DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                MaximumPageNumbersToDisplay = 5
+            })
+        </div>
+    </div>
+</div>

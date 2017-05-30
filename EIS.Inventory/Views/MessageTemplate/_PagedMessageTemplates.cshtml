@@ -1,0 +1,56 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.MessageTemplateListDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblMessageTemplates">
+    <thead>
+        <tr>
+            <th>System Email</th>
+            <th>Template Type</th>
+            <th>Description</th>
+            <th>Subject</th>
+            <th>Enabled</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="8">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmailAddress</td>
+                    <td>@item.MessageType</td>
+                    <td>@item.Description</td>
+                    <td>@item.Subject</td>
+                    <td>
+                        <div class="state icheckbox_minimal-blue @(item.IsEnabled ? "checked" : "")"></div>
+                    </td>
+                    <td class="col-md-1">
+                        <a class="btn btn-sm btn-warning" data-toggle="tooltip" data-original-title="Edit this message template" href="@Html.Raw(Url.Action("edit", "messagetemplate", new { id = item.Id }))"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-original-title="Delete this message template" href="#delete" onclick="return deleteMessageTemplate(@string.Format("this, \'{0}\', \'{1}\'", item.Id, item.Description))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-5 col-xs-5">
+        <input type="hidden" id="TotalItemCount" value="@Model.TotalItemCount" />
+        <div class="dataTables_pageInfo" style="padding-top:16px;">
+            Showing @Model.PageNumber to @Model.LastItemOnPage of @Model.TotalItemCount entries
+            <input id="currentPageNumber" type="hidden" value="@Model.PageNumber" />
+        </div>
+    </div>
+    <div class="col-md-7 col-xs-7">
+        <div class="dataTables_pageInfo pull-right" id="pagedListPager">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { pageSize = Model.PageSize, page, searchStr = ViewBag.SearchStr }))
+        </div>
+    </div>
+</div>

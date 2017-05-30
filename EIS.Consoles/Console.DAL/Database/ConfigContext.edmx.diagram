@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3b806e86e54b4f9d883a4908583abc07" Name="Diagram1">
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.productfileconfig" Width="1.5" PointX="2.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.productimage" Width="1.5" PointX="5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.uploadstatu" Width="1.5" PointX="2.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.vendorproduct" Width="1.5" PointX="7.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.imagefileconfig" Width="1.5" PointX="5" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="eshopo.vendorsconfigModel.FK_ProductImages_VendorProducts" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="eshopo.vendorsconfigModel.vendor" Width="1.5" PointX="0.75" PointY="1.5" />
+        <AssociationConnector Association="eshopo.vendorsconfigModel.FK_ImageFileConfigs_Vendors" />
+        <AssociationConnector Association="eshopo.vendorsconfigModel.FK_ProductFileConfigs_Vendors" />
+        <AssociationConnector Association="eshopo.vendorsconfigModel.FK_UploadStats_Vendors" />
+        <AssociationConnector Association="eshopo.vendorsconfigModel.FK_VendorProducts_Vendors" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

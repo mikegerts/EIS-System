@@ -1,0 +1,261 @@
+﻿@model EIS.Inventory.Core.ViewModels.CompanyDto
+
+@{
+    ViewBag.Title = string.Format("Edit Company {0}", Model.Name);
+    ViewBag.ActiveMenu = "companies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>@Model.Name<small>Edit company</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-sm-3" style="margin: 0 0 10px">
+                <a href="@ViewBag.PreviousUrl" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (TempData["Message"] != null)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <span><i class="icon fa fa-check"></i> @TempData["Message"]</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @Html.ValidationMessage("Error", new { @class = "bg-red" })
+            </div>
+        </div>
+        @Html.ValidationMessage("Error", new { @class = "bg-red" })
+        @using (Html.BeginForm("save", "company", new { id = Model.Id }, FormMethod.Post, new { @id = "edit-form", @role = "form" }))
+        {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Company Details</h3>
+                    </div>                   
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            @Html.AntiForgeryToken()
+                            <div class="col-sm-6">
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Id">Company ID</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @type = "text" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Name">Company Name</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Phone">Phone Number</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Email">Contact Email</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @type="email" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Website">Website</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-sm-6">
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="Address">Company Address</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="State">State</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="City">City/Locality</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="ZipCode">Zip Code</label>
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="IsDefault">Is Default</label>
+                                    <div class="col-md-9">
+                                        <select id="IsDefault" name="IsDefault" class="form-control">
+                                            <option value="0" @(Model.IsDefault == 0 ? "selected" : "")>No</option>
+                                            <option value="1" @(Model.IsDefault == 1 ? "selected" : "")>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div> <!-- .form-horizontal -->
+                    </div> <!-- .box-body -->
+                    <div class="box-footer no-border"></div>
+                </div><!-- /.box -->
+            </div>
+        </div> <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Settings</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="SkuCodeStart">EIS SKU Code Start</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.SKUCodeStart, new { htmlAttributes = new { @class = "form-control", @required="required" } })
+                                    @Html.ValidationMessageFor(model => model.SKUCodeStart, "", new { @class = "text-danger", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="SkuSerialCode">Serial SKU Code</label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.SearialSKUCode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.SearialSKUCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer no-border">
+                        
+                    </div>
+                </div> <!-- .box -->
+            </div> <!-- .col-md-12 -->
+        </div> <!-- .row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Vendors and Credentials Assigned</h3>
+                    </div>
+                    <div class="box-body" id="company_ko_container">
+                        <div class="col-md-6">
+                            <h5>Assigned Vendors</h5>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor ID</th>
+                                        <th>Vendor Name</th>
+                                    </tr>
+                                </thead>                                
+                                <!-- ko if: vendors().length != 0 -->
+                                <tbody data-bind="foreach: vendors">
+                                    <tr>
+                                        <td data-bind="text: Id"></td>
+                                        <td><a data-bind="text: Name, attr: { href : ('/vendor/edit/' + Id)}"></a></td>
+                                    </tr>
+                                </tbody>                                
+                                <!-- /ko -->
+                                <tbody data-bind="visible: vendors().length == 0" style="display:none;">
+                                    <tr>
+                                        <td colspan="4">No records available.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Assigned Credentials</h5>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>                               
+                                <!-- ko if: credentials().length != 0 -->
+                                <tbody data-bind="foreach: credentials">
+                                    <tr>
+                                        <td data-bind="text: Mode"></td>
+                                        <td data-bind="text: Name"></td>
+                                        <td data-bind="text: MarketplaceType"></td>
+                                    </tr>
+                                </tbody>                               
+                                <!-- /ko -->
+                                <tbody data-bind="visible: credentials().length == 0" style="display:none;">
+                                    <tr>
+                                        <td colspan="4">No records available.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer no-border">
+
+                    </div>
+                </div> <!-- .box -->
+            </div> <!-- .col-md-12 -->
+        </div> <!-- .row -->
+
+        <div class="form-group">
+            <div class="no-padding">
+                <button id="btn-Save" class="btn btn-primary btn-sm" type="submit" data-toggle="tooltip" data-original-title="Save changes">Save Changes</button>&nbsp;
+                <a href="@ViewBag.PreviousUrl" class="btn btn-default btn-sm" title="Back to previous list">Back to List</a>
+            </div>
+        </div>
+        }
+
+    </section>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/models/company.js")" type="text/javascript"></script>
+    <script type="text/javascript">     
+        var GET_COMP_VENDORS_URL = "@Html.Raw(Url.Action("_GetCompanyVendors"))"
+        var GET_COMP_CREDENTIAL_URL = "@Html.Raw(Url.Action("_GetCompanyCredentials"))"
+        var viewModel = new ViewModel();
+
+        $(document).ready(function () {
+            ko.applyBindings(viewModel, document.getElementById("company_ko_container"));
+            viewModel.loadModel(@Model.Id);
+        });
+    </script>
+}

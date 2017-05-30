@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Eshopo Inventory System</title>
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/skins/_all-skins.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/css/pnotify/pnotify.custom.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/AdminLTE.css")" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link href="@Url.Content("~/Content/fonts/font-awesome-4.6.3/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/AdminLTE.css")" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link href="@Url.Content("~/Content/css/ionicons-2.0.1/css/ionicons.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/Site.css")" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/tinymce/tinymce.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/fancyBox-2.1.5/jquery.fancybox.pack.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/scripts/jquery.signalR-2.2.1.min.js")"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
+
+    <script src="@Url.Content("~/Scripts/knockout-3.4.0.js")"></script>
+    <script src="@Url.Content("~/scripts/knockout.mapping-2.4.1.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/knockout-bootstrap.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/ko.editables.js")"></script>
+    <script src="@Url.Content("~/Scripts/ko-ui-bindings.js")"></script>
+    <script src="@Url.Content("~/Scripts/ko.eis.mainmodel.js")"></script>
+
+    <script src="@Url.Content("~/Scripts/moment.js")"></script>
+    <script src="@Url.Content("~/Scripts/AdminLTE/app.js")"></script>
+    <script src="@Url.Content("~/Scripts/main.js")"></script>
+    <script src="@Url.Content("~/scripts/history-ajax-pagination.js")"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var liActive = $("ul.sidebar-menu").find("li[data-active='" + "@ViewBag.ActiveMenu" + "']");
+            liActive.addClass("active");
+            var parent = liActive.parent();
+
+            if (parent.hasClass("treeview-menu")) {
+                parent.css({ display: "block" });
+                parent.parent().addClass("active");
+                parent.parent().find("i.indicator").addClass("fa-angle-down");
+            }
+
+            // init the tiny mce
+            tinymce.init({
+                menubar: false,
+                selector: "textarea.tinymce",
+                plugins: [
+                    "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "table contextmenu directionality emoticons template textcolor paste textcolor"],
+                toolbar1: "newdocument,|,bold,italic,underline,|,justifyleft,justifycenter,justifyright,fontselect,fontsizeselect,formatselect",
+                toolbar2: "cut,copy,paste,|,bullist,numlist,|,outdent,indent,|,link,unlink,anchor,image,|,forecolor,backcolor",
+                toolbar3: "code,preview,|,undo,redo",
+                toolbar_items_size: "small"
+            });
+        });
+    </script>
+</head>
+<body class="sidebar-mini skin-blue-light">
+    <div class="wrapper">
+        <header id="content_head_wrapper" class="main-header">
+            <a href="@Html.Raw(Url.Action("index", "home"))" class="logo">
+                <span class="logo-mini"><b>E</b>IS</span>
+                <span class="logo-lg"><b>Eshopo</b> Inventory</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a role="button" data-toggle="offcanvas" class="sidebar-toggle" href="#">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have no messages</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <a href="#">No messages</a>
+                                </li>
+                                <li class="footer"><a href="#">See All Messages</a></li>
+                            </ul>
+                        </li>
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have no notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <a href="#">No notifications</a>
+                                </li>
+                                <li class="footer"><a href="#">View all</a></li>
+                            </ul>
+                        </li>
+                        <!-- Tasks: style can be found in dropdown.less -->
+                        <li class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger" data-bind="text: (systemJobs().length == 0 ? '' : systemJobs().length)"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header" data-bind="text: (systemJobs().length == 0 ? 'You have no system jobs' : 'You have ' + systemJobs().length) + ' system jobs'">You have 9 tasks</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu" data-bind="foreach: systemJobs">
+                                        <li data-bind="component:{ name: JobType, params: { Percentage: Percentage, CurrentValue: CurrentValue, TotalValue: TotalValue }}"></li>
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="@Url.Action("index", "systemjob")">View all system jobs</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="@Url.Content("~/Content/img/avatar5.png")" class="user-image" alt="User Image" />
+                                <span class="hidden-xs">@User.GetFullName()</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="@Url.Content("~/Content/img/avatar5.png")" class="img-circle" alt="User Image" />
+                                    <p>
+                                        @User.Identity.Name
+                                        <small>@User.GetRole()</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="pull-left">
+                                        @Html.ActionLink("My Profile", "myprofile", "account", null, new { @class = "btn btn-default btn-flat" })
+                                    </div>
+                                    <div class="pull-right">
+                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Sign out</a>
+                                        }
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- search form -->
+                <form class="sidebar-form" method="get" action="#">
+                    <div class="input-group">
+                        <input type="text" placeholder="Search..." class="form-control" name="q">
+                        <span class="input-group-btn">
+                            <button class="btn btn-flat" id="search-btn" name="search" type="submit"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li id="dashboard">
+                        <a href="@Html.Raw(Url.Action("index", "home"))">
+                            <i class="glyphicon glyphicon-dashboard"></i> <span>Dashboard</span>
+                        </a>
+                    </li>
+                    @if (Request.IsAuthenticated) 
+                    { 
+                    <li class="treeview" id="administration">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-cog"></i> <span>Administration</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" id="administration_menu">
+                            <li data-active="roles"><a href="@Html.Raw(Url.Action("roles", "manage"))"><i class="fa fa-circle-o"></i> Roles</a></li>        
+                            <li data-active="groups"><a href="@Html.Raw(Url.Action("groups", "manage"))"><i class="fa fa-circle-o"></i> Groups</a></li>       
+                            <li data-active="users"><a href="@Html.Raw(Url.Action("users", "manage"))"><i class="fa fa-circle-o"></i> Users</a></li>                  
+                        </ul>
+                    </li>
+                    }
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-cubes"></i> <span>Products</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" id="vendors_menu">
+                            <li data-active="products"><a href="@Html.Raw(Url.Action("index", "product"))"><i class="fa fa-circle-o"></i> List</a></li>
+                            <li data-active="product_groups"><a href="@Html.Raw(Url.Action("index", "productgroup"))"><i class="fa fa-circle-o"></i> Product Groups</a></li>
+                            <li data-active="product_types"><a href="@Html.Raw(Url.Action("index", "producttype"))"><i class="fa fa-circle-o"></i> Product Types</a></li>
+                            <li data-active="category_mappings"><a href="@Html.Raw(Url.Action("index", "categorymapping"))"><i class="fa fa-circle-o"></i> Category Mappings</a></li>
+                        </ul>
+                    </li>
+                    <li data-active="vendor_products">
+                        <a href="@Html.Raw(Url.Action("index", "vendorproduct"))">
+                            <i class="fa fa-cube"></i>
+                            <span>Vendor Products</span>
+                        </a>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-shopping-cart"></i> <span>Order</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" id="order_menu">
+                            <li data-active="orders"><a href="@Html.Raw(Url.Action("index", "order"))"><i class="fa fa-circle-o"></i> List</a></li>
+                            <li data-active="order_groups"><a href="@Html.Raw(Url.Action("index", "ordergroup"))"><i class="fa fa-circle-o"></i> Order Groups</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-truck"></i> <span>Shippings</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" id="order_menu">
+                            <li data-active="awaiting_shipments"><a href="@Html.Raw(Url.Action("awaitingshipment", "shipping"))"><i class="fa fa-circle-o"></i> Awaiting Shipments</a></li>
+                            <li data-active="shipping_locations"><a href="@Html.Raw(Url.Action("shippinglocation", "shipping"))"><i class="fa fa-circle-o"></i> Ship From Locations</a></li>
+                        </ul>
+                    </li>
+                    <li data-active="tasks">
+                        <a href="@Html.Raw(Url.Action("index", "scheduledtask"))">
+                            <i class="glyphicon glyphicon-tasks"></i>
+                            <span>Scheduled Tasks</span>
+                        </a>
+                    </li>
+                    <li data-active="reports">
+                        <a href="#reports">
+                            <i class="fa fa-bar-chart"></i> <span>Reports</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li data-active="profit_loss"><a href="@Html.Raw(Url.Action("profitandlosssummary", "report"))"><i class="fa fa-circle-o"></i> Profit & Loss Summary</a></li>
+                            <li data-active="download_products"><a href="@Html.Raw(Url.Action("downloadproducts", "report"))"><i class="fa fa-circle-o"></i> Download Products</a></li>
+                            <li data-active="UPC_Search"><a href="@Html.Raw(Url.Action("UPCSearch", "report"))"><i class="fa fa-circle-o"></i> UPC Search</a></li>
+                        </ul>
+                    </li>
+                    <li data-active="billing">
+                        <a href="@Html.Raw(Url.Action("index", "billing"))">
+                            <i class="fa fa-credit-card"></i>
+                            <span>Billing History</span>
+                        </a>
+                    </li>
+                    <li data-active="customer">
+                        <a href="@Html.Raw(Url.Action("index", "customer"))">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="treeview" id="settings">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-wrench"></i> <span>Settings</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu" id="settings_menu">
+                            <li data-active="companies"><a href="@Html.Raw(Url.Action("index", "company"))"><i class="fa fa-circle-o"></i> Companies</a></li>
+                            <li data-active="vendors"><a href="@Html.Raw(Url.Action("index", "vendor"))"><i class="fa fa-circle-o"></i> Vendors</a></li>
+                            <li data-active="credentials"><a href="@Html.Raw(Url.Action("index", "credential"))"><i class="fa fa-circle-o"></i> Credentials</a></li>
+                            <li data-active="shippingrates"><a href="@Html.Raw(Url.Action("index", "shippingrate"))"><i class="fa fa-circle-o"></i> Shipping Rates</a></li>
+                            <li data-active="message_templates"><a href="@Html.Raw(Url.Action("index", "messagetemplate"))"><i class="fa fa-circle-o"></i> Message Templates</a></li>
+                            <li data-active="system_email"><a href="@Html.Raw(Url.Action("index", "systememail"))"><i class="fa fa-circle-o"></i> System Email</a></li>
+                        </ul>
+                    </li>
+                    <li data-active="logs">
+                        <a href="#logs">
+                            <i class="glyphicon glyphicon-pencil"></i> <span>Logs</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li data-active="main_logs"><a href="@Html.Raw(Url.Action("loglist", "logs"))"><i class="fa fa-circle-o"></i> General Logs</a></li>
+                            <li data-active="data_uploader_logs"><a href="@Html.Raw(Url.Action("fileuploaderlist", "logs"))"><i class="fa fa-circle-o"></i> Data File Logs</a></li>
+                            <li data-active="system_job"><a href="@Html.Raw(Url.Action("index", "systemjob"))"><i class="fa fa-circle-o"></i> System Jobs</a></li>
+                            <li data-active="request_report_logs"><a href="@Html.Raw(Url.Action("requestreportlist", "logs"))"><i class="fa fa-circle-o"></i> Feed Status</a></li>
+                        </ul>
+                    </li>
+                    <li data-active="help">
+                        <a href="https://ourupdatesblog.wordpress.com/" target="_blank">
+                            <i class="glyphicon glyphicon-question-sign"></i> <span>Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <div id="content_main_wrapper">
+            @RenderBody()
+        </div> <!-- /#content_main_wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs" id="serverTime">
+                Yo! 2.0
+            </div>
+            Copyright © 2015-2017 Yo! Developers. All rights reserved.
+        </footer>
+    </div>
+
+    <!-- template for alert messages -->
+    <script type="text/html" id="alertTemplate">
+        <p data-bind="text: message"></p>
+    </script>
+    <!-- end for alert messages -->
+
+
+    <script src="@Url.Content("~/scripts/pnotify/pnotify.custom.min.js")"></script>
+    <script type="text/javascript">
+        var eisViewModel = new EisMainViewModel()
+        $(document).ready(function ()
+        {
+            // bind the EIS jobs vivewmodel
+            ko.applyBindings(eisViewModel, document.getElementById("content_head_wrapper"));
+
+            // start the EIS hub connection
+            $.connection.hub.start(function () {
+                // request to hub everey second
+                setInterval(myHub.server.getUnNotifiedSystemJobs, 1000);
+                setInterval(myHub.server.getInprogressSystemJobs, 1000);
+                setInterval(myHub.server.getServerDateTime, 1000);
+            });
+            var myHub = $.connection.systemJobHub;
+
+            // manage the EIS system job for notification
+            var notifyMe = null;
+            var stack_topleft = { "dir1": "up", "dir2": "right", "push": "top" };
+            myHub.client.sendCurrentJobs = function (jobs) {
+                PNotify.desktop.permission();
+                $.each(jobs, function (i, item) {
+                    notifyMe = new PNotify({
+                        title: "EIS System Jobs",
+                        text: item.Text,
+                        addclass: "stack-bottomright",
+                        stack: stack_topleft,
+                        hide: true,
+                        desktop: {
+                            desktop: true,
+                            tag: "Job_" + item.Id,
+                            icon: '/Content/img/eis.png'
+                        }
+                    });
+                })
+            }
+
+            // handle the System Jobs that are in-progress
+            myHub.client.sendInprogressSystemJobs = function (jobs) {
+                if (jobs == null)
+                    return true;
+                eisViewModel.systemJobs(jobs);
+            }
+
+            // handle the server date and time
+            myHub.client.sendServerDateTime = function (time) {
+                $("#serverTime").html(moment.utc(time).format("MM/DD/YYYY hh:mm:ss A"));
+            }
+        });
+
+        
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

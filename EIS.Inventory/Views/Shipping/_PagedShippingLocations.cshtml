@@ -1,0 +1,51 @@
+﻿@model StaticPagedList<EIS.Inventory.Shared.ViewModels.ShippingLocationDto>
+
+<table class="table table-responsive table-hover table-striped table-altrow" id="tblVendorProducts">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>From Address</th>
+            <th class="hidden-xs">Return Address</th>
+            <th>Is Default</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">No records available.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>
+                        <address>
+                            @item.FromCompanyName <br class="hidden-xs">
+                            @item.FromAddressDetails.Line1 <br class="hidden-xs">
+                            @item.FromAddressDetails.Line2 <br class="hidden-xs @String.Format("{0}", String.IsNullOrEmpty(item.FromAddressDetails.Line2) ? "hide": "")" />
+                            @item.FromAddressDetails.City, @item.FromAddressDetails.StateOrRegion, @item.FromAddressDetails.PostalCode
+                        </address>
+                    </td>
+                    <td class="hidden-xs">
+                        <address>
+                            @item.ReturnCompanyName <br class="hidden-xs">
+                            @item.ReturnAddressDetails.Line1 <br class="hidden-xs">
+                            @item.ReturnAddressDetails.Line2 <br class="hidden-xs @String.Format("{0}", String.IsNullOrEmpty(item.ReturnAddressDetails.Line2) ? "hide": "")" />
+                            @item.ReturnAddressDetails.City, @item.ReturnAddressDetails.StateOrRegion, @item.ReturnAddressDetails.PostalCode
+                        </address>
+                    </td>
+                    <td><div class="state icheckbox_minimal-blue @string.Format("{0}", item.IsDefault ? "checked" : "")"></div></td>
+                    <td style="width:9%;">
+                        <a class="btn btn-sm btn-warning" data-toggle="modal" data-target="#ShippingLocationDialog" data-id="@item.Id" title="Edit this shipping location"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete this shipping location" onclick="return deleteModel(@string.Format("this, {0}, \'{1}\'", item.Id, item.Name))"><span class="fa fa-trash-o"></span></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

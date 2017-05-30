@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92A8203A-C0C4-4ADE-96AA-EB6AEA4A04E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EIS.Inventory.Test</RootNamespace>
+    <AssemblyName>EIS.Inventory.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.5.30.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\EIS.Inventory\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.3.50.2\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="X.PagedList">
+      <HintPath>..\EIS.Inventory\bin\X.PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="X.PagedList.Mvc">
+      <HintPath>..\EIS.Inventory\bin\X.PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.extensions, Version=1.8.0.1549, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise />
+  </Choose>
+  <ItemGroup>
+    <Compile Include="ConsoleApps\eBayOrderManagerTests.cs" />
+    <Compile Include="CopyObjectTests.cs" />
+    <Compile Include="Mappings\DomainToMarketplaceFeedMappingTests.cs" />
+    <Compile Include="Mappings\DomainToViewModelMappingTests.cs" />
+    <Compile Include="Mappings\OrdersServiceAutoMappingTests.cs" />
+    <Compile Include="Mappings\SchedulerTaskServiceAutoMappingTests.cs" />
+    <Compile Include="Mappings\ServiceModelToDomainMappingTests.cs" />
+    <Compile Include="Mappings\SystemJobServiceAutoMappingTests.cs" />
+    <Compile Include="Marketplaces\BigCommerceMarketplaceInventoryProviderTests.cs" />
+    <Compile Include="Marketplaces\BigCommerceMarketplaceOrdersProviderTests.cs" />
+    <Compile Include="OrdersServiceApp\ProductOrderRepositoryTests.cs" />
+    <Compile Include="OrdersServiceApp\ShipStationServiceTests.cs" />
+    <Compile Include="Services\EmailServiceTests.cs" />
+    <Compile Include="ConsoleApps\AmazonOrderManagerTests.cs" />
+    <Compile Include="CsvHelperExcelTests.cs" />
+    <Compile Include="Marketplaces\eBayProductProviderTests.cs" />
+    <Compile Include="ConsoleApps\SystemJobsTests.cs" />
+    <Compile Include="Services\OrderServiceTests.cs" />
+    <Compile Include="Services\ShippingServiceTests.cs" />
+    <Compile Include="Services\ShipStationServiceTests.cs" />
+    <Compile Include="Marketplaces\eBayMarketplaceInventoryProviderTests.cs" />
+    <Compile Include="Services\ProductServiceTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\VendorProductServiceTests.cs" />
+    <Compile Include="Shippings\EndiciaLabelProviderTests.cs" />
+    <Compile Include="Shippings\RateProviderTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EIS.Consoles\EIS.OrdersServiceApp\EIS.OrdersServiceApp.csproj">
+      <Project>{3f117a6c-073e-4299-99fb-464c70594231}</Project>
+      <Name>EIS.OrdersServiceApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Consoles\EIS.SchedulerTaskApp\EIS.SchedulerTaskApp.csproj">
+      <Project>{9427d33f-329e-4f3e-be71-f925d4568c91}</Project>
+      <Name>EIS.SchedulerTaskApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Consoles\EIS.SystemJobApp\EIS.SystemJobApp.csproj">
+      <Project>{16ca2914-bcba-47c0-b8e1-1815f84402ef}</Project>
+      <Name>EIS.SystemJobApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Inventory.Core\EIS.Inventory.Core.csproj">
+      <Project>{5ed5699d-e3cb-4949-b7a2-7baf822c5ec1}</Project>
+      <Name>EIS.Inventory.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Inventory.DAL\EIS.Inventory.DAL.csproj">
+      <Project>{decef2d2-0f8a-4519-8a51-0bf297e38cb7}</Project>
+      <Name>EIS.Inventory.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Inventory.Shared\EIS.Inventory.Shared.csproj">
+      <Project>{220f7f6d-780c-407e-852e-dadde688a243}</Project>
+      <Name>EIS.Inventory.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Inventory\EIS.Inventory.csproj">
+      <Project>{14668e57-8667-4af1-be72-ac4f62c95c06}</Project>
+      <Name>EIS.Inventory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\BigCommerceClientLibraries\BigCommerce4Net.Api\BigCommerce4Net.Api.csproj">
+      <Project>{dad102c5-a4dc-4c60-af60-5777b051c386}</Project>
+      <Name>BigCommerce4Net.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\BigCommerceClientLibraries\BigCommerce4Net.Domain\BigCommerce4Net.Domain.csproj">
+      <Project>{0a8b96c4-4fbe-4772-84aa-0b3d023f2e21}</Project>
+      <Name>BigCommerce4Net.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\EIS.Eshopo\EIS.Eshopo.csproj">
+      <Project>{223cfb58-c75e-4e33-aa16-91be5403919f}</Project>
+      <Name>EIS.Eshopo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\EIS.Marketplace.Amazon\EIS.Marketplace.Amazon.csproj">
+      <Project>{3031527f-7c6b-477a-b6f2-ce9df3a70c2f}</Project>
+      <Name>EIS.Marketplace.Amazon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\EIS.Marketplace.BigCommerce\EIS.Marketplace.BigCommerce.csproj">
+      <Project>{3df9ba9f-1b96-438c-88a4-0aed77a5c9c8}</Project>
+      <Name>EIS.Marketplace.BigCommerce</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Marketplaces\EIS.Marketplace.eBay\EIS.Marketplace.eBay.csproj">
+      <Project>{3e95d543-a09f-4444-9c5c-99cc61dc3aba}</Project>
+      <Name>EIS.Marketplace.eBay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Shippings\EIS.Shipping.Endicia\EIS.Shipping.Endicia.csproj">
+      <Project>{cb89b7da-a6a4-4918-a924-c81fc838794d}</Project>
+      <Name>EIS.Shipping.Endicia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EIS.Shippings\EIS.Shipping.FedEx\EIS.Shipping.FedEx.csproj">
+      <Project>{fed20851-041c-4c4b-b54b-18023758f688}</Project>
+      <Name>EIS.Shipping.FedEx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

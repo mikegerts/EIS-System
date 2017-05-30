@@ -1,0 +1,28 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<EIS.Inventory.Core.ViewModels.LogViewModel>
+
+<table class="table table-responsive table-hover table-striped table-altrow">
+    <thead>
+        <tr>
+            <th>Date/Time</th>
+            <th>Severity</th>
+            <th>Entry Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="8">No records available.</td></tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr class="clickable" data-bind="click: retrieveLog" data-id="@item.Id">
+                    <td>@item.Created</td>
+                    <td>@Html.DisplayFor(modelItem => item.Severity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EntryType)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

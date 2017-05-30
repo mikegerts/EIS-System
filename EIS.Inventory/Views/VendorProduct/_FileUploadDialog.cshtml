@@ -1,0 +1,87 @@
+﻿
+
+<div style="display:none;" class="modal fade" id="FileUploadDialog" role="dialog" tabindex="-1">
+    <div class="modal-dialog dropzone">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="uploadModalTitle"></h4>
+            </div>
+            <div class="modal-body" dropzone"" id="fileUploadDialogForm">
+                <input type="hidden" id="jobTypeUpload" />
+                <div class="alert alert-warning">
+                    <p id="uploadNote"></p>
+                </div>
+                <div id="divProduct">
+                    <div class="form-group margin">
+                        <label>
+                            <input type="checkbox" id="is_create_product" class="file-upload-checkbox" />
+                            <input type="hidden" value="false" id="isCreate" />
+                            <span style="margin-left: 5px;font-weight: normal;">Create new vendor product when it doesn't exist. </span>
+                        </label>
+                    </div>
+                    <div class="form-group margin">
+                        <label>
+                            <input type="checkbox" id="is_auto_link" class="file-upload-checkbox" />
+                            <input type="hidden" value="false" id="isAutoLink" />
+                            <span style="margin-left: 5px;font-weight: normal;">Add link to EIS products with UPC code.</span>
+                        </label>
+                    </div>
+                    <div class="form-group margin">
+                        <label>
+                            <input type="checkbox" id="is_create_eissku" class="file-upload-checkbox" />
+                            <input type="hidden" value="false" id="isCreateEisSKU" />
+                            <span style="margin-left: 5px;font-weight: normal;">Add link to EIS products with UPC code. If it doesn't exist create new EIS product.</span>
+                        </label>
+                    </div>
+                </div>
+                <div id="divInventory">
+                    <div class="form-group margin">
+                        <label>
+                            <select class="form-control" id="FileUploadVendorId" name="FileUploadVendorId" data-bind="options: vendors, optionsText: 'Name', optionsValue: 'Id', optionsCaption: ' -- Select Vendor --', value: selectedFileVendor"></select>
+                        </label>
+                    </div>
+                    <div class="form-group margin">
+                        <label>
+                            <input type="checkbox" id="is_inventory_zero" class="file-upload-checkbox" />
+                            <input type="hidden" value="false" id="isInventoryZero" />
+                            <span style="margin-left: 5px;font-weight: normal;">Missing inventory in file stock set to 0</span>
+                        </label>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="uploadFileTemplateName" value="" />
+                        <button class="btn btn-info btn-xs" onclick="downloadUploadFileTemplate()">Download Template</button>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-2 no-padding" style="margin-bottom: 10px;">
+                            <span class="btn btn-sm btn-success fileinput-button" id="fileupload">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Select file...</span>
+                                <input type="file" name="files[]" id="fileuploadField" accept=".csv">
+                            </span>
+                        </div>
+                        <div class="col-xs-10">
+                            <table class="table no-margin" id="tblFiles">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 no-padding">
+                            <div class="progress active no-margin">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width: 0%;"></div>
+                            </div>
+                            <div class="no-margin text-muted" id="uploadStatus"></div>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="modal-footer">
+                <button id="btnStartUpload" type="button" class="btn btn-primary">Start Upload</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,158 @@
+﻿@model StaticPagedList<EIS.Inventory.Core.ViewModels.ProductGroupListDto>
+
+@{
+    ViewBag.Title = "Product Groups";
+    ViewBag.ActiveMenu = "product_groups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height:349px;">
+    <section class="content-header">
+        <h1>Product Groups<small> List</small></h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div style="margin: 0 0 10px">
+                    <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#ProductGroupDetailDialog" data-id="-1" href="#create">Create New Product Group</a>
+                    <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle" type="button" aria-expanded="true">Actions <i class="fa fa-caret-down"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#upload" data-toggle="modal" data-target="#FileUploadDialog" data-backdrop="static">Upload EIS SKUs</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="alert" id="msgStatus" style="display:none;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=" col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header"></div>
+                    <div class="box-body">
+                        <div id="loadingDiv" style="display:none" class="loading-gif"></div>
+                        <div id="productgroups_container">
+                            @{ Html.RenderPartial("_PagedProductGroups", Model); }
+                        </div>
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@{Html.RenderPartial("_FileUploadDialog");}
+@{Html.RenderPartial("_ProductGroupDetailDialog");}
+
+@section Scripts {
+@{Html.RegisterMvcPagerScriptResource();}
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/content/css/fileupload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.confirm.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/jquery.ui.widget.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.iframe-transport.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/plugins/fileupload/jquery.fileupload-ui.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/scripts/models/productgroup.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var GET_PRODUCT_GROUPS_URL = "@Html.Raw(Url.Action("_getallproductgroups"))"
+    var GET_PURCHASE_ORDER_URL = "@Html.Raw(Url.Action("_getpurchaseorder"))"
+    var GET_PRODUCT_ITEM_URL = "@Html.Raw(Url.Action("_GetProductItem", "product"))"
+    var GET_PRODUCT_ITEMS_URL = "@Html.Raw(Url.Action("_GetProductItems"))"
+    var SAVE_PRODUCT_GROUP_URL = "@Html.Raw(Url.Action("_SaveProductGroup"))"
+    var DELETE_PRODUCT_GROUP_URL = "@Html.Raw(Url.Action("_deleteproductgroup"))"
+    var viewModel = new ViewModel();
+
+    $(document).ready(function () {
+        ko.applyBindings(viewModel, document.getElementById("content_main_wrapper"));
+        viewModel.loadData();
+
+        // register some events when modal dialog is showing
+        $("#ProductGroupDetailDialog").on("shown.bs.modal", function (event) {
+            var element = $(event.relatedTarget) // element that triggered the modal
+            var modelId = element.data("id");
+            viewModel.loadModel(modelId);
+        })
+
+        $('#ProductGroupDetailDialog').on('hidden.bs.modal', function () {
+            $("#btnSaveProductGroup").removeClass("disabled");
+            viewModel.message(null);
+        });
+
+        // do some clean-ups when modal is closing
+        $('#FileUploadDialog').on('hidden.bs.modal', function () {
+            $("div.progress .progress-bar").removeClass("progress-bar-danger");
+            $('div.progress .progress-bar').css('width', '0%');
+            $("#tblFiles > tbody").html("");
+            $("#uploadStatus").html("")
+            jqXHRData = null;
+        })
+
+        // for the EIS SKUs upload
+        $('#fileupload').fileupload({
+            url: "@Url.Action("UploadProductGroup")",
+            dataType: 'json',
+            dropZone: $(".dropzone"),
+            maxNumberOfFiles: 1,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('div.progress .progress-bar').css('width', progress + '%');
+            },
+            add: function (e, data) {
+                var acceptFileTypes = ["csv"];
+                var addedFileExtension = data.files[0].name.split(".").pop().toLowerCase();
+
+                var isValidFile = $.inArray(addedFileExtension, acceptFileTypes) > -1;
+                if (isValidFile) {
+                    jqXHRData = data;
+                    $.each(data.files, function (index, file) {
+                        var rowHtml = "<tr><td style='width:10px;'><i class='fa fa-file-excel-o'></i></td><td>" + file.name + "</td><td style='width: 75px;'>" + getFormatFileSize(file.size) + "</td><td style='width:35px;'><a href='#remove' data-toggle='tooltip' data-original-title='Remove this file'  onclick='removeAddedFile(this)'><i class='glyphicon glyphicon-remove'></i></a></td></tr>";
+                        $("#tblFiles tbody").html(rowHtml);
+                    });
+                }
+            },
+            start: function (e, data) {
+                $("#uploadStatus").html("Processing file...")
+            },
+            submit: function (e, data) {
+                if (!isValidateForm())
+                    return false;
+
+                console.log(viewModel.selectedGroup());
+                data.formData = { groupId: viewModel.selectedGroup() };
+            },
+            done: function (e, data) {
+                if (data.result.isUploaded) {
+                    $("#uploadStatus").html(data.result.message)
+                    setTimeout("$('#FileUploadDialog').modal('hide');", 1000);
+                    location.reload();
+                } else {
+                    $("div.progress > .progress-bar").addClass("progress-bar-danger");
+                    $("#uploadStatus").html("<p style='color: red;'>" + data.result.message + "</p>")
+                }
+            },
+            fail: function (event, data) {
+                $("#uploadStatus").html("");
+                $.each(data.messages, function (index, error) {
+                    $('<p style="color: red;">Upload file error: ' + error + '<i class="elusive-remove" style="padding-left:10px;"/></p>')
+                        .appendTo('#uploadStatus');
+                });
+            }
+        });
+        $("#btnStartUpload").on("click", function () {
+            jqXHRData.submit();
+        });
+
+    });
+
+    function loadPagedDataComplete() {
+    }
+</script>
+}
